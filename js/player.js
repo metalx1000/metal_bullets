@@ -1,10 +1,12 @@
 var mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
 var gravity = 3;
-var floor = 20;
+var floor = 5;
 var jump = "false";
 document.addEventListener('mousemove', onDocumentMouseMove, false); 
+var keyboard = new KeyboardState();
+var clock = new THREE.Clock();
 
-function create_player()
+function create_camera()
 {
         var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
         camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
