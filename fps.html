@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>FPS By Kris Occhipinti</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+</head>
+<body>
+
+<script src="js/three.min.js"></script>
+<script src="js/Detector.js"></script>
+<script src="js/KeyboardState.js"></script>
+<script src="js/world.js"></script>
+<script src="js/player.js"></script>
+<script src="js/PointerLockControls.js"></script>
+<!-- ------------------------------------------------------------ -->
+
+<div id="ThreeJS" style="position: absolute; left:0px; top:0px"></div>
+<script>
+// MAIN
+
+// standard global variables
+var container, scene, camera, renderer;
+var clock = new THREE.Clock();
+var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+var keyboard = new KeyboardState();
+
+// custom global variables
+var mesh;
+
+init();
+animate();
+
+// FUNCTIONS 		
+function init() 
+{
+	// SCENE
+	scene = new THREE.Scene();
+	// CREATE PLAYER
+            create_player();
+	// RENDERER
+            create_renderer('ThreeJS');
+        // LIGHT
+	var light = new THREE.PointLight(0xffffff);
+	light.position.set(100,250,100);
+	scene.add(light);
+
+        var light = new THREE.PointLight(0xffffff);
+        light.position.set(-100,250,-100);
+        scene.add(light);
+
+	// FLOOR
+            create_grid(1000,20,'green');
+	// SKYBOX
+            create_sky(10000, 'sky', 'jpg');	
+	////////////
+	// CUSTOM //
+	////////////
+	
+	var geometry = new THREE.SphereGeometry( 30, 32, 16 );
+	var material = new THREE.MeshLambertMaterial( { color: 0x0000ff } );
+	mesh = new THREE.Mesh( geometry, material );
+	mesh.position.set(0,40,0);
+	scene.add(mesh);
+
+
+}
+
+function animate() 
+{
+    requestAnimationFrame( animate );
+	render();		
+	update();
+
+}
+
+function update()
+{
+    camera_control(150,1000);    	
+}
+
+function render() 
+{
+	renderer.render( scene, camera );
+}
+
+</script>
+
+</body>
+</html>
