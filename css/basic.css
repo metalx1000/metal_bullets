@@ -1,0 +1,121 @@
+                        body {
+                                background:#000;
+                                color:#fff;
+                                padding:0;
+                                margin:0;
+                                overflow:hidden;
+                                font-family:georgia;
+                                text-align:center;
+                        }
+
+                        #info {
+                                position: absolute;
+                                top: 0px; width: 100%;
+                                padding: 5px;
+                                font-family: Monospace;
+                                font-size: 13px;
+                                text-align: center;
+                                z-index:100;
+                        }
+
+                        #progress {
+                                color:red;
+                                top:7em;
+                                width: 100%;
+                                font-size:3em;
+                                font-variant:small-caps;
+                                font-weight:bold;
+                                position:absolute;
+                                z-index:100;
+                                text-align: center;
+                                text-shadow: #000 0px 0px 10px;
+                                display:none;
+                        }
+
+                        #start {
+                                color:#fff;
+                                text-shadow: #000 0px 0px 2px;
+                                padding:0.1em 0.3em;
+                                width:3em;
+                                text-align: center;
+                                display:none;
+                        }
+
+                        .shadow {
+                                -moz-box-shadow: 0px 0px 5px #000;
+                                -webkit-box-shadow: 0px 0px 5px #000;
+                                box-shadow: 0px 0px 5px #000;
+                        }
+
+                        #progressbar {
+                                text-align: center;
+                                background: white;
+                                width: 250px;
+                                height: 10px;
+                        }
+
+                        #bar {
+                                background:#d00;
+                                width:50px;
+                                height:10px;
+                        }
+
+                        .enabled {
+                                color: lime!important;
+                                cursor:pointer;
+                        }
+
+                        .enabled:hover {
+                                text-shadow: #0f0 0px 0px 5px !important;
+                        }
+
+                        .disabled {
+                                background:gray;
+                                cursor:default;
+                        }
+
+                        a { color:red }
+                        canvas { pointer-events:none; z-index:10; }
+
+                        #scene_explorer {
+                                background:transparent;
+                                color:#fff;
+                                width:200px;
+                                position:absolute;
+                                text-align:left;
+                                top:0px;
+                                z-index:200;
+                                overflow:auto;
+                        }
+
+                        #section_exp {
+                                background:rgba(0,0,50,0.5);
+                                padding:0.5em 0;
+                                display:none;
+                        }
+
+                        #scene_explorer h3 {
+                                font-size:1em;
+                                padding:0;
+                                margin:0;
+                                color:orange;
+                        }
+
+                        #scene_explorer a {
+                                color:#555;
+                                font-weight:bold;
+                                text-decoration:none;
+                                font-size:1.2em;
+                                font-family:Monospace;
+                        }
+                        #scene_explorer a:hover {
+                                background:#555;
+                                color:rgba(0,0,50,1);
+                        }
+
+                        .part {
+                                display:none;
+                                padding:0 0 0.5em 2em;
+                        }
+
+
