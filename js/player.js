@@ -1,11 +1,9 @@
 var mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-var gravity = 3;
 var floor = 5;
 var jump = "false";
 document.addEventListener('mousemove', onDocumentMouseMove, false); 
 var keyboard = new KeyboardState();
 var clock = new THREE.Clock();
-
 function create_camera()
 {
         var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
@@ -15,11 +13,13 @@ function create_camera()
 //        camera.lookAt(scene.position);  
 }
 
-function camera_control(speed, limits)
+function camera_control(speed, gravity, limits)
 {
+        
         keyboard.update();
 
         var moveDistance = speed * clock.getDelta();
+        console.log(speed);
 
         if ( keyboard.pressed("W") )
                 camera.translateZ( -moveDistance );
@@ -40,11 +40,12 @@ function camera_control(speed, limits)
                 camera.rotation.y -= .05;
 
         //jump
-        if ( keyboard.pressed("space") && jump == "false")
-                camera.position.y += 10;
-                if (camera.position.y > 100){
-                    jump = "true"
+        if ( keyboard.pressed("space") && jump == "false"){  
+                camera.position.y += 2;
+                if (camera.position.y > 25){
+                    jump = "true";
                 }
+        }
         //
 
 
@@ -78,7 +79,7 @@ function camera_control(speed, limits)
             camera.position.y = floor;
         }else if (camera.position.y > floor)
         {
-            camera.position.y-=gravity;
+            camera.position.y-=moveDistance;
         }else{
             jump = "false";
         }

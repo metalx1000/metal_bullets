@@ -259,14 +259,14 @@
 				var loader = new THREE.SceneLoader();
 				loader.callbackProgress = callbackProgress;
 
-				loader.load( "scenes/test_scene.js", callbackFinished );
+				loader.load( "scenes/test/scene.js", callbackFinished );
 
 
 				//
 
 				window.addEventListener( 'resize', onWindowResize, false );
 
-                                camera_control(10, 10000)
+                                camera_control(2, 10000)
 			}
 
 			function onWindowResize() {
@@ -350,7 +350,7 @@
 			//
 
 			function animate() {
-                                camera_control(50,1000);
+                                camera_control(50,4,1000);
 				requestAnimationFrame( animate );
 
 				render();
