@@ -118,4 +118,13 @@
                                 padding:0 0 0.5em 2em;
                         }
 
-
+                        #weapon {
+                                background:transparent;
+                                width:200px;
+                                position:absolute;
+                                text-align:left;
+                                top:500px;
+                                left:40%;
+                                z-index:200;
+                                
+                        }

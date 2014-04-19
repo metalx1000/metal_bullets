@@ -57,3 +57,15 @@ function create_sky_color(size, color){
         scene.add(skyBox);
 
 }
+
+function load_music(src){
+    music = document.createElement('audio');
+    music.loop="loop";
+    music.autoplay="autoplay";
+    music.controls="none";
+    document.getElementsByTagName('body')[0].appendChild(music);        
+
+    music_source = document.createElement('source');
+    music_source.src = src;
+    document.getElementsByTagName('audio')[0].appendChild(music_source);
+}
