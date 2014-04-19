@@ -46,7 +46,7 @@
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
 
-			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+			document.addEventListener( 'mousemove', onMouseMove, false );
                         go_fullscreen();
 
 			init();
@@ -92,6 +92,7 @@
 			function init() {
 
 				container = document.createElement( 'div' );
+                                container.id = "renderer";
 				document.body.appendChild( container );
 
 				var loadScene = createLoadScene();

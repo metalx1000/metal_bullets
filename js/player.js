@@ -1,9 +1,12 @@
 var mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
 var floor = 5;
 var jump = "false";
-document.addEventListener('mousemove', onDocumentMouseMove, false); 
+document.addEventListener('mousemove', onMouseMove, false); 
 var keyboard = new KeyboardState();
 var clock = new THREE.Clock();
+var PI_2 = Math.PI / 2;
+
+
 function create_camera()
 {
         var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
@@ -11,6 +14,7 @@ function create_camera()
         scene.add(camera);
         camera.position.set(0,20,1000);
 //        camera.lookAt(scene.position);  
+
 }
 
 function camera_control(speed, gravity, limits)
@@ -19,7 +23,7 @@ function camera_control(speed, gravity, limits)
         keyboard.update();
 
         var moveDistance = speed * clock.getDelta();
-        console.log(speed);
+        //console.log(speed);
 
         if ( keyboard.pressed("W") )
                 camera.translateZ( -moveDistance );
@@ -41,6 +45,7 @@ function camera_control(speed, gravity, limits)
 
         //jump
         if ( keyboard.pressed("space") && jump == "false"){  
+                gun_bang();
                 camera.position.y += 2;
                 if (camera.position.y > 25){
                     jump = "true";
@@ -86,18 +91,16 @@ function camera_control(speed, gravity, limits)
 
 }
 
-            function onDocumentMouseMove( event ){
-                //turn left and right
-                mouseXa = event.clientX
-                x = mouseX - mouseXa;
-                camera.rotation.y += x * .001;
 
-                //look up and down
-        //        mouseYa = event.clientY
-          //      x = mouseY - mouseYa;
-            //    camera.rotation.x += x * .002;
+        var onMouseMove = function ( event ) {
 
-               mouseX = mouseXa; 
-              // mouseY = mouseYa; 
-            }
+                var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+                var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+                camera.rotation.y -= movementX * 0.002;
+//                pitchObject.rotation.x -= movementY * 0.002;
+
+//                pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
+
+        };
 

@@ -120,11 +120,11 @@
 
                         #weapon {
                                 background:transparent;
-                                width:200px;
+                                width:150px;
                                 position:absolute;
                                 text-align:left;
-                                top:500px;
                                 left:40%;
+                                bottom: -150px;
                                 z-index:200;
                                 
                         }
