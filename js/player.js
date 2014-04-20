@@ -23,7 +23,7 @@ function camera_control(speed, gravity, limits)
         keyboard.update();
         speed = 4;
         var moveDistance = speed * clock.getDelta();
-        console.log(speed);
+        //console.log(speed);
 
         if ( keyboard.pressed("W") )
                 camera.translateZ( -moveDistance );

@@ -32,6 +32,7 @@ function create_grid(size, step, color){
 }
 
 function create_sky(size,dir,ext){
+    console.log("Loading Sky...");
     var materialArray = [];
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( dir + '/posx.' + ext ) }));
     materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( dir + '/negx.' + ext ) }));
@@ -47,6 +48,8 @@ function create_sky(size,dir,ext){
     
     var skybox = new THREE.Mesh( skyboxGeom, skyboxMaterial );
     scene.add( skybox );    
+
+    console.log("Sky Loaded!");
 }
 
 function create_sky_color(size, color){
