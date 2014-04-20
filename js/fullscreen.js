@@ -1,6 +1,8 @@
+
+
 function go_fullscreen()
 {
-            var instructions = document.getElementById( 'start' );
+            var instructions = document;
 
             // http://www.html5rocks.com/en/tutorials/pointerlock/intro/
 
@@ -11,7 +13,7 @@ function go_fullscreen()
                 var element = document.body;
                 instructions.addEventListener( 'click', function ( event ) {
 
-                    instructions.style.display = 'none';
+//                    instructions.style.display = 'none';
 
                     // Ask the browser to lock the pointer
                     element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;

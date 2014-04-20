@@ -128,3 +128,6 @@
                                 z-index:200;
                                 
                         }
+                        audio{
+                            display:none;
+                        }

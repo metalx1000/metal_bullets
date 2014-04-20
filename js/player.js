@@ -1,5 +1,5 @@
 var mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-var floor = 5;
+var floor = 1;
 var jump = "false";
 document.addEventListener('mousemove', onMouseMove, false); 
 var keyboard = new KeyboardState();
@@ -21,9 +21,9 @@ function camera_control(speed, gravity, limits)
 {
         
         keyboard.update();
-
+        speed = 4;
         var moveDistance = speed * clock.getDelta();
-        //console.log(speed);
+        console.log(speed);
 
         if ( keyboard.pressed("W") )
                 camera.translateZ( -moveDistance );
@@ -46,8 +46,8 @@ function camera_control(speed, gravity, limits)
         //jump
         if ( keyboard.pressed("space") && jump == "false"){  
                 gun_bang();
-                camera.position.y += 2;
-                if (camera.position.y > 25){
+                camera.position.y += .2;
+                if (camera.position.y > 3){
                     jump = "true";
                 }
         }
