@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js webgl - io - scene loader [blender]</title>
+		<title>Youth House 3D</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
                 <link rel="stylesheet" href="../../css/basic.css"/>
@@ -19,10 +19,12 @@
 		</div>
 
 		<script src="../../js/three.min.js"></script>
+		<script src="../../js/tween.min.js"></script>
 
 		<script src="../../js/Detector.js"></script>
 		<script src="../../js/KeyboardState.js"></script>
 
+                <script src="../../js/global.js"></script>
                 <script src="../../js/player.js"></script>
                 <script src="../../js/fullscreen.js"></script>
                 <script src="../../js/weapons.js"></script>
@@ -145,13 +147,11 @@
 
 				loader.load( "scene.js", callbackFinished );
 
-                                //load sky
-                                create_sky(10000, '../../sky', 'jpg');
 				//
 
 				window.addEventListener( 'resize', onWindowResize, false );
 
-                                camera_control(2, 10000)
+                                camera_control()
 			}
 
 			function onWindowResize() {
@@ -240,6 +240,7 @@
 			function animate() {
                                 camera_control(50,4,1000);
 				requestAnimationFrame( animate );
+                                TWEEN.update();
 
 				render();
 

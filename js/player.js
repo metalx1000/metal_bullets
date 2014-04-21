@@ -1,11 +1,24 @@
 var mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
 var floor = 1;
-var jump = "false";
+var player_jump = "false";
 document.addEventListener('mousemove', onMouseMove, false); 
 var keyboard = new KeyboardState();
 var clock = new THREE.Clock();
 var PI_2 = Math.PI / 2;
 
+//Right Click Mouse Functions
+    if (document.addEventListener) {
+        document.addEventListener('contextmenu', function(e) {
+            player_jump = 'true';
+            jump();
+            e.preventDefault();
+        }, false);
+    } else {
+        document.attachEvent('oncontextmenu', function() {
+            alert("You've tried to open context menu");
+            window.event.returnValue = false;
+        });
+    }
 
 function create_camera()
 {
@@ -17,13 +30,14 @@ function create_camera()
 
 }
 
-function camera_control(speed, gravity, limits)
+function camera_control()
+
 {
+        moveDistance = speed * clock.getDelta();
+        player_gravity();
         
         keyboard.update();
-        speed = 4;
-        var moveDistance = speed * clock.getDelta();
-        //console.log(speed);
+//        console.log(clock.getDelta());
 
         if ( keyboard.pressed("W") )
                 camera.translateZ( -moveDistance );
@@ -44,12 +58,9 @@ function camera_control(speed, gravity, limits)
                 camera.rotation.y -= .05;
 
         //jump
-        if ( keyboard.pressed("space") && jump == "false"){  
-                gun_bang();
-                camera.position.y += .2;
-                if (camera.position.y > 3){
-                    jump = "true";
-                }
+        if ( keyboard.pressed("space") && player_jump == 'false'){  
+            player_jump = 'true';
+            jump();
         }
         //
 
@@ -61,6 +72,8 @@ function camera_control(speed, gravity, limits)
 
 
         //Limit Level Size
+/*
+        limits = 1000;
         if ( camera.position.x > limits ){
             camera.position.x = limits;
         }
@@ -77,20 +90,43 @@ function camera_control(speed, gravity, limits)
             camera.position.z = -limits;
         }
         //
+*/
+}
 
+function player_gravity(){
+        //console.log("check");
         //keep camera above floor
+
         if (camera.position.y < floor)
         {
             camera.position.y = floor;
-        }else if (camera.position.y > floor)
-        {
-            camera.position.y-=moveDistance;
-        }else{
-            jump = "false";
+            player_jump='false';
         }
 
 }
 
+function jump(){
+                Jump = new TWEEN.Tween({y: camera.position.y})
+                    .to({ y: jump_height}, 500)
+                    .onUpdate( function(){
+                        console.log(this.y);
+                        camera.position.y=this.y;
+                    });
+
+                finishJump = new TWEEN.Tween({y: jump_height})
+                    .to({ y: floor - .01}, 500)
+                    .onUpdate( function(){
+                        console.log(this.y);
+                        camera.position.y=this.y;
+    
+                    });
+
+                Jump.chain(finishJump);
+            
+                Jump.start();
+
+
+}
 
         var onMouseMove = function ( event ) {
 

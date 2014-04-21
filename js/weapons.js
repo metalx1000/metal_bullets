@@ -5,6 +5,10 @@ document.getElementsByTagName('body')[0].appendChild(weapon);
 //create audio element
 var audio = document.createElement("audio");
 
+document.addEventListener( 'click', function ( event ) {
+                gun_bang();
+});
+
 function load_glock(){
     glock = document.createElement('img');
     glock.src = "../../sprites/weapons/glock/gun.png"
