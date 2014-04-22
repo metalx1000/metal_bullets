@@ -1,21 +1,5 @@
 document.addEventListener('mousemove', onMouseMove, false); 
 
-//Right Click Mouse Functions
-/*
-    if (document.addEventListener) {
-        document.addEventListener('contextmenu', function(e) {
-            player_jump = 'true';
-            jump();
-            e.preventDefault();
-        }, false);
-    } else {
-        document.attachEvent('oncontextmenu', function() {
-            alert("You've tried to open context menu");
-            window.event.returnValue = false;
-        });
-    }
-
-*/
 function create_camera()
 {
         var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
@@ -103,6 +87,7 @@ function player_gravity(){
 }
 
 function jump(){
+                player_jump_audio.play();
                 Jump = new TWEEN.Tween({y: camera.position.y})
                     .to({ y: jump_height}, 500)
                     .onUpdate( function(){

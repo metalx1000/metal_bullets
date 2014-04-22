@@ -12,6 +12,10 @@ var clock = new THREE.Clock();
 var PI_2 = Math.PI / 2;
 
 
-//create audio element
-var audio = document.createElement("audio");
+//create audio elements
+var gun_audio = document.createElement("audio");
+
+//player Jump 
+var player_jump_audio = document.createElement("audio");
+player_jump_audio.src = "../../sounds/player/jump.wav";
 

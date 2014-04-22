@@ -9,10 +9,10 @@ function load_glock(){
     document.getElementById('weapon').appendChild(glock);
 
     //load audio
-    audio.src = "../../sounds/weapons/gun1.wav";
+    gun_audio.src = "../../sounds/weapons/gun1.wav";
  
 }
 
     function gun_bang(){
-        audio.play();   
+        gun_audio.play();   
     }

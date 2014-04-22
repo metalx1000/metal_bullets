@@ -3,7 +3,7 @@ $(document).bind("contextmenu",function(e){
 });
 
 $(document).mousedown(function(event) {
-    if (event.which == 3) {
+    if (event.which == 3 && player_jump == 'false') {
             player_jump = 'true';
             jump();
     }else if (event.which == 1){
