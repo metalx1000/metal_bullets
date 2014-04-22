@@ -11,3 +11,7 @@ var keyboard = new KeyboardState();
 var clock = new THREE.Clock();
 var PI_2 = Math.PI / 2;
 
+
+//create audio element
+var audio = document.createElement("audio");
+

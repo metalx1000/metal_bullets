@@ -1,3 +1,17 @@
+$(document).bind("contextmenu",function(e){
+    return false;
+});
+
+$(document).mousedown(function(event) {
+    if (event.which == 3) {
+            player_jump = 'true';
+            jump();
+    }else if (event.which == 1){
+        gun_bang();
+    }
+});
+
+
 function create_renderer(div)
 {
         if ( Detector.webgl )

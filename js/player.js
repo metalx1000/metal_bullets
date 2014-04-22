@@ -1,6 +1,7 @@
 document.addEventListener('mousemove', onMouseMove, false); 
 
 //Right Click Mouse Functions
+/*
     if (document.addEventListener) {
         document.addEventListener('contextmenu', function(e) {
             player_jump = 'true';
@@ -13,6 +14,8 @@ document.addEventListener('mousemove', onMouseMove, false);
             window.event.returnValue = false;
         });
     }
+
+*/
 function create_camera()
 {
         var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
