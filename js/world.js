@@ -72,3 +72,16 @@ function load_music(src){
     music_source.src = src;
     document.getElementsByTagName('audio')[0].appendChild(music_source);
 }
+
+function list_scene_objects(){
+    var obj, i;
+    for ( i = scene.children.length - 1; i >= 0 ; i -- ) {
+        obj = scene.children[ i ];
+        //scene.remove(obj);
+        if(obj.name.indexOf("trh54") > -1){
+//        if(obj.name == "MainDoor"){
+            console.log(camera.matrix.elements);
+            console.log(obj);
+        }
+    }   
+}

@@ -1,10 +1,4 @@
-var mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-var floor = 1;
-var player_jump = "false";
 document.addEventListener('mousemove', onMouseMove, false); 
-var keyboard = new KeyboardState();
-var clock = new THREE.Clock();
-var PI_2 = Math.PI / 2;
 
 //Right Click Mouse Functions
     if (document.addEventListener) {
@@ -19,7 +13,6 @@ var PI_2 = Math.PI / 2;
             window.event.returnValue = false;
         });
     }
-
 function create_camera()
 {
         var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
@@ -71,6 +64,7 @@ function camera_control()
                 mesh.material.color = new THREE.Color(0x0000ff);
 
 
+        player_check_collision();
         //Limit Level Size
 /*
         limits = 1000;
@@ -109,14 +103,14 @@ function jump(){
                 Jump = new TWEEN.Tween({y: camera.position.y})
                     .to({ y: jump_height}, 500)
                     .onUpdate( function(){
-                        console.log(this.y);
+                        //console.log(this.y);
                         camera.position.y=this.y;
                     });
 
                 finishJump = new TWEEN.Tween({y: jump_height})
                     .to({ y: floor - .01}, 500)
                     .onUpdate( function(){
-                        console.log(this.y);
+                        //console.log(this.y);
                         camera.position.y=this.y;
     
                     });
@@ -128,6 +122,24 @@ function jump(){
 
 }
 
+function player_check_collision()
+{
+    var obj, i;
+    for ( i = scene.children.length - 1; i >= 0 ; i -- ) {
+        obj = scene.children[ i ];
+        //scene.remove(obj);
+        if(obj.name.indexOf("trh54") > -1){
+//            var xcol = (obj.geometry.boundingSphere.radius / 2) + obj.position.x;
+            var xcol = obj.geometry.boundingSphere.radius;
+            
+            if(camera.position.x < xcol){
+                console.log("hit");
+                console.log(camera.position.x);
+                console.log(obj.position.y)
+            }
+        }
+    }
+}
         var onMouseMove = function ( event ) {
 
                 var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;

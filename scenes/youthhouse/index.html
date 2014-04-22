@@ -19,6 +19,7 @@
 		</div>
 
 		<script src="../../js/three.min.js"></script>
+		<script src="../../js/jquery.min.js"></script>
 		<script src="../../js/tween.min.js"></script>
 
 		<script src="../../js/Detector.js"></script>
@@ -241,6 +242,9 @@
                                 camera_control(50,4,1000);
 				requestAnimationFrame( animate );
                                 TWEEN.update();
+                                //list all objects to console
+                                if ( keyboard.pressed("L") )
+                                    list_scene_objects();
 
 				render();
 
