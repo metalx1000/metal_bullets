@@ -1,6 +1,7 @@
 weapon = document.createElement('div');
 weapon.id = "weapon";
 document.getElementsByTagName('body')[0].appendChild(weapon);
+weapon.style.bottom="-150px"
 
 function load_glock(){
     glock = document.createElement('img');

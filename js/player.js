@@ -19,11 +19,15 @@ function camera_control()
         keyboard.update();
 //        console.log(clock.getDelta());
 
-        if ( keyboard.pressed("W") )
+        if ( keyboard.pressed("W") ){
                 camera.translateZ( -moveDistance );
+                walk();
+        }
 
-        if ( keyboard.pressed("S") )
+        if ( keyboard.pressed("S") ){
                 camera.translateZ(  moveDistance );
+                walk();
+        }
 
         if ( keyboard.pressed("A") )
                 camera.translateX( -moveDistance );
@@ -36,6 +40,9 @@ function camera_control()
 
         if ( keyboard.pressed("right") )
                 camera.rotation.y -= .05;
+
+        if ( keyboard.pressed("P") )
+                walk();
 
         //jump
         if ( keyboard.pressed("space") && player_jump == 'false'){  
@@ -108,6 +115,50 @@ function jump(){
                 Jump.start();
 
 
+}
+
+function walk(){
+                //player_walk_audio.play();
+                Walk_Right = new TWEEN.Tween({left: 35})
+                    .to({ left: 45}, 400)
+                    .easing(TWEEN.Easing.Back.InOut)
+                    .onUpdate( function(){
+                        //console.log(this.bottom);
+                        weapon.style.left=this.left + '%';
+                    });
+
+                Walk_Left = new TWEEN.Tween({left: 45})
+                    .to({ left: 35}, 400)
+                    .onUpdate( function(){
+                        //console.log(this.bottom);
+                        weapon.style.left=this.left + '%';
+                    });
+
+                Walk_Down = new TWEEN.Tween({bottom: -150})
+                    .to({ bottom: -180}, 400)
+//                    .easing(TWEEN.Easing.Back.InOut)
+                    .easing(TWEEN.Easing.Linear.None)
+                    .onUpdate( function(){
+                        //console.log(this.bottom);
+                        weapon.style.bottom=this.bottom + 'px';
+                    });
+
+                Walk_Up = new TWEEN.Tween({bottom: -180})
+                    .to({ bottom: -150}, 400)
+//                    .easing(TWEEN.Easing.Back.InOut)
+                    .easing(TWEEN.Easing.Linear.None)
+                    .onUpdate( function(){
+                        //console.log(this.bottom);
+                        weapon.style.bottom=this.bottom + 'px';
+                    });
+
+//                Walk_Right.chain(Walk_Left);
+//                Walk_Right.start();
+
+                Walk_Down.chain(Walk_Up);
+            if (weapon.style.bottom == "-150px"){
+                Walk_Down.start();
+            }
 }
 
 function player_check_collision()
