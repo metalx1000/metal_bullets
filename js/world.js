@@ -8,6 +8,7 @@ $(document).mousedown(function(event) {
             jump();
     }else if (event.which == 1){
         gun_bang();
+        return false;//This prevents high lighting html Elements when clicking and dragging
     }
 });
 
