@@ -119,44 +119,32 @@ function jump(){
 
 function walk(){
                 //player_walk_audio.play();
-                Walk_Right = new TWEEN.Tween({left: 35})
-                    .to({ left: 45}, 400)
-                    .easing(TWEEN.Easing.Back.InOut)
-                    .onUpdate( function(){
-                        //console.log(this.bottom);
-                        weapon.style.left=this.left + '%';
-                    });
-
-                Walk_Left = new TWEEN.Tween({left: 45})
-                    .to({ left: 35}, 400)
-                    .onUpdate( function(){
-                        //console.log(this.bottom);
-                        weapon.style.left=this.left + '%';
-                    });
-
-                Walk_Down = new TWEEN.Tween({bottom: -150})
-                    .to({ bottom: -180}, 400)
+                Walk_Down = new TWEEN.Tween({bottom: gun_height})
+                    .to({ bottom: gun_height - 10}, 400)
 //                    .easing(TWEEN.Easing.Back.InOut)
                     .easing(TWEEN.Easing.Linear.None)
                     .onUpdate( function(){
                         //console.log(this.bottom);
-                        weapon.style.bottom=this.bottom + 'px';
+                        gun.position.set( 0, this.bottom, 1 );
+                        bobx = this.bottom;
                     });
 
-                Walk_Up = new TWEEN.Tween({bottom: -180})
-                    .to({ bottom: -150}, 400)
+                Walk_Up = new TWEEN.Tween({bottom: gun_height - 10})
+                    .to({ bottom: gun_height }, 400)
 //                    .easing(TWEEN.Easing.Back.InOut)
                     .easing(TWEEN.Easing.Linear.None)
                     .onUpdate( function(){
                         //console.log(this.bottom);
-                        weapon.style.bottom=this.bottom + 'px';
+                        gun.position.set( 0, this.bottom, 1 );
+                        bobx = this.bottom;
                     });
 
 //                Walk_Right.chain(Walk_Left);
 //                Walk_Right.start();
 
+                        console.log(bobx);
                 Walk_Down.chain(Walk_Up);
-            if (weapon.style.bottom == "-150px"){
+            if (bobx == gun_height){
                 Walk_Down.start();
             }
 }

@@ -1,3 +1,8 @@
+hud = new THREE.Scene();
+
+hudcamera = new THREE.OrthographicCamera( - width / 2, width / 2, height / 2, - height / 2, 1, 10 );
+hudcamera.position.z = 10;
+
 $(document).bind("contextmenu",function(e){
     return false;
 });

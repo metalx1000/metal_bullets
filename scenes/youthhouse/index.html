@@ -32,7 +32,6 @@
                 <script src="../../js/world.js"></script>
 		<script>
 
-			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 			var SCREEN_WIDTH = window.innerWidth;
 			var SCREEN_HEIGHT = window.innerHeight;
@@ -105,6 +104,8 @@
 
 				renderer = new THREE.WebGLRenderer();
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+                                renderer.autoClear = false; // To allow render overlay on top of sprited sphere
+
 				renderer.domElement.style.position = "relative";
 				container.appendChild( renderer.domElement );
 
@@ -161,6 +162,12 @@
 
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
+
+                hudcamera.left = - width / 2;
+                hudcamera.right = width / 2;
+                hudcamera.top = height / 2;
+                hudcamera.bottom = - height / 2;
+                hudcamera.updateProjectionMatrix();
 
 				renderer.setSize( window.innerWidth, window.innerHeight );
 
@@ -250,9 +257,10 @@
 			}
 
 			function render() {
-
-
+                                renderer.clear();
 				renderer.render( scene, camera );
+                                renderer.clearDepth();
+                                renderer.render( hud, hudcamera );
 
 			}
 

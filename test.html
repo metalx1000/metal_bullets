@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>three.js webgl - sprites</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <style>
+            body {
+                background:#fff;
+                padding:0;
+                margin:0;
+                font-weight: bold;
+                overflow:hidden;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script src="js/three.min.js"></script>
+
+        <script>
+
+            var camera, scene, renderer;
+            var cameraOrtho, sceneOrtho;
+
+            var spriteTL, spriteTR, spriteBL, spriteBR, spriteC;
+
+            var mapC;
+
+            var group;
+
+            init();
+            animate();
+
+            function init() {
+
+                var width = window.innerWidth;
+                var height = window.innerHeight;
+
+                camera = new THREE.PerspectiveCamera( 60, width / height, 1, 2100 );
+                camera.position.z = 1500;
+
+                cameraOrtho = new THREE.OrthographicCamera( - width / 2, width / 2, height / 2, - height / 2, 1, 10 );
+                cameraOrtho.position.z = 10;
+
+                scene = new THREE.Scene();
+                scene.fog = new THREE.Fog( 0x000000, 1500, 2100 );
+
+                sceneOrtho = new THREE.Scene();
+
+                // create sprites
+
+                var amount = 200;
+                var radius = 500;
+
+                var mapA = THREE.ImageUtils.loadTexture( "sprites/weapons/glock/gun.png", undefined, createHUDSprites );
+
+                group = new THREE.Object3D();
+
+
+                // renderer
+
+                renderer = new THREE.WebGLRenderer();
+                renderer.setSize( window.innerWidth, window.innerHeight );
+                renderer.autoClear = false; // To allow render overlay on top of sprited sphere
+                
+                document.body.appendChild( renderer.domElement );
+
+                //
+
+                window.addEventListener( 'resize', onWindowResize, false );
+
+            }
+
+            function createHUDSprites ( texture ) {
+
+                var material = new THREE.SpriteMaterial( { map: texture } );
+
+                var width = material.map.image.width;
+                var height = material.map.image.height;
+                
+                spriteC = new THREE.Sprite( material );
+                spriteC.scale.set( width, height, 1 );
+                sceneOrtho.add( spriteC );
+
+                updateHUDSprites();
+
+            };
+
+            function updateHUDSprites () {
+
+                var width = window.innerWidth / 2;
+                var height = window.innerHeight / 2;
+
+                var material = spriteC.material;
+
+                var imageWidth = material.map.image.width / 2;
+                var imageHeight = material.map.image.height / 2;
+
+                spriteC.position.set( 0, - height + imageHeight, 1 ); // center
+
+            };
+
+            function onWindowResize() {
+
+                var width = window.innerWidth;
+                var height = window.innerHeight;
+
+                camera.aspect = width / height;             
+                camera.updateProjectionMatrix();
+
+                cameraOrtho.left = - width / 2;
+                cameraOrtho.right = width / 2;
+                cameraOrtho.top = height / 2;
+                cameraOrtho.bottom = - height / 2;
+                cameraOrtho.updateProjectionMatrix();
+
+                updateHUDSprites();
+
+                renderer.setSize( window.innerWidth, window.innerHeight );
+
+            }
+
+            function animate() {
+
+                requestAnimationFrame( animate );
+                render();
+
+            }
+
+            function render() {
+                renderer.clear();
+                renderer.render( scene, camera );
+                renderer.clearDepth();
+                renderer.render( sceneOrtho, cameraOrtho );
+
+            }
+
+        </script>
+    </body>
+</html>
+
