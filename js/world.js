@@ -105,3 +105,58 @@ function list_scene_objects(){
         }
     }   
 }
+
+function check_distance(){
+   var obj, i, dis;
+
+   for ( i = scene.children.length - 1; i >= 0 ; i -- ) {
+       obj = scene.children[ i ];
+       
+       //Door Opens down
+       if (obj.name.indexOf("Door") != -1){
+           dis = camera.position.distanceToSquared(obj.position);
+           if ( dis < 20 ){
+//               console.log("Door Opening");
+               open_door(obj);
+           }
+      }
+
+   }
+}
+
+function open_door(obj){
+    if(obj.lock != "1"){
+        obj.lock = "1";
+        obj.orgPosY = obj.position.y;
+
+        //console.log("Door Open.");
+            if (obj.name.indexOf("Down") != -1){
+                    door_open_audio.play();
+                    //console.log("Down");
+                    Open = new TWEEN.Tween({y: obj.position.y})
+                    .to({ y: obj.position.y - obj.scale.y * 4}, 1000)
+                    .onUpdate( function(){
+                        //console.log(this.y);
+                        obj.position.y=this.y;
+                    });
+                    Open.start(); 
+            }
+        setTimeout(function(){
+            //console.log("Door Close.");
+            obj.lock = "0";
+
+            if (obj.name.indexOf("Down") != -1){
+                    door_open_audio.play();
+                    //console.log("Up");
+                    Close = new TWEEN.Tween({y: obj.position.y})
+                    .to({ y: obj.orgPosY}, 1000)
+                    .onUpdate( function(){
+                        //console.log(this.y);
+                        obj.position.y=this.y;
+                    });
+                    Close.start();
+            }
+
+        },5000);
+    }
+}

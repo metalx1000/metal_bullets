@@ -25,5 +25,7 @@ var gun_audio = document.createElement("audio");
 var player_jump_audio = document.createElement("audio");
 player_jump_audio.src = "../../sounds/player/jump.wav";
 
-
+//Door Open
+var door_open_audio = document.createElement("audio");
+door_open_audio.src = "../../sounds/doors/door.wav";
 

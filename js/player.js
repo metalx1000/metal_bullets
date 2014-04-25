@@ -118,6 +118,7 @@ function jump(){
 }
 
 function walk(){
+                check_distance();
                 //player_walk_audio.play();
                 Walk_Down = new TWEEN.Tween({bottom: gun_height})
                     .to({ bottom: gun_height - 10}, 400)
@@ -142,7 +143,6 @@ function walk(){
 //                Walk_Right.chain(Walk_Left);
 //                Walk_Right.start();
 
-                        console.log(bobx);
                 Walk_Down.chain(Walk_Up);
             if (bobx == gun_height){
                 Walk_Down.start();

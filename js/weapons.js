@@ -42,8 +42,8 @@ function load_glock(){
                 gun_height = - height + imageHeight;
                 bobx = gun_height;
                 gun.position.set( 0, gun_height, 1 ); // center bottom
-                console.log(imageHeight);
-                console.log(- height + imageHeight); 
+                //console.log(imageHeight);
+                //console.log(- height + imageHeight); 
 
             };
 
