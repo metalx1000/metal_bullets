@@ -22,7 +22,7 @@ function load_glock(){
                 var height = material.map.image.height;
                 
                 gun = new THREE.Sprite( material );
-                gun.scale.set( width, height, 1 );
+                gun.scale.set( width * .75, height * .75, 1 );
                 hud.add( gun );
 
                 updateHUDSprites();
@@ -36,10 +36,10 @@ function load_glock(){
 
                 var material = gun.material;
 
-                var imageWidth = material.map.image.width / 2;
-                var imageHeight = material.map.image.height / 2;
+                var imageWidth = material.map.image.width;
+                var imageHeight = material.map.image.height;
 
-                gun_height = - height + imageHeight;
+                gun_height = height - imageHeight;
                 bobx = gun_height;
                 gun.position.set( 0, gun_height, 1 ); // center bottom
                 //console.log(imageHeight);
