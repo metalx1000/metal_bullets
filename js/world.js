@@ -98,7 +98,7 @@ function list_scene_objects(){
     for ( i = scene.children.length - 1; i >= 0 ; i -- ) {
         obj = scene.children[ i ];
         //scene.remove(obj);
-        if(obj.name.indexOf("trh54") > -1){
+        if(obj.name.indexOf(".Music") > -1){
 //        if(obj.name == "MainDoor"){
             console.log(camera.matrix.elements);
             console.log(obj);
@@ -128,10 +128,12 @@ function open_door(obj){
     if(obj.lock != "1"){
         obj.lock = "1";
         obj.orgPosY = obj.position.y;
+        door_sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
+        door_sound.position.copy( obj.position );
 
         //console.log("Door Open.");
             if (obj.name.indexOf("Down") != -1){
-                    door_open_audio.play();
+                    door_sound.play();
                     //console.log("Down");
                     Open = new TWEEN.Tween({y: obj.position.y})
                     .to({ y: obj.position.y - obj.scale.y * 4}, 1000)
@@ -146,7 +148,7 @@ function open_door(obj){
             obj.lock = "0";
 
             if (obj.name.indexOf("Down") != -1){
-                    door_open_audio.play();
+                    door_sound.play();
                     //console.log("Up");
                     Close = new TWEEN.Tween({y: obj.position.y})
                     .to({ y: obj.orgPosY}, 1000)
@@ -160,3 +162,43 @@ function open_door(obj){
         },5000);
     }
 }
+
+
+            var Sound = function ( sources, radius, volume ) {
+
+                var audio = document.createElement( 'audio' );
+
+                for ( var i = 0; i < sources.length; i ++ ) {
+
+                    var source = document.createElement( 'source' );
+                    source.src = sources[ i ];
+
+                    audio.appendChild( source );
+
+                }
+
+                this.position = new THREE.Vector3();
+
+                this.play = function () {
+
+                    audio.play();
+
+                }
+
+                this.update = function ( camera ) {
+
+                    var distance = this.position.distanceTo( camera.position );
+
+                    if ( distance <= radius ) {
+
+                        audio.volume = volume * ( 1 - distance / radius );
+
+                    } else {
+
+                        audio.volume = 0;
+
+                    }
+
+                }
+
+            }

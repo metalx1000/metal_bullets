@@ -155,7 +155,7 @@ function player_check_collision()
     for ( i = scene.children.length - 1; i >= 0 ; i -- ) {
         obj = scene.children[ i ];
         //scene.remove(obj);
-        if(obj.name.indexOf("trh54") > -1){
+        if(obj.name.indexOf("KRIS") > -1){
 //            var xcol = (obj.geometry.boundingSphere.radius / 2) + obj.position.x;
             var xcol = obj.geometry.boundingSphere.radius;
             
