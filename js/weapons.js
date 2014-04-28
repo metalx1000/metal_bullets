@@ -3,6 +3,8 @@ weapon.id = "weapon";
 document.getElementsByTagName('body')[0].appendChild(weapon);
 weapon.style.bottom="-150px"
 
+var gun_height, gun;
+
 function load_glock(){
     var mapA = THREE.ImageUtils.loadTexture( "../../sprites/weapons/glock/gun.png", undefined, createHUDSprites );
     //load audio
@@ -18,14 +20,23 @@ function load_glock(){
 
                 var material = new THREE.SpriteMaterial( { map: texture } );
 
-                var width = material.map.image.width;
-                var height = material.map.image.height;
-                
+                var imageWidth = material.map.image.width;
+                var imageHeight = material.map.image.height;
+
                 gun = new THREE.Sprite( material );
-                gun.scale.set( width * .75, height * .75, 1 );
+                gun.scale.set( imageWidth * .75 , imageHeight * .75, 1 );
                 hud.add( gun );
 
-                updateHUDSprites();
+                var material = gun.material;
+
+                console.log(imageHeight);
+                console.log(height);
+                gun_height = height * .5 - imageHeight;
+                bobx = gun_height;
+                gun.position.set( 0, gun_height, 1 ); // center bottom
+
+                gun_setpos();
+//                updateHUDSprites();
 
             };
 
@@ -39,6 +50,8 @@ function load_glock(){
                 var imageWidth = material.map.image.width;
                 var imageHeight = material.map.image.height;
 
+                console.log(imageHeight);
+                console.log(height);
                 gun_height = height - imageHeight;
                 bobx = gun_height;
                 gun.position.set( 0, gun_height, 1 ); // center bottom
@@ -47,4 +60,8 @@ function load_glock(){
 
             };
 
-
+function gun_setpos(){
+    if(typeof gun != "undefined"){
+        gun.position.set( 0, gun_height, 1 );
+    }
+}

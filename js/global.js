@@ -16,7 +16,7 @@ var keyboard = new KeyboardState();
 var clock = new THREE.Clock();
 var PI_2 = Math.PI / 2;
 
-var gun_height, bobx;
+var gun_height, bobx, gun;
 
 //create audio elements
 var gun_audio = document.createElement("audio");

@@ -43,7 +43,6 @@ function camera_control()
 
         if ( keyboard.pressed("P") )
                 walk();
-
         //jump
         if ( keyboard.pressed("space") && player_jump == 'false'){  
             player_jump = 'true';
