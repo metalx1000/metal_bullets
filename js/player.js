@@ -41,8 +41,8 @@ function camera_control()
         if ( keyboard.pressed("right") )
                 camera.rotation.y -= .05;
 
-        if ( keyboard.pressed("P") )
-                walk();
+        if ( keyboard.pressed("M") )
+                music.pause();
         //jump
         if ( keyboard.pressed("space") && player_jump == 'false'){  
             player_jump = 'true';

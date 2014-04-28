@@ -19,6 +19,7 @@ var PI_2 = Math.PI / 2;
 var gun_height, bobx, gun;
 
 //create audio elements
+var music;
 var gun_audio = document.createElement("audio");
 
 //player Jump 
