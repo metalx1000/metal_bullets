@@ -150,7 +150,6 @@ function close_door(obj){
 
         setTimeout(function(){
             //console.log("Door Close.");
-            obj.lock = "0";
 
             if (obj.name.indexOf("Down") != -1){
                 door_sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
@@ -162,6 +161,9 @@ function close_door(obj){
                     .onUpdate( function(){
                         //console.log(this.y);
                         obj.position.y=this.y;
+                        if(obj.position.y == obj.orgPosY){
+                            obj.lock = "0";
+                        }
                     });
                     Close.start();
             }
