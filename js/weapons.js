@@ -8,12 +8,12 @@ var gun_height, gun;
 function load_glock(){
     var mapA = THREE.ImageUtils.loadTexture( "../../sprites/weapons/glock/gun.png", undefined, createHUDSprites );
     //load audio
-    gun_audio.src = "../../sounds/weapons/gun1.wav";
  
 }
 
     function gun_bang(){
-        gun_audio.play();   
+        gun_sound = new Sound( [ gun_shoot ], 275, 1 );
+        gun_sound.play();
     }
 
             function createHUDSprites ( texture ) {

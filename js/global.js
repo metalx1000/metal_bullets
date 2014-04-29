@@ -20,7 +20,7 @@ var gun_height, bobx, gun;
 
 //create audio elements
 var music;
-var gun_audio = document.createElement("audio");
+var gun_shoot = "../../sounds/weapons/gun1.wav";
 
 //player Jump 
 var player_jump_audio = document.createElement("audio");
