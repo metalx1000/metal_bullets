@@ -49,7 +49,6 @@
 			var windowHalfY = window.innerHeight / 2;
 
 			document.addEventListener( 'mousemove', onMouseMove, false );
-                        go_fullscreen();
 
 			init();
 			animate();
@@ -179,6 +178,7 @@
 			}
 
 			function onStartClick() {
+                                go_fullscreen();
 
 				$( "progress" ).style.display = "none";
 
