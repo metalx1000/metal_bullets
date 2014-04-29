@@ -128,11 +128,11 @@ function open_door(obj){
     if(obj.lock != "1"){
         obj.lock = "1";
         obj.orgPosY = obj.position.y;
-        door_sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
-        door_sound.position.copy( obj.position );
 
         //console.log("Door Open.");
             if (obj.name.indexOf("Down") != -1){
+                    door_sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
+                    door_sound.position.copy( obj.position );
                     door_sound.play();
                     //console.log("Down");
                     Open = new TWEEN.Tween({y: obj.position.y})
@@ -143,12 +143,19 @@ function open_door(obj){
                     });
                     Open.start(); 
             }
+            close_door(obj);
+}
+
+function close_door(obj){
+
         setTimeout(function(){
             //console.log("Door Close.");
             obj.lock = "0";
 
             if (obj.name.indexOf("Down") != -1){
-                    door_sound.play();
+                door_sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
+                door_sound.position.copy( obj.position );
+                door_sound.play();
                     //console.log("Up");
                     Close = new TWEEN.Tween({y: obj.position.y})
                     .to({ y: obj.orgPosY}, 1000)
