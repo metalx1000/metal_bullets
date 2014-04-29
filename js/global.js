@@ -17,7 +17,6 @@ var clock = new THREE.Clock();
 var PI_2 = Math.PI / 2;
 
 var gun_height, bobx, gun;
-
 //create audio elements
 var music;
 var gun_shoot = "../../sounds/weapons/gun1.wav";
@@ -25,8 +24,4 @@ var gun_shoot = "../../sounds/weapons/gun1.wav";
 //player Jump 
 var player_jump_audio = document.createElement("audio");
 player_jump_audio.src = "../../sounds/player/jump.wav";
-
-//Door Open
-var door_open_audio = document.createElement("audio");
-door_open_audio.src = "../../sounds/doors/door.wav";
 

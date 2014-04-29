@@ -1,5 +1,6 @@
 document.addEventListener('mousemove', onMouseMove, false); 
 
+/*
 function create_camera()
 {
         var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
@@ -9,15 +10,13 @@ function create_camera()
 //        camera.lookAt(scene.position);  
 
 }
-
+*/
 function camera_control()
 
 {
         moveDistance = speed * clock.getDelta();
-        player_gravity();
         
         keyboard.update();
-//        console.log(clock.getDelta());
 
         if ( keyboard.pressed("W") ){
                 camera.translateZ( -moveDistance );
@@ -51,13 +50,8 @@ function camera_control()
         //
 
 
-        if ( keyboard.down("R") )
-                mesh.material.color = new THREE.Color(0xff0000);
-        if ( keyboard.up("R") )
-                mesh.material.color = new THREE.Color(0x0000ff);
-
-
-        player_check_collision();
+        player_gravity(); //needed to reset player_jump 
+//        player_check_collision();
         //Limit Level Size
 /*
         limits = 1000;
@@ -97,14 +91,12 @@ function jump(){
                 Jump = new TWEEN.Tween({y: camera.position.y})
                     .to({ y: jump_height}, 500)
                     .onUpdate( function(){
-                        //console.log(this.y);
                         camera.position.y=this.y;
                     });
 
                 finishJump = new TWEEN.Tween({y: jump_height})
                     .to({ y: floor - .01}, 500)
                     .onUpdate( function(){
-                        //console.log(this.y);
                         camera.position.y=this.y;
     
                     });
@@ -118,29 +110,22 @@ function jump(){
 
 function walk(){
                 check_distance();
-                //player_walk_audio.play();
                 Walk_Down = new TWEEN.Tween({bottom: gun_height})
                     .to({ bottom: gun_height - 10}, 400)
-//                    .easing(TWEEN.Easing.Back.InOut)
                     .easing(TWEEN.Easing.Linear.None)
                     .onUpdate( function(){
-                        //console.log(this.bottom);
                         gun.position.set( 0, this.bottom, 1 );
                         bobx = this.bottom;
                     });
 
                 Walk_Up = new TWEEN.Tween({bottom: gun_height - 10})
                     .to({ bottom: gun_height }, 400)
-//                    .easing(TWEEN.Easing.Back.InOut)
                     .easing(TWEEN.Easing.Linear.None)
                     .onUpdate( function(){
-                        //console.log(this.bottom);
                         gun.position.set( 0, this.bottom, 1 );
                         bobx = this.bottom;
                     });
 
-//                Walk_Right.chain(Walk_Left);
-//                Walk_Right.start();
 
                 Walk_Down.chain(Walk_Up);
             if (bobx == gun_height){
@@ -153,9 +138,7 @@ function player_check_collision()
     var obj, i;
     for ( i = scene.children.length - 1; i >= 0 ; i -- ) {
         obj = scene.children[ i ];
-        //scene.remove(obj);
         if(obj.name.indexOf("KRIS") > -1){
-//            var xcol = (obj.geometry.boundingSphere.radius / 2) + obj.position.x;
             var xcol = obj.geometry.boundingSphere.radius;
             
             if(camera.position.x < xcol){
@@ -177,4 +160,5 @@ function player_check_collision()
 //                pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
 
         };
+
 

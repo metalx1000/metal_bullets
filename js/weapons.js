@@ -1,8 +1,3 @@
-weapon = document.createElement('div');
-weapon.id = "weapon";
-document.getElementsByTagName('body')[0].appendChild(weapon);
-weapon.style.bottom="-150px"
-
 var gun_height, gun;
 
 function load_glock(){
@@ -29,8 +24,6 @@ function load_glock(){
 
                 var material = gun.material;
 
-                console.log(imageHeight);
-                console.log(height);
                 gun_height = height * .5 - imageHeight;
                 bobx = gun_height;
                 gun.position.set( 0, gun_height, 1 ); // center bottom
@@ -50,8 +43,6 @@ function load_glock(){
                 var imageWidth = material.map.image.width;
                 var imageHeight = material.map.image.height;
 
-                console.log(imageHeight);
-                console.log(height);
                 gun_height = height - imageHeight;
                 bobx = gun_height;
                 gun.position.set( 0, gun_height, 1 ); // center bottom
