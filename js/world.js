@@ -3,6 +3,8 @@ hud = new THREE.Scene();
 hudcamera = new THREE.OrthographicCamera( - width / 2, width / 2, height / 2, - height / 2, 1, 10 );
 hudcamera.position.z = 10;
 
+var blenderBoxes=[];
+
 $(document).bind("contextmenu",function(e){
     return false;
 });
@@ -209,5 +211,118 @@ function close_door(obj){
                     }
 
                 }
+
+            }
+
+
+function cannonLink(){
+                var material = new THREE.MeshLambertMaterial( { color: 0xdddddd, wireframe: true } );
+                var obj;
+
+                    for ( i = scene.children.length - 1; i >= 0 ; i -- )
+                    {
+                        obj = scene.children[ i ];
+                        // console.log(obj)
+                        if (obj.name.slice(0,4) == 'wall')
+                        {
+                            console.log(obj.name)
+                            obj.castShadow = true;
+                            obj.receiveShadow = true;
+//                            obj.useQuaternion = true;
+                            obj.position.y = obj.position.y + 0.0;
+
+
+                            var halfExtents = new CANNON.Vec3(obj.scale.x ,obj.scale.y , obj.scale.z );
+                            var boxShape = new CANNON.Box(halfExtents);
+                            var boxBody = new CANNON.RigidBody(0,boxShape);
+
+                            var halfExtents = new CANNON.Vec3(1,1,1);
+                            var boxShape = new CANNON.Box(halfExtents);
+                            var boxGeometry = new THREE.CubeGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
+
+
+                            // boxBody.quaternion.copy(obj.quaternion); //broken???
+                            boxBody.quaternion.x = obj.quaternion.x;
+                            boxBody.quaternion.y = obj.quaternion.y;
+                            boxBody.quaternion.z = obj.quaternion.z;
+                            boxBody.quaternion.w = obj.quaternion.w;
+
+                            // boxBody.position.y = boxBody.position.y + 2.0;
+
+                            // boxBody.position.copy(obj.position); //broken???
+                            boxBody.position.x = obj.position.x;
+                            boxBody.position.y = obj.position.y;
+                            boxBody.position.z = obj.position.z;
+
+                            blenderBoxes.push(boxBody);
+                            world.add(boxBody)
+
+                            // to see the collision meshes with y += 2,
+                            // uncomment the following lines
+
+                            /*
+var boxGeometry = new THREE.CubeGeometry(2,2,2);
+var boxMesh = new THREE.Mesh( boxGeometry, material );
+
+boxMesh.position.copy(obj.position);
+boxMesh.scale.copy(obj.scale);
+boxMesh.quaternion.copy(obj.quaternion);
+boxMesh.rotation.copy(obj.rotation); // not neeeded actually
+
+boxMesh.name = obj.name + ' coll';
+boxMesh.position.y = boxMesh.position.y + 2.0; // offset
+boxMesh.castShadow = true;
+boxMesh.receiveShadow = true;
+boxMesh.useQuaternion = true;
+
+blenderBoxMeshes.push(boxMesh);
+result.scene.add(boxMesh)
+*/
+                            console.log(obj.name)
+                            
+
+
+                        }
+
+
+
+                    }
+}
+
+            function initCannon(){
+                // Setup our world
+                world = new CANNON.World();
+                world.quatNormalizeSkip = 0;
+                world.quatNormalizeFast = false;
+                world.solver.setSpookParams(300,10);
+                world.solver.iterations = 5;
+                world.gravity.set(0,-20,0);
+                world.broadphase = new CANNON.NaiveBroadphase();
+
+                // Create a slippery material (friction coefficient = 0.0)
+                physicsMaterial = new CANNON.Material("slipperyMaterial");
+                var physicsContactMaterial = new CANNON.ContactMaterial(physicsMaterial,
+                                                                        physicsMaterial,
+                                                                        0.0, // friction coefficient
+                                                                        0.3 // restitution
+                                                                        );
+                // We must add the contact materials to the world
+                world.addContactMaterial(physicsContactMaterial);
+
+                // Create a sphere
+                var mass = 5, radius = 1.3;
+                sphereShape = new CANNON.Sphere(radius);
+                sphereBody = new CANNON.RigidBody(mass,sphereShape,physicsMaterial);
+                sphereBody.position.set(0,5,0);
+                sphereBody.linearDamping = 0.05;
+                world.add(sphereBody);
+
+
+
+                // Create a plane
+                var groundShape = new CANNON.Plane();
+                var groundBody = new CANNON.RigidBody(0,groundShape,physicsMaterial);
+                groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0),-Math.PI/2);
+                world.add(groundBody);
 
             }

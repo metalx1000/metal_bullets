@@ -42,6 +42,9 @@ function camera_control()
 
         if ( keyboard.pressed("M") )
                 music.pause();
+
+        if ( keyboard.pressed("C") )
+                cannonLink();
         //jump
         if ( keyboard.pressed("space") && player_jump == 'false'){  
             player_jump = 'true';
