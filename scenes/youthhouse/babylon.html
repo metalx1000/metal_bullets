@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Using babylon.js-load a scene</title>
+    <script src="../../js/babylon.js"></script>
+    <script src="../../js/cannon.js"></script>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #renderCanvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+<script>
+var scene, freeCamera;
+    if (BABYLON.Engine.isSupported()) {
+        var canvas = document.getElementById("renderCanvas");
+        var engine = new BABYLON.Engine(canvas, true);
+
+        BABYLON.SceneLoader.Load("", "scene.babylon", engine, function (newScene) {
+            scene = newScene;
+            // Wait for textures and shaders to be ready
+            newScene.executeWhenReady(function () {
+            freeCamera = newScene.activeCamera;
+                // Attach camera to canvas inputs
+                newScene.activeCamera.attachControl(canvas);
+
+                newScene.enablePhysics();
+                newScene.setGravity(new BABYLON.Vector3(0, -10, 0));
+                newScene.collisionsEnabled = true;
+
+
+        set_collision("Floor");
+        set_collision("Wall");
+
+    freeCamera.minZ = 1;
+    freeCamera.checkCollisions = true;
+    freeCamera.applyGravity = true;
+    freeCamera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+
+
+
+                set_keys();
+                // Once the scene is loaded, just register a render loop to render it
+                engine.runRenderLoop(function() {
+                    newScene.render();
+                });
+            });
+        }, function (progress) {
+            // To do: give progress feedback to user
+        });
+    }
+
+
+    window.addEventListener("keydown", function (event) {
+        if (event.keyCode === 32) {
+
+            for(var i = 0;i<scene.meshes.length;i++){ console.log("Mesh " + i + " is  " + scene.meshes[i].name) }
+            console.log("Space");
+        }
+    }, false);
+
+
+function set_keys(){
+    freeCamera.keysRight.push(68);
+    freeCamera.keysLeft.push(65);
+    freeCamera.keysUp.push(87);
+    freeCamera.keysDown.push(83);
+}
+
+function set_collision(str){
+            var obj;
+            var str = str;
+            for(var i = 0;i<scene.meshes.length;i++){ 
+                    obj = scene.meshes[i];
+                    if(obj.name.indexOf(str) > -1){
+                        obj.checkCollisions = true;
+                    }
+            }
+}
+</script>
+ </body>
+</html>
