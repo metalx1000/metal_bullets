@@ -4,7 +4,9 @@ metal_bullets
 First Person Shooter in HTML5 with ThreeJS and WebGL
 
 Test the latest in action:
-http://filmsbykris.com/scripts/html5/threejs/fps/metal_bullets_v0.1a/scenes/youthhouse/index.html
+http://filmsbykris.com/scripts/html5/threejs/fps/metal_bullets_v0.1b/scenes/youthhouse/threejs.html
+or
+http://filmsbykris.com/scripts/html5/threejs/fps/metal_bullets_v0.1b/scenes/youthhouse/babylon.js
 
 At this point this is a very basic "game".  The Code is sloppy, but getting better every day, except on the days where I make things worst.  But hey, even 3D Realms had "Lame Duke" (http://www.3drealms.com/duke3d/lameduke.html) and they were a group of people.  At this point it's only me, and I have no clue what I'm doing :)
 
