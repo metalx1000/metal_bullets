@@ -4,6 +4,7 @@
     <title>Using babylon.js-load a scene</title>
     <script src="../../js/babylon.js"></script>
     <script src="../../js/cannon.js"></script>
+    <script src="../../js/fullscreen.js"></script>
     <style>
         html, body {
             width: 100%;
@@ -51,6 +52,7 @@ var scene, freeCamera;
 
 
                 set_keys();
+                go_fullscreen();
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
                     newScene.render();
@@ -70,6 +72,12 @@ var scene, freeCamera;
         }
     }, false);
 
+window.addEventListener("mousemove", function(event) {
+                var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+                var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+                freeCamera.rotation.y += movementX * 0.002;
+});
 
 function set_keys(){
     freeCamera.keysRight.push(68);
