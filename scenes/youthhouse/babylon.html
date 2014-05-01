@@ -5,6 +5,7 @@
     <script src="../../js/babylon.js"></script>
     <script src="../../js/cannon.js"></script>
     <script src="../../js/fullscreen.js"></script>
+    <script src="../../js/audio.js"></script>
     <style>
         html, body {
             width: 100%;
@@ -53,6 +54,7 @@ var scene, freeCamera;
 
                 set_keys();
                 go_fullscreen();
+                Music = new Load_Music(["../../music/Level_1.ogg"], 100, true);
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
                     newScene.render();
