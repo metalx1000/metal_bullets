@@ -37,14 +37,15 @@ var Scene, Camera;
                 Scene.activeCamera.attachControl(canvas);
 
                 Scene.enablePhysics();
-                Scene.setGravity(new BABYLON.Vector3(0, -10, 0));
+//                Scene.setGravity(new BABYLON.Vector3(0, -0.1, 10));
+                Scene.gravity = new BABYLON.Vector3(0, -1, 0);
                 Scene.collisionsEnabled = true;
 
 
         set_collision("Floor");
         set_collision("Wall");
 
-    Camera.minZ = 1;
+   // Camera.minZ = 1;
     Camera.checkCollisions = true;
     Camera.applyGravity = true;
     Camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);

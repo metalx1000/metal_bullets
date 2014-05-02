@@ -23,7 +23,7 @@ function set_keys(){
         console.log(event); //uncomment to test key value
         if (event.keyCode === 32) {
             //"Space"
-            for(var i = 0;i<Scene.meshes.length;i++){ console.log("Mesh " + i + " is  " + Scene.meshes[i].name) }
+            Camera.position.y += 1;
         }else if (event.keyCode === 61) {
             //music volume up on '+'
             Music.vol_up();
