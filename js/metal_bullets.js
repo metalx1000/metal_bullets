@@ -20,10 +20,22 @@ function set_keys(){
     Camera.keysDown.push(83);//Set Key 'S'
 
     window.addEventListener("keydown", function (event) {
+        console.log(event); //uncomment to test key value
         if (event.keyCode === 32) {
             //"Space"
             for(var i = 0;i<Scene.meshes.length;i++){ console.log("Mesh " + i + " is  " + Scene.meshes[i].name) }
+        }else if (event.keyCode === 61) {
+            //music volume up on '+'
+            Music.vol_up();
+        }else if (event.keyCode === 173) {
+            //music volume down on '-'
+            Music.vol_down();
+        }else if (event.keyCode === 80) {
+            //music pause on 'p'
+            Music.pause();
         }
+
+
     }, false);
 
 }
@@ -61,14 +73,24 @@ var Load_Music = function ( sources, volume ) {
 
                     this.audio.appendChild( this.source );
                     this.audio.play();
+                    this.pause_val = 0;
         }
 
     this.play = function () {
        this.audio.play();
+       this.pause_val = 0;
     }
 
     this.pause = function(){
-        this.audio.pause();
+        if (this.pause_val == 0){
+           this.audio.pause();
+           this.pause_val = 1;
+            console.log("Music Paused");
+        }else{
+           this.audio.play();
+           this.pause_val = 0;
+            console.log("Music unPaused");
+        }
     }
 
     this.set_vol = function(vol){
@@ -113,6 +135,7 @@ var Load_Music = function ( sources, volume ) {
                     this.audio.src = this.source.src;
                     this.audio.load(); 
                     this.audio.play();    
+                    this.pause_val = 0;
         }
         console.log("Loading Music...");
     }
