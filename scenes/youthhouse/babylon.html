@@ -51,7 +51,7 @@ var Scene, Camera;
 
 
 
-                set_keys();
+                activate_controls();
                 go_fullscreen();
                 Music = new Load_Music(["../../music/Level_1.ogg"], 1, true);
                 // Once the scene is loaded, just register a render loop to render it
@@ -63,17 +63,6 @@ var Scene, Camera;
             // To do: give progress feedback to user
         });
     }
-
-window.addEventListener("mousemove", function(event) {
-                var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-                var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
-
-                if(!Camera){
-                    console.log("Waiting for Camera to load...");
-                }else{
-                    Camera.rotation.y += movementX * 0.002;
-                }
-});
 
 
 function set_collision(str){

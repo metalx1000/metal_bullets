@@ -6,7 +6,12 @@
 
 
 ////////////////Controls///////////////////////////
+function activate_controls(){
+    set_keys();
+    set_mouse();
+}
 
+//KeyBoard Controls
 function set_keys(){
     //Camera Controls
     Camera.keysRight.push(68);//Set Key 'D'
@@ -21,6 +26,22 @@ function set_keys(){
         }
     }, false);
 
+}
+
+
+//Mouse Controls
+function set_mouse(){
+    window.addEventListener("mousemove", function(event) {
+                var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+                var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+                //make sure camera is loaded before trying to move it.
+                if(!Camera){
+                    console.log("Waiting for Camera to load...");
+                }else{
+                    Camera.rotation.y += movementX * 0.002;
+                }
+    });
 }
 
 /////////////////Audio/////////////////////////////
