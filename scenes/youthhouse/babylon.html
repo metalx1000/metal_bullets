@@ -64,15 +64,6 @@ var Scene, Camera;
         });
     }
 
-
-    window.addEventListener("keydown", function (event) {
-        if (event.keyCode === 32) {
-
-            for(var i = 0;i<scene.meshes.length;i++){ console.log("Mesh " + i + " is  " + scene.meshes[i].name) }
-            console.log("Space");
-        }
-    }, false);
-
 window.addEventListener("mousemove", function(event) {
                 var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
                 var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
@@ -84,12 +75,6 @@ window.addEventListener("mousemove", function(event) {
                 }
 });
 
-function set_keys(){
-    Camera.keysRight.push(68);
-    Camera.keysLeft.push(65);
-    Camera.keysUp.push(87);
-    Camera.keysDown.push(83);
-}
 
 function set_collision(str){
             var obj;

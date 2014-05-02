@@ -5,6 +5,23 @@
  */
 
 
+////////////////Controls///////////////////////////
+
+function set_keys(){
+    //Camera Controls
+    Camera.keysRight.push(68);//Set Key 'D'
+    Camera.keysLeft.push(65);//Set Key 'A'
+    Camera.keysUp.push(87);//Set Key 'W'
+    Camera.keysDown.push(83);//Set Key 'S'
+
+    window.addEventListener("keydown", function (event) {
+        if (event.keyCode === 32) {
+            //"Space"
+            for(var i = 0;i<Scene.meshes.length;i++){ console.log("Mesh " + i + " is  " + Scene.meshes[i].name) }
+        }
+    }, false);
+
+}
 
 /////////////////Audio/////////////////////////////
 
