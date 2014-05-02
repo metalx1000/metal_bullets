@@ -42,8 +42,8 @@ var Scene, Camera;
                 Scene.collisionsEnabled = true;
 
 
-        set_collision("Floor");
-        set_collision("Wall");
+        set_collision(["Floor","Wall"]);
+//        set_collision("Wall");
 
    // Camera.minZ = 1;
     Camera.checkCollisions = true;
@@ -66,16 +66,6 @@ var Scene, Camera;
     }
 
 
-function set_collision(str){
-            var obj;
-            var str = str;
-            for(var i = 0;i<Scene.meshes.length;i++){ 
-                    obj = Scene.meshes[i];
-                    if(obj.name.indexOf(str) > -1){
-                        obj.checkCollisions = true;
-                    }
-            }
-}
 </script>
  </body>
 </html>

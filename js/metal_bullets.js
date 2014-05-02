@@ -182,6 +182,19 @@ var Sound = function ( sources, radius, volume ) {
 
 }
 
+//////////////////////////World Settings/////////////////
+//setup collision on wall, floors, etc
+function set_collision(str){
+            var obj;
+            for(var x = 0;x < str.length;x++){
+                for(var i = 0;i<Scene.meshes.length;i++){ 
+                    obj = Scene.meshes[i];
+                    if(obj.name.indexOf(str[x]) > -1){
+                        obj.checkCollisions = true;
+                    }
+                }
+            }
+}
 
 
 //Fullscreen and Mouse Cursor Grab
