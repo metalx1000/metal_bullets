@@ -43,6 +43,29 @@ var Load_Music = function ( sources, volume ) {
         }
     }
 
+    this.vol_up = function(){
+        this.vol += .1;
+        if(this.vol > 1){
+            this.vol = 1;
+        }else if (this.vol < 0){
+            this.vol = 0;
+        }
+        this.audio.volume=this.vol;
+        console.log("Volume is set to " + this.vol * 100 + "%")
+    }
+
+    this.vol_down = function(){
+        this.vol -= .1;
+        if(this.vol > 1){
+            this.vol = 1;
+        }else if(this.vol < 0){
+            this.vol = 0;
+        }
+        this.audio.volume=this.vol;
+        console.log("Volume is set to " + this.vol * 100 + "%")
+    }
+
+
     this.load = function(sources){
                     console.log("Loading Music...");
         for ( var i = 0; i < sources.length; i ++ ) {
