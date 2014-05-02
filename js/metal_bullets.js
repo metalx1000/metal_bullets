@@ -9,35 +9,41 @@
 /////////////////Audio/////////////////////////////
 
 //music
-var Load_Music = function ( sources, volume, auto ) {
+var Load_Music = function ( sources, volume ) {
+    this.source = document.createElement( 'source' );
+    this.vol = volume;
 
-    console.log("Loading Music...");
-    var audio = document.createElement( 'audio' );
+    this.audio = document.createElement( 'audio' );
 
-    for ( var i = 0; i < sources.length; i ++ ) {
+        console.log("Loading Music...");
+        for ( var i = 0; i < sources.length; i ++ ) {
 
-                    var source = document.createElement( 'source' );
-                    source.src = sources[ i ];
+                    this.source.src = sources[ i ];
+                    this.audio.volume=this.vol;
 
-                    audio.appendChild( source );
-
-    }
+                    this.audio.appendChild( this.source );
+                    this.audio.play();
+        }
 
     this.play = function () {
-
-       audio.play();
+       this.audio.play();
     }
 
-    this.stop = function(){
-        audio.stop();
+    this.pause = function(){
+        this.audio.pause();
     }
 
-    if(auto == true){
-        var Music = [];
-        for ( var i = 0; i < Music.length; i ++ ) {
-            Music[i].stop();
+    this.load = function(sources){
+                    console.log("Loading Music...");
+        for ( var i = 0; i < sources.length; i ++ ) {
+                    this.source.src = sources[ i ];
+
+                    this. audio.appendChild( this.source );
+                    this.audio.src = this.source.src;
+                    this.audio.load(); 
+                    this.audio.play();    
         }
-            audio.play();
+        console.log("Loading Music...");
     }
 }
 
