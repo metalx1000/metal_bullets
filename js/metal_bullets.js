@@ -56,6 +56,14 @@ function set_mouse(){
     });
 }
 
+window.addEventListener("mousedown", function(event) {
+    //console.log(event.which);//uncomment to test buttons
+    if(event.which == 1){
+        var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ], 275, 1 );
+        gun_sound.play();
+    }
+}, false);
+
 /////////////////Audio/////////////////////////////
 
 //music
