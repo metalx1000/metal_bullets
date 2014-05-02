@@ -23,31 +23,31 @@
 <body>
     <canvas id="renderCanvas"></canvas>
 <script>
-var scene, freeCamera;
+var Scene, Camera;
     if (BABYLON.Engine.isSupported()) {
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
 
         BABYLON.SceneLoader.Load("", "scene.babylon", engine, function (newScene) {
-            scene = newScene;
+            Scene = newScene;
             // Wait for textures and shaders to be ready
-            newScene.executeWhenReady(function () {
-            freeCamera = newScene.activeCamera;
+            Scene.executeWhenReady(function () {
+            Camera = Scene.activeCamera;
                 // Attach camera to canvas inputs
-                newScene.activeCamera.attachControl(canvas);
+                Scene.activeCamera.attachControl(canvas);
 
-                newScene.enablePhysics();
-                newScene.setGravity(new BABYLON.Vector3(0, -10, 0));
-                newScene.collisionsEnabled = true;
+                Scene.enablePhysics();
+                Scene.setGravity(new BABYLON.Vector3(0, -10, 0));
+                Scene.collisionsEnabled = true;
 
 
         set_collision("Floor");
         set_collision("Wall");
 
-    freeCamera.minZ = 1;
-    freeCamera.checkCollisions = true;
-    freeCamera.applyGravity = true;
-    freeCamera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+    Camera.minZ = 1;
+    Camera.checkCollisions = true;
+    Camera.applyGravity = true;
+    Camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
 
 
 
@@ -77,21 +77,25 @@ window.addEventListener("mousemove", function(event) {
                 var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
                 var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
-                freeCamera.rotation.y += movementX * 0.002;
+                if(!Camera){
+                    console.log("Waiting for Camera to load...");
+                }else{
+                    Camera.rotation.y += movementX * 0.002;
+                }
 });
 
 function set_keys(){
-    freeCamera.keysRight.push(68);
-    freeCamera.keysLeft.push(65);
-    freeCamera.keysUp.push(87);
-    freeCamera.keysDown.push(83);
+    Camera.keysRight.push(68);
+    Camera.keysLeft.push(65);
+    Camera.keysUp.push(87);
+    Camera.keysDown.push(83);
 }
 
 function set_collision(str){
             var obj;
             var str = str;
-            for(var i = 0;i<scene.meshes.length;i++){ 
-                    obj = scene.meshes[i];
+            for(var i = 0;i<Scene.meshes.length;i++){ 
+                    obj = Scene.meshes[i];
                     if(obj.name.indexOf(str) > -1){
                         obj.checkCollisions = true;
                     }
