@@ -33,6 +33,16 @@ var Load_Music = function ( sources, volume ) {
         this.audio.pause();
     }
 
+    this.set_vol = function(vol){
+        if(vol > 1 || vol < 0){
+            console.log("volume must be between 0 and 1");
+        }else{
+            this.vol = vol;
+            this.audio.volume=this.vol;
+            console.log("Volume is set to " + this.vol * 100 + "%")
+        }
+    }
+
     this.load = function(sources){
                     console.log("Loading Music...");
         for ( var i = 0; i < sources.length; i ++ ) {
