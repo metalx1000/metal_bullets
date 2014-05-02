@@ -49,7 +49,7 @@ var Scene, Camera;
     Camera.checkCollisions = true;
     Camera.applyGravity = true;
     Camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
-
+    Camera.speed = .5;
 
 
                 activate_controls();
@@ -57,7 +57,7 @@ var Scene, Camera;
                 Music = new Load_Music(["../../music/Level_1.ogg"], 1, true);
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
-                    newScene.render();
+                    Scene.render();
                 });
             });
         }, function (progress) {

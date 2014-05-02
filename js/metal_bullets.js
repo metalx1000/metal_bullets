@@ -22,8 +22,23 @@ function set_keys(){
     window.addEventListener("keydown", function (event) {
         console.log(event); //uncomment to test key value
         if (event.keyCode === 32) {
-            //"Space"
-            Camera.position.y += 1;
+            //"Space jump"
+            if(!jump_active){
+                var jump_active = 0;
+            }
+
+            if(jump_active == 0){
+                jump_active = 1;
+                y = 10;
+                var jump = setInterval(function(){
+                    Camera.position.y += 2;
+                    y-=1;
+                    if(y<0){
+                        clearInterval(jump);
+                        jump_active = 0;
+                    }
+                },10);
+            }
         }else if (event.keyCode === 61) {
             //music volume up on '+'
             Music.vol_up();
