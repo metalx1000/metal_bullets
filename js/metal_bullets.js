@@ -33,7 +33,11 @@ function set_keys(){
         }else if (event.keyCode === 80) {
             //music pause on 'p'
             Music.pause();
+        }else if (event.keyCode === 76) {
+            //lists all mesh when 'l' is pressed
+            list_mesh();
         }
+
 
 
     }, false);
@@ -217,6 +221,15 @@ function set_collision(str){
             }
 }
 
+//lists all meshes in scene
+function list_mesh(){
+            var obj, name;
+            for(var i = 0;i<Scene.meshes.length;i++){
+                obj = Scene.meshes[i];
+                name = obj.name;
+                console.log("Mesh " + name + " is Scene.meshes[" + i + "]" );
+            }
+}
 
 //Fullscreen and Mouse Cursor Grab
 function go_fullscreen()
