@@ -22,8 +22,8 @@ function set_keys(){
     window.addEventListener("keydown", function (event) {
         //console.log(event); //uncomment to test key value
         if (event.keyCode === 32) {
-            //"Space jump"
-            player_jump();
+            //"Space as activate key"
+            Open_Door();
         }else if (event.keyCode === 61) {
             //music volume up on '+'
             Music.vol_up();
@@ -238,6 +238,24 @@ function check_distance(obj, obj1){
     DIS['y'] = obj.position.y - obj1.position.y * -1;
     DIS['z'] = obj.position.z - obj1.position.z * -1;
     return DIS;
+}
+
+function Open_Door(){
+            var obj, DIS;
+                for(var i = 0;i<Scene.meshes.length;i++){
+                    obj = Scene.meshes[i];
+                    if(obj.name.indexOf("Door") > -1){
+                        DIS = check_distance(Camera, obj);
+                        DISx = DIS['x'];
+                        DISy = DIS['y'];
+                        DISz = DIS['z'];
+                        console.log(DIS);
+                        if(DISz < 5 && DISx < 5 && DISy < 10 && DISy > -10){
+                            console.log("Opening " + obj.name);
+                        }
+                    }
+                }
+
 }
 
 //Fullscreen and Mouse Cursor Grab
