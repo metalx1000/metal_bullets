@@ -20,7 +20,7 @@ function set_keys(){
     Camera.keysDown.push(83);//Set Key 'S'
 
     window.addEventListener("keydown", function (event) {
-        console.log(event); //uncomment to test key value
+        //console.log(event); //uncomment to test key value
         if (event.keyCode === 32) {
             //"Space jump"
             player_jump();
@@ -277,14 +277,14 @@ function player_jump(){
             }
 
             if(jump_active == 0){
-                jump_active = 1;
-                y = 10;
+                jump_active = 20;//jump time
+                y = 2;//jump amount
                 var jump = setInterval(function(){
-                    Camera.position.y += 2;
-                    y-=1;
-                    if(y<0){
+                    Camera.position.y += y;
+                    y-=0.1;
+                    jump_active -= 1;
+                    if(jump_active<0){
                         clearInterval(jump);
-                        jump_active = 0;
                     }
                 },10);
             }
