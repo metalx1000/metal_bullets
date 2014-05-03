@@ -318,21 +318,11 @@ function go_fullscreen()
 
 //jump
 function player_jump(){
-            if(!jump_active){
-                var jump_active = 0;
-            }
-
-            if(jump_active == 0){
-                jump_active = 20;//jump time
-                y = 2;//jump amount
-                var jump = setInterval(function(){
-                    Camera.position.y += y;
-                    y-=0.1;
-                    jump_active -= 1;
-                    if(jump_active<0){
-                        clearInterval(jump);
-                    }
-                },10);
+            //you would think this would be set to 0
+            //but 0.05 seems to work better
+            //or there is a delay between jumps
+            if(Camera.cameraDirection.y < 0.05){
+                Camera.cameraDirection.y = 4;
             }
 
 }
