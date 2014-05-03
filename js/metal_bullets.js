@@ -56,6 +56,7 @@ function set_mouse(){
                     console.log("Waiting for Camera to load...");
                 }else{
                     Camera.rotation.y += movementX * 0.002;
+                    Camera.rotation.x += movementY * 0.002;
                 }
     });
 }
