@@ -272,7 +272,7 @@ function go_fullscreen()
                 var element = document.body;
                 instructions.addEventListener( 'click', function ( event ) {
 
-//                    instructions.style.display = 'none';
+// instructions.style.display = 'none';
 
                     // Ask the browser to lock the pointer
                     element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
@@ -313,16 +313,15 @@ function go_fullscreen()
             }
 }
 
-
 /////////Player Configs/////////
 
 //jump
 function player_jump(){
             //you would think this would be set to 0
-            //but 0.05 seems to work better
+            //but this seems to work better
             //or there is a delay between jumps
-            if(Camera.cameraDirection.y < 0.05){
-                Camera.cameraDirection.y = 4;
+            if(Camera.cameraDirection.y < 0.08){
+                Camera.cameraDirection.y = 3;
             }
 
 }
