@@ -66,9 +66,15 @@ window.addEventListener("mousedown", function(event) {
     }
 }, false);
 
+/////////////////////////////////Window Controls///////////////
 //Prevents Menu From popping up on right click
 window.addEventListener('contextmenu', function (event) {
   event.preventDefault();
+});
+
+//resize Render Window on window resize
+window.addEventListener("resize", function () {
+  engine.resize();
 });
 
 /////////////////Audio/////////////////////////////
