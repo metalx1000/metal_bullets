@@ -231,6 +231,15 @@ function list_mesh(){
             }
 }
 
+//checks the distance between two object
+function check_distance(obj, obj1){
+    var DIS = new Object();
+    DIS['x'] = obj.position.x - obj1.position.x * -1;
+    DIS['y'] = obj.position.y - obj1.position.y * -1;
+    DIS['z'] = obj.position.z - obj1.position.z * -1;
+    return DIS;
+}
+
 //Fullscreen and Mouse Cursor Grab
 function go_fullscreen()
 {
