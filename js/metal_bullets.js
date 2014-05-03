@@ -88,6 +88,7 @@ window.addEventListener("resize", function () {
 var Load_Music = function ( sources, volume ) {
     this.source = document.createElement( 'source' );
     this.vol = volume;
+    
 
     this.audio = document.createElement( 'audio' );
 
@@ -95,8 +96,9 @@ var Load_Music = function ( sources, volume ) {
         for ( var i = 0; i < sources.length; i ++ ) {
 
                     this.source.src = sources[ i ];
+                    save_music(this.source.src);
                     this.audio.volume=this.vol;
-
+            
                     this.audio.appendChild( this.source );
                     this.audio.play();
                     this.pause_val = 0;
@@ -156,6 +158,7 @@ var Load_Music = function ( sources, volume ) {
                     console.log("Loading Music...");
         for ( var i = 0; i < sources.length; i ++ ) {
                     this.source.src = sources[ i ];
+                    save_music(this.source.src);
 
                     this. audio.appendChild( this.source );
                     this.audio.src = this.source.src;
@@ -165,6 +168,17 @@ var Load_Music = function ( sources, volume ) {
         }
         console.log("Loading Music...");
     }
+}
+
+function save_music(source){
+                        metal_music = [];
+                        metal_music = JSON.parse(localStorage.metal_music);
+                        metal_music.push(source)
+                        metal_music = metal_music.filter(function(elem, pos) {
+                              return metal_music.indexOf(elem) == pos;
+                        })
+                        localStorage.metal_music = JSON.stringify(metal_music);
+                        metal_music = JSON.parse(localStorage.metal_music);
 }
 
 
