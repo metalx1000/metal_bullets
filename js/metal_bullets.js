@@ -23,22 +23,7 @@ function set_keys(){
         console.log(event); //uncomment to test key value
         if (event.keyCode === 32) {
             //"Space jump"
-            if(!jump_active){
-                var jump_active = 0;
-            }
-
-            if(jump_active == 0){
-                jump_active = 1;
-                y = 10;
-                var jump = setInterval(function(){
-                    Camera.position.y += 2;
-                    y-=1;
-                    if(y<0){
-                        clearInterval(jump);
-                        jump_active = 0;
-                    }
-                },10);
-            }
+            player_jump();
         }else if (event.keyCode === 61) {
             //music volume up on '+'
             Music.vol_up();
@@ -76,8 +61,15 @@ window.addEventListener("mousedown", function(event) {
     if(event.which == 1){
         var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ], 275, 1 );
         gun_sound.play();
+    }else if(event.which == 3){
+        player_jump();
     }
 }, false);
+
+//Prevents Menu From popping up on right click
+window.addEventListener('contextmenu', function (event) {
+  event.preventDefault();
+});
 
 /////////////////Audio/////////////////////////////
 
@@ -273,4 +265,28 @@ function go_fullscreen()
                 instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
 
             }
+}
+
+
+/////////Player Configs/////////
+
+//jump
+function player_jump(){
+            if(!jump_active){
+                var jump_active = 0;
+            }
+
+            if(jump_active == 0){
+                jump_active = 1;
+                y = 10;
+                var jump = setInterval(function(){
+                    Camera.position.y += 2;
+                    y-=1;
+                    if(y<0){
+                        clearInterval(jump);
+                        jump_active = 0;
+                    }
+                },10);
+            }
+
 }
