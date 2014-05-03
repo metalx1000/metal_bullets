@@ -32,7 +32,7 @@ var Scene, Camera;
             Scene = newScene;
             // Wait for textures and shaders to be ready
             Scene.executeWhenReady(function () {
-            Camera = Scene.activeCamera;
+                Camera = Scene.activeCamera;
                 // Attach camera to canvas inputs
                 Scene.activeCamera.attachControl(canvas);
 
@@ -42,18 +42,17 @@ var Scene, Camera;
                 Scene.collisionsEnabled = true;
 
 
-        set_collision(["Floor","Wall"]);
-//        set_collision("Wall");
+                set_collision(["Floor","Wall", "Door"]);
 
-   // Camera.minZ = 1;
-    Camera.checkCollisions = true;
-    Camera.applyGravity = true;
-    Camera.ellipsoid = new BABYLON.Vector3(1, 2, 1);
-    Camera.speed = 1;
+                Camera.minZ = 1;
+                Camera.checkCollisions = true;
+                Camera.applyGravity = true;
+                Camera.ellipsoid = new BABYLON.Vector3(1, 2, 1);
+                Camera.speed = 1;
 
 
                 activate_controls();
-                go_fullscreen();
+                go_fullscreen();//fullscreen on click and mouse Grab
                 Music = new Load_Music(["../../music/Level_1.ogg"], 1, true);
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
