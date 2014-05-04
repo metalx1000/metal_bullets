@@ -25,6 +25,9 @@ function set_keys(){
             //"Space as activate key"
 //            Open_Door();
             music_history();
+        }else if (event.keyCode === 27) {
+            //"Menu on 'esc'"
+            Menu_Open();
         }else if (event.keyCode === 61) {
             //music volume up on '+'
             Music.vol_up();
@@ -167,6 +170,7 @@ var Load_Music = function ( sources, volume ) {
                     this.audio.play();    
                     this.pause_val = 0;
         }
+        Menu_Close(); 
     }
 }
 
@@ -196,6 +200,18 @@ function create_music_history(){
 
 }
 
+function Menu_Open(){
+    FullScreenGrab=false;
+    var music_menu = document.getElementById('music_menu');
+    music_menu.hidden = false;
+}
+
+function Menu_Close(){
+    FullScreenGrab=true;
+    var music_menu = document.getElementById('music_menu');
+    music_menu.hidden = true;
+}
+
 function create_music_menu(){
                 //music menu
                 var body = document.body;
@@ -203,6 +219,8 @@ function create_music_menu(){
                 music_menu.setAttribute("id", "music_menu");
                 music_menu.setAttribute("class", "menu");
                 body.appendChild(music_menu);
+
+                music_menu.hidden =  true;
 
                 var music_input = document.createElement("input");
                 music_input.setAttribute("id", "music_input");
