@@ -167,13 +167,12 @@ var Load_Music = function ( sources, volume ) {
                     this.audio.play();    
                     this.pause_val = 0;
         }
-        console.log("Loading Music...");
     }
 }
 
 //Store url for loaded songs for future use
+var metal_music = [];
 function save_music(source){
-        metal_music = [];
         if (localStorage.getItem("metal_music") === null) {
             metal_music.push(source)
             localStorage.metal_music = JSON.stringify(metal_music);
@@ -188,23 +187,36 @@ function save_music(source){
         }
 }
 
-function music_history(){
+function create_music_history(){
+    var music_history = document.getElementById('music_history');  
     for ( var i = 0; i < metal_music.length; i ++ ) {
-        console.log(metal_music[i]);
+        html = "<div onclick='Music.load([\"" +  metal_music[i] + "\"])'>" +  metal_music[i] + "</div>";
+        music_history.innerHTML += html;
     }
 
 }
 
 function create_music_menu(){
-
                 //music menu
                 var body = document.body;
-                var music_menu = document.createElement("input");
-                music_menu.setAttribute("id", "music_loader");
-                music_menu.setAttribute("type", "text");
-                music_menu.setAttribute("placeholder", "Paste URL to Music Here");
-                music_menu.setAttribute("onchange", "Music.load([this.value])");
+                var music_menu = document.createElement("div");
+                music_menu.setAttribute("id", "music_menu");
+                music_menu.setAttribute("class", "menu");
                 body.appendChild(music_menu);
+
+                var music_input = document.createElement("input");
+                music_input.setAttribute("id", "music_input");
+                music_input.setAttribute("type", "text");
+                music_input.setAttribute("placeholder", "Paste URL to Music Here");
+                music_input.setAttribute("onchange", "Music.load([this.value])");
+                music_menu.appendChild(music_input);
+
+
+                var music_history = document.createElement("div");
+                music_history.setAttribute("id", "music_history");
+                music_menu.appendChild(music_history);
+
+                create_music_history();
 }
 
 //sounds

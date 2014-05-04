@@ -35,13 +35,16 @@
     width:70%;
     background-color:#b0e0e6;
 }
-        #music_loader{
+        .menu{
             position: absolute;
             left: 0px;
             top: 0px;
             font-size: 20px;
-
+            color: green;
+            background-color:rgb(255,0,0);
         }
+
+
     </style>
 </head>
 <body>
@@ -87,6 +90,7 @@ var Scene, Camera;
 
                 go_fullscreen();//fullscreen on click and mouse Grab
                 Music = new Load_Music(["../../music/Level_1.ogg"], 1, true);
+                create_music_menu();
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
                     Scene.render();
