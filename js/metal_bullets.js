@@ -91,7 +91,7 @@ var Load_Music = function ( sources, volume ) {
     
 
     this.audio = document.createElement( 'audio' );
-
+    this.audio.setAttribute("loop", "auto");
         console.log("Loading Music...");
         for ( var i = 0; i < sources.length; i ++ ) {
 
