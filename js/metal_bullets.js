@@ -280,8 +280,9 @@ function Open_Door(){
 }
 
 //Fullscreen and Mouse Cursor Grab
-function go_fullscreen()
-{
+var FullScreenGrab=false;
+function go_fullscreen(){
+    
             var instructions = document;
 
             // http://www.html5rocks.com/en/tutorials/pointerlock/intro/
@@ -294,7 +295,7 @@ function go_fullscreen()
                 instructions.addEventListener( 'click', function ( event ) {
 
 // instructions.style.display = 'none';
-
+        if( FullScreenGrab == true ){
                     // Ask the browser to lock the pointer
                     element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
 
@@ -324,6 +325,7 @@ function go_fullscreen()
                         element.requestPointerLock();
 
                     }
+        }
 
                 }, false );
 
