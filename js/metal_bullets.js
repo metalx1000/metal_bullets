@@ -187,6 +187,17 @@ function save_music(source){
         }
 }
 
+function create_music_menu(){
+
+                //music menu
+                var body = document.body;
+                var music_menu = document.createElement("input");
+                music_menu.setAttribute("id", "music_loader");
+                music_menu.setAttribute("type", "text");
+                music_menu.setAttribute("placeholder", "Paste URL to Music Here");
+                music_menu.setAttribute("onchange", "Music.load([this.value])");
+                body.appendChild(music_menu);
+}
 
 //sounds
 var Sound = function ( sources, radius, volume ) {

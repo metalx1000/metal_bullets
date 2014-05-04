@@ -35,19 +35,19 @@
     width:70%;
     background-color:#b0e0e6;
 }
-        #music_menu{
+        #music_loader{
             position: absolute;
             left: 0px;
             top: 0px;
-            font-size: 2d0px;
+            font-size: 20px;
 
         }
     </style>
 </head>
-<becody>
+<body>
     <canvas id="renderCanvas"></canvas>
 
-<input type="text" id="music_menu">
+<!--<input type="text" id="music_loader" placeholder="Paste URL to Music here">-->
 
 <!--<div id="start_message" class="center">CLICK TO START GAME</div>-->
 <script>
@@ -80,6 +80,11 @@ var Scene, Camera;
 
 
                 activate_controls();
+                FullScreenGrab=true;
+
+                //music menu
+                create_music_menu();
+
                 go_fullscreen();//fullscreen on click and mouse Grab
                 Music = new Load_Music(["../../music/Level_1.ogg"], 1, true);
                 // Once the scene is loaded, just register a render loop to render it
