@@ -23,7 +23,8 @@ function set_keys(){
         //console.log(event); //uncomment to test key value
         if (event.keyCode === 32) {
             //"Space as activate key"
-            Open_Door();
+//            Open_Door();
+            music_history();
         }else if (event.keyCode === 61) {
             //music volume up on '+'
             Music.vol_up();
@@ -185,6 +186,13 @@ function save_music(source){
             localStorage.metal_music = JSON.stringify(metal_music);
             metal_music = JSON.parse(localStorage.metal_music);
         }
+}
+
+function music_history(){
+    for ( var i = 0; i < metal_music.length; i ++ ) {
+        console.log(metal_music[i]);
+    }
+
 }
 
 function create_music_menu(){
