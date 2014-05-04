@@ -4,7 +4,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-
+var width = window.innerWidth;
+var height = window.innerHeight;
 ////////////////Controls///////////////////////////
 function activate_controls(){
     set_keys();
@@ -23,8 +24,7 @@ function set_keys(){
         //console.log(event); //uncomment to test key value
         if (event.keyCode === 32) {
             //"Space as activate key"
-//            Open_Door();
-            music_history();
+            Activate();
         }else if (event.keyCode === 27) {
             //"Menu on 'esc'"
             Menu_Open();
@@ -278,6 +278,16 @@ var Sound = function ( sources, radius, volume ) {
 }
 
 //////////////////////////World Settings/////////////////
+function Activate(){
+    var active = Scene.pick(width*0.5,height*0.5);
+    if(active.pickedMesh != null){
+        if(active.pickedMesh.name.indexOf('Door') > -1 && active.distance < 5){
+            console.log("Opening Door.");
+            Open_Door(active.pickedMesh);
+        }
+    }
+}
+
 //setup collision on wall, floors, etc
 function set_collision(str){
             var obj;
@@ -310,21 +320,48 @@ function check_distance(obj, obj1){
     return DIS;
 }
 
-function Open_Door(){
-            var obj, DIS;
-                for(var i = 0;i<Scene.meshes.length;i++){
-                    obj = Scene.meshes[i];
-                    if(obj.name.indexOf("Door") > -1){
-                        DIS = check_distance(Camera, obj);
-                        DISx = DIS['x'];
-                        DISy = DIS['y'];
-                        DISz = DIS['z'];
-                        console.log(DIS);
-                        if(DISz < 5 && DISx < 5 && DISy < 10 && DISy > -10){
-                            console.log("Opening " + obj.name);
+function Open_Door(obj){
+    if(obj.lock != "1"){
+        obj.lock = "1";
+        obj.orgPosY = obj.position.y;
+
+        //console.log("Door Open.");
+            if (obj.name.indexOf("Down") != -1){
+                    door_sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
+                    //door_sound.position.copy( obj.scaling.y );
+                    door_sound.play();
+                    //console.log("Down");
+                    Open = new TWEEN.Tween({y: obj.position.y})
+                    .to({ y: obj.position.y - obj.scaling.y}, 1000)
+                    .onUpdate( function(){
+                        obj.position.y=this.y;
+                    });
+                    Open.start();
+            }
+            Close_Door(obj);
+    }
+}
+
+
+function Close_Door(obj){
+        setTimeout(function(){
+
+            if (obj.name.indexOf("Down") != -1){
+                door_sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
+                //door_sound.position.copy( obj.position );
+                door_sound.play();
+                    Close = new TWEEN.Tween({y: obj.position.y})
+                    .to({ y: obj.orgPosY}, 1000)
+                    .onUpdate( function(){
+                        obj.position.y=this.y;
+                        if(obj.position.y.toFixed(4) == obj.orgPosY.toFixed(4)){
+                            obj.lock = "0";
                         }
-                    }
-                }
+                    });
+                    Close.start();
+            }
+
+        },5000);
 
 }
 

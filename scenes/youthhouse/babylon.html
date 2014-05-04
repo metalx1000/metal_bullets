@@ -4,6 +4,7 @@
     <title>Using babylon.js-load a scene</title>
     <script src="../../js/babylon.js"></script>
     <script src="../../js/cannon.js"></script>
+    <script src="../../js/tween.min.js"></script>
     <script src="../../js/metal_bullets.js"></script>
     <style>
         html, body {
@@ -94,6 +95,7 @@ var Scene, Camera;
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
                     Scene.render();
+                    TWEEN.update();
                 });
             });
         }, function (progress) {
