@@ -170,15 +170,21 @@ var Load_Music = function ( sources, volume ) {
     }
 }
 
+//Store url for loaded songs for future use
 function save_music(source){
-                        metal_music = [];
-                        metal_music = JSON.parse(localStorage.metal_music);
-                        metal_music.push(source)
-                        metal_music = metal_music.filter(function(elem, pos) {
-                              return metal_music.indexOf(elem) == pos;
-                        })
-                        localStorage.metal_music = JSON.stringify(metal_music);
-                        metal_music = JSON.parse(localStorage.metal_music);
+        metal_music = [];
+        if (localStorage.getItem("metal_music") === null) {
+            metal_music.push(source)
+            localStorage.metal_music = JSON.stringify(metal_music);
+        }else{
+            metal_music = JSON.parse(localStorage.metal_music);
+            metal_music.push(source);
+            metal_music = metal_music.filter(function(elem, pos) {
+                return metal_music.indexOf(elem) == pos;
+            })
+            localStorage.metal_music = JSON.stringify(metal_music);
+            metal_music = JSON.parse(localStorage.metal_music);
+        }
 }
 
 
