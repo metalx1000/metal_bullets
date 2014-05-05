@@ -444,6 +444,9 @@ function Teleport(obj){
                     meshes = Scene.meshes[x];
                     if(meshes.name.indexOf('Teleporter') > -1 && meshes.name.indexOf(objarray[i]) > -1){
                         if(meshes != obj){
+                            var sound = new Sound( [ "../../sounds/teleporter.wav" ], 275, 1 );
+                            sound.play();
+
                             console.log("Teleporting to " + meshes.name)
                             Camera.position.x = meshes.position.x;
                             Camera.position.y = meshes.position.y;
