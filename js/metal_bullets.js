@@ -278,6 +278,7 @@ var Sound = function ( sources, radius, volume ) {
 }
 
 //////////////////////////World Settings/////////////////
+var postProcess;
 function Activate(){
     var active = Scene.pick(width*0.5,height*0.5);
     if(active.pickedMesh != null){
@@ -444,6 +445,7 @@ function Teleport(obj){
                     meshes = Scene.meshes[x];
                     if(meshes.name.indexOf('Teleporter') > -1 && meshes.name.indexOf(objarray[i]) > -1){
                         if(meshes != obj){
+                            Teleport_Blur();
                             var sound = new Sound( [ "../../sounds/teleporter.wav" ], 275, 1 );
                             sound.play();
 
@@ -461,6 +463,23 @@ function Teleport(obj){
         console.log("Teleporter Broken.")
     }
 }
+
+function Teleport_Blur(){
+    var blurw = 10;
+    postProcess = new BABYLON.BlurPostProcess("Horizontal blur", new BABYLON.Vector2(1.0, 0), blurw, .25, Camera, null, engine, true);
+
+                    Blur = new TWEEN.Tween({w: blurw})
+                    .to({ w: 0}, 1000)
+                    .onUpdate( function(){
+                        postProcess.blurWidth = this.w;
+                        console.log(this.w);
+                        if(this.w == 0){
+                            postProcess.dispose();
+                        }
+                    });
+                    Blur.start();
+}
+
 
 var Touch_Sensor = 0;
 function check_camSensor(){
