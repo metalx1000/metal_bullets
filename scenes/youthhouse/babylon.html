@@ -104,7 +104,12 @@ var Scene, Camera;
         }, function (progress) {
             // To do: give progress feedback to user
             if (progress.lengthComputable) {
-                    document.title = "Loading, please wait..." + (progress.loaded * 100 / progress.total).toFixed() + "%";
+                p = (progress.loaded * 100 / progress.total).toFixed();
+                if(p = 100){
+                    document.title ="Metal Bullets";
+                }else{
+                    document.title = "Loading, please wait..." + p + "%";
+                }
             }
         });
     }
