@@ -428,8 +428,8 @@ function player_jump(){
             //you would think this would be set to 0
             //but this seems to work better
             //or there is a delay between jumps
-            if(Camera.cameraDirection.y < 0.08){
-                Camera.cameraDirection.y = 3;
+            if(Camera.cameraDirection.y < 0.25){
+                Camera.cameraDirection.y = 2;
             }
 
 }
