@@ -435,12 +435,13 @@ function player_jump(){
 }
 
 function create_camSensor(){
+    console.log("creating camSensor");
     // create sensor mesh  - parent to  camera
     var camSensor = new BABYLON.Mesh.CreateBox("sensor", 1, Scene);
     camSensor.material = new BABYLON.StandardMaterial("camMat", Scene);
-    camSensor.isVisible = true;
+    camSensor.isVisible = false;
     camSensor.material.wireframe = true;
     camSensor.scaling = new BABYLON.Vector3(1, 2, 1);
     camSensor.position = Camera.position;
-    camSensor.parent = Camera;
+    //camSensor.parent = Camera;
 }
