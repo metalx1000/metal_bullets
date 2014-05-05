@@ -282,7 +282,6 @@ function Activate(){
     var active = Scene.pick(width*0.5,height*0.5);
     if(active.pickedMesh != null){
         if(active.pickedMesh.name.indexOf('Door') > -1 && active.distance < 5){
-            console.log("Opening Door.");
             Open_Door(active.pickedMesh);
         }
     }
@@ -433,4 +432,15 @@ function player_jump(){
                 Camera.cameraDirection.y = 3;
             }
 
+}
+
+function create_camSensor(){
+    // create sensor mesh  - parent to  camera
+    var camSensor = new BABYLON.Mesh.CreateBox("sensor", 1, Scene);
+    camSensor.material = new BABYLON.StandardMaterial("camMat", Scene);
+    camSensor.isVisible = true;
+    camSensor.material.wireframe = true;
+    camSensor.scaling = new BABYLON.Vector3(1, 2, 1);
+    camSensor.position = Camera.position;
+    camSensor.parent = Camera;
 }
