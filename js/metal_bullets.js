@@ -288,6 +288,11 @@ function Activate(){
     }
 }
 
+function preload_sounds(){
+    Sound( [ '../../sounds/weapons/gun1.wav' ], 275, 1 );
+    Sound( [ '../../sounds/teleporter.wav' ], 275, 1 );
+    Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
+}
 //setup collision on wall, floors, etc
 function set_collision(str){
             var obj;
@@ -472,7 +477,6 @@ function Teleport_Blur(){
                     .to({ w: 0}, 1000)
                     .onUpdate( function(){
                         postProcess.blurWidth = this.w;
-                        console.log(this.w);
                         if(this.w == 0){
                             postProcess.dispose();
                         }
