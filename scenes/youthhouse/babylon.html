@@ -99,6 +99,7 @@ var Scene, Camera;
                 engine.runRenderLoop(function() {
                     Scene.render();
                     TWEEN.update();
+                    check_camSensor();
                 });
             });
         }, function (progress) {

@@ -434,10 +434,52 @@ function player_jump(){
 
 }
 
+function Teleport(obj){
+    console.log("Teleporting Player.");
+    if(obj.name.indexOf('pos') > -1){
+        objarray = obj.name.split(".");
+        for(var i = 0; i<objarray.length;i++){
+            if(objarray[i].indexOf('pos') > -1){
+                for(var x = 0; x<Scene.meshes.length;x++){
+                    meshes = Scene.meshes[x];
+                    if(meshes.name.indexOf('Teleporter') > -1 && meshes.name.indexOf(objarray[i]) > -1){
+                        if(meshes != obj){
+                            console.log("Teleporting to " + meshes.name)
+                            Camera.position.x = meshes.position.x;
+                            Camera.position.y = meshes.position.y;
+                            Camera.position.z = meshes.position.z;
+                            camSensor.position = Camera.position;
+                        }
+                    }
+                }
+            }
+        }    
+    }else{
+        console.log("Teleporter Broken.")
+    }
+}
+
+var Touch_Sensor = 0;
+function check_camSensor(){
+    if(Touch_Sensor == 0){
+        for(var i=0;i<Scene.meshes.length;i++){
+            obj = Scene.meshes[i];
+            if(camSensor.intersectsMesh(obj) && obj != camSensor){
+                Touch_Sensor = 1;
+                setTimeout(function(){ Touch_Sensor = 0; },5000); //wait for touch_sensor to reactivate
+                if(obj.name.indexOf('Teleporter') > -1){
+                    Teleport(obj);
+                }
+            }
+        }
+    }
+}
+
+var camSensor;
 function create_camSensor(){
     console.log("creating camSensor");
     // create sensor mesh  - parent to  camera
-    var camSensor = new BABYLON.Mesh.CreateBox("sensor", 1, Scene);
+    camSensor = new BABYLON.Mesh.CreateBox("sensor", 1, Scene);
     camSensor.material = new BABYLON.StandardMaterial("camMat", Scene);
     camSensor.isVisible = false;
     camSensor.material.wireframe = true;
