@@ -366,6 +366,7 @@ function set_collision(str){
                         if(str[x] == "Wall"){
                             obj.Wall = true;
                         }else if(str[x] == "Door"){
+                            Check_Door_Type(obj);
                             obj.Door = true;
                         }else if(str[x] == "Floor"){
                             obj.Floor = true;
@@ -401,25 +402,37 @@ function check_distance(obj, obj1){
     return DIS;
 }
 
+function Check_Door_Type(obj){
+    if (obj.name.indexOf("Down") != -1){
+        obj.Type = "Down";
+        for(var i=0;i<Scene.meshes.length;i++){
+            var floor = Scene.meshes[i];
+            if(obj.intersectsMesh(floor) && floor.Floor == true){
+                obj.Floor = floor.position.y;
+            }
+        }
+        
+    }
+}
+
+
 function Open_Door(obj){
     if(obj.lock != "1"){
         obj.lock = "1";
         obj.orgPosY = obj.position.y;
-
+    
         //console.log("Door Open.");
-            if (obj.name.indexOf("Down") != -1){
-                    door_sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
-                    //door_sound.position.copy( obj.scaling.y );
-                    door_sound.play();
-                    //console.log("Down");
-                    Open = new TWEEN.Tween({y: obj.position.y})
-                    .to({ y: -obj.position.y }, 1000)
-                    .onUpdate( function(){
-                        obj.position.y=this.y;
-                    });
-                    Open.start();
-            }
-            Close_Door(obj);
+        door_sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
+        //door_sound.position.copy( obj.scaling.y );
+        door_sound.play();
+        Open = new TWEEN.Tween({y: obj.position.y})
+        .to({ y: obj.Floor }, 1000)
+        .onUpdate( function(){
+            obj.position.y=this.y;
+        });
+
+        Open.start();
+        Close_Door(obj);
     }
 }
 
