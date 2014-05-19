@@ -6,6 +6,69 @@
 
 var width = window.innerWidth;
 var height = window.innerHeight;
+
+////////////////////////////Load Scene/////////////////////////////
+var Scene, Camera;
+    if (BABYLON.Engine.isSupported()) {
+        var canvas = document.getElementById("renderCanvas");
+        var engine = new BABYLON.Engine(canvas, true);
+
+        BABYLON.SceneLoader.Load("", "scene.babylon", engine, function (newScene) {
+            Scene = newScene;
+            // Wait for textures and shaders to be ready
+            Scene.executeWhenReady(function () {
+                Camera = Scene.activeCamera;
+                // Attach camera to canvas inputs
+                Scene.activeCamera.attachControl(canvas);
+
+                Scene.enablePhysics();
+//                Scene.setGravity(new BABYLON.Vector3(0, -0.1, 10));
+                Scene.gravity = new BABYLON.Vector3(0, -1, 0);
+                Scene.collisionsEnabled = true;
+
+                preload_sounds();
+                set_collision(["Floor","Wall", "Door"]);
+
+                Camera.minZ = 1;
+                Camera.checkCollisions = true;
+                Camera.applyGravity = true;
+                Camera.ellipsoid = new BABYLON.Vector3(1, 2, 1);
+                Camera.speed = 1;
+
+
+                create_camSensor();
+//                var gun = new BABYLON.Sprite("gun", "../../sprites/weapons/glock/gun.png");
+
+                activate_controls();
+                FullScreenGrab=true;
+
+                //music menu
+                create_music_menu();
+
+                go_fullscreen();//fullscreen on click and mouse Grab
+                Music = new Load_Music(["../../music/Level_1.ogg"], 1, true);
+                create_music_menu();
+                // Once the scene is loaded, just register a render loop to render it
+                engine.runRenderLoop(function() {
+                    Scene.render();
+                    TWEEN.update();
+                    check_camSensor();
+                });
+            });
+        }, function (progress) {
+            // To do: give progress feedback to user
+            if (progress.lengthComputable) {
+                p = (progress.loaded * 100 / progress.total).toFixed();
+                if(p = 100){
+                    document.title ="Metal Bullets";
+                }else{
+                    document.title = "Loading, please wait..." + p + "%";
+                }
+            }
+        });
+    }
+
+
 ////////////////Controls///////////////////////////
 function activate_controls(){
     set_keys();
