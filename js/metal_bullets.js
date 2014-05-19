@@ -363,6 +363,14 @@ function set_collision(str){
                 for(var i = 0;i<Scene.meshes.length;i++){ 
                     obj = Scene.meshes[i];
                     if(obj.name.indexOf(str[x]) > -1){
+                        if(str[x] == "Wall"){
+                            obj.Wall = true;
+                        }else if(str[x] == "Door"){
+                            obj.Door = true;
+                        }else if(str[x] == "Floor"){
+                            obj.Floor = true;
+                        }
+
                         obj.checkCollisions = true;
                     }else if (obj.name.indexOf("Teleporter") > -1){
                         obj = Scene.meshes[i];
@@ -405,7 +413,7 @@ function Open_Door(obj){
                     door_sound.play();
                     //console.log("Down");
                     Open = new TWEEN.Tween({y: obj.position.y})
-                    .to({ y: obj.position.y - obj.scaling.y}, 1000)
+                    .to({ y: -obj.position.y }, 1000)
                     .onUpdate( function(){
                         obj.position.y=this.y;
                     });
