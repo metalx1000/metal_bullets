@@ -301,6 +301,11 @@ function set_collision(str){
                     obj = Scene.meshes[i];
                     if(obj.name.indexOf(str[x]) > -1){
                         obj.checkCollisions = true;
+                    }else if (obj.name.indexOf("Teleporter") > -1){
+                        obj = Scene.meshes[i];
+                        obj.Teleporter = true;
+                        objarray = obj.name.split(".");
+                        obj.pos = objarray[1];
                     }
                 }
             }
@@ -442,30 +447,22 @@ function player_jump(){
 
 function Teleport(obj){
     console.log("Teleporting Player.");
-    if(obj.name.indexOf('pos') > -1){
-        objarray = obj.name.split(".");
-        for(var i = 0; i<objarray.length;i++){
-            if(objarray[i].indexOf('pos') > -1){
-                for(var x = 0; x<Scene.meshes.length;x++){
-                    meshes = Scene.meshes[x];
-                    if(meshes.name.indexOf('Teleporter') > -1 && meshes.name.indexOf(objarray[i]) > -1){
-                        if(meshes != obj){
-                            Teleport_Blur();
-                            var sound = new Sound( [ "../../sounds/teleporter.wav" ], 275, 1 );
-                            sound.play();
-
-                            console.log("Teleporting to " + meshes.name)
-                            Camera.position.x = meshes.position.x;
-                            Camera.position.y = meshes.position.y;
-                            Camera.position.z = meshes.position.z;
-                            camSensor.position = Camera.position;
-                        }
-                    }
-                }
-            }
-        }    
-    }else{
-        console.log("Teleporter Broken.")
+    for(var x = 0; x<Scene.meshes.length;x++){
+        var meshes = Scene.meshes[x];
+        //if this is not the current telepoter, but is a teleporter with the same pos
+        if(meshes != obj && meshes.Teleporter == true && meshes.pos == obj.pos){
+            Teleport_Blur();
+            var sound = new Sound( [ "../../sounds/teleporter.wav" ], 275, 1 );
+            sound.play();
+    
+            console.log("Teleporting to " + meshes.name)
+            Camera.position.x = meshes.position.x;
+            Camera.position.y = meshes.position.y;
+            Camera.position.z = meshes.position.z;
+            camSensor.position = Camera.position;
+    
+       
+        }
     }
 }
 
@@ -490,7 +487,9 @@ function check_camSensor(){
     if(Touch_Sensor == 0){
         for(var i=0;i<Scene.meshes.length;i++){
             obj = Scene.meshes[i];
-            if(camSensor.intersectsMesh(obj) && obj != camSensor){
+            
+            //is this object a Teleporter?
+            if(camSensor.intersectsMesh(obj) && obj != camSensor && obj.Teleporter == true){
                 Touch_Sensor = 1;
                 setTimeout(function(){ Touch_Sensor = 0; },5000); //wait for touch_sensor to reactivate
                 if(obj.name.indexOf('Teleporter') > -1){
