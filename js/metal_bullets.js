@@ -406,13 +406,14 @@ function set_collision(str){
 //Enemy settings
 var Load_Enemy = function(obj){
     Enemies.push(this);
+
     if(obj.name.indexOf("Tur") > -1){
         this.type = "Tur";
-        this.active = true;
+        this.follow = true;
     }
 
     this.update = function(){
-        if(this.active == true){
+        if(this.follow == true){
             obj.lookAt(Camera.position);
         }
     }    
