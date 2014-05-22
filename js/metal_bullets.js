@@ -427,6 +427,20 @@ var Load_Enemy = function(obj){
         this.follow = true;
     }
 
+    this.shot = function(damage){
+        this.health -= damage;
+        console.log(this.type + " has been shot!!!");
+        console.log(this.type + " health is " + this.health);
+        if(this.health < 1){
+            this.death();
+        }
+    }
+
+    this.death = function(){
+        console.log(this.type + " is dead!!!");
+        obj.dispose();
+    }
+
     this.update = function(){
         if(this.follow == true){
             obj.lookAt(Camera.position);
@@ -455,9 +469,7 @@ function Shot(){
 //    console.log(active.pickedMesh);
     if(active.pickedMesh != null && active.pickedMesh.shootable == true){
             var enemy = active.pickedMesh.enemy;
-            console.log(enemy.type + " Shot!!!");
-            enemy.health -= 10;
-            console.log(enemy.type + " Health " + enemy.health);
+            enemy.shot(10);
     }
 }
 
