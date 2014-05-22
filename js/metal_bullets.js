@@ -365,6 +365,7 @@ function preload_sounds(){
     Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
 }
 //setup collision on wall, floors, etc
+var Teleporters = [];
 function set_collision(str){
             var obj;
             for(var x = 0;x < str.length;x++){
@@ -383,6 +384,7 @@ function set_collision(str){
                         obj.checkCollisions = true;
                     }else if (obj.name.indexOf("Teleporter") > -1){
                         obj = Scene.meshes[i];
+                        Teleporters.push(obj);
                         obj.Teleporter = true;
                         objarray = obj.name.split(".");
                         obj.pos = objarray[1];
@@ -539,10 +541,9 @@ function player_jump(){
 
 function Teleport(obj){
     console.log("Teleporting Player.");
-    for(var x = 0; x<Scene.meshes.length;x++){
-        var meshes = Scene.meshes[x];
-        //if this is not the current telepoter, but is a teleporter with the same pos
-        if(meshes != obj && meshes.Teleporter == true && meshes.pos == obj.pos){
+    for(var x = 0; x<Teleporters.length;x++){
+        var meshes = Teleporters[x];
+        if(meshes != obj && meshes.pos == obj.pos ){
             Teleport_Blur();
             var sound = new Sound( [ "../../sounds/teleporter.wav" ], 275, 1 );
             sound.play();
@@ -553,7 +554,7 @@ function Teleport(obj){
             Camera.position.z = meshes.position.z;
             camSensor.position = Camera.position;
     
-       
+            break; 
         }
     }
 }
@@ -577,16 +578,14 @@ function Teleport_Blur(){
 var Touch_Sensor = 0;
 function check_camSensor(){
     if(Touch_Sensor == 0){
-        for(var i=0;i<Scene.meshes.length;i++){
-            obj = Scene.meshes[i];
-            
-            //is this object a Teleporter?
-            if(camSensor.intersectsMesh(obj) && obj != camSensor && obj.Teleporter == true){
+        for(var i=0;i<Teleporters.length;i++){
+            obj = Teleporters[i];
+           
+            if(camSensor.intersectsMesh(obj)){
                 Touch_Sensor = 1;
                 setTimeout(function(){ Touch_Sensor = 0; },5000); //wait for touch_sensor to reactivate
-                if(obj.name.indexOf('Teleporter') > -1){
-                    Teleport(obj);
-                }
+                Teleport(obj);
+                break;
             }
         }
     }
