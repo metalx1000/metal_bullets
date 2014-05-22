@@ -142,6 +142,7 @@ window.addEventListener("mousedown", function(event) {
     if(event.which == 1){
         var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ], 275, 1 );
         gun_sound.play();
+        Shot();
     }else if(event.which == 3){
         player_jump();
     }
@@ -407,6 +408,8 @@ function set_collision(str){
 var Load_Enemy = function(obj){
     Enemies.push(this);
     this.active = false;
+    obj.shootable = true;
+    obj.enemy = this;
 
     //get enemy health
     this.health = 10;
@@ -443,6 +446,18 @@ var Load_Enemy = function(obj){
 function Enemy_Update(){
     for(var i = 0;i < Enemies.length;i++){
         Enemies[i].update();
+    }
+}
+
+//check if shot
+function Shot(){
+    var active = Scene.pick(width*0.5,height*0.5);
+//    console.log(active.pickedMesh);
+    if(active.pickedMesh != null && active.pickedMesh.shootable == true){
+            var enemy = active.pickedMesh.enemy;
+            console.log(enemy.type + " Shot!!!");
+            enemy.health -= 10;
+            console.log(enemy.type + " Health " + enemy.health);
     }
 }
 
