@@ -415,6 +415,10 @@ var Load_Enemy = function(obj){
     this.update = function(){
         if(this.follow == true){
             obj.lookAt(Camera.position);
+            var dis = check_distance(obj, Camera);
+            if(dis < 50){
+                console.log("Enemy Has Spotted You!!!");
+            }
         }
     }    
 }
@@ -456,7 +460,7 @@ function check_distance(obj, obj1){
         DIS['z'] = obj1.position.z - obj.position.z;
     }
 
-    x = Math.min(DIS['x'],DIS['y'],DIS['z']);
+    x = Math.max(DIS['x'],DIS['y'],DIS['z']);
     return x;
 }
 
