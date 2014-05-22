@@ -8,10 +8,12 @@ var width = window.innerWidth;
 var height = window.innerHeight;
 
 ////////////////////////////Load Scene/////////////////////////////
-var Scene, Camera;
+var Scene, Camera, canvas, engine;
+
+function Load_Scene(){
     if (BABYLON.Engine.isSupported()) {
-        var canvas = document.getElementById("renderCanvas");
-        var engine = new BABYLON.Engine(canvas, true);
+        canvas = document.getElementById("renderCanvas");
+        engine = new BABYLON.Engine(canvas, true);
 
         BABYLON.SceneLoader.Load("", "scene.babylon", engine, function (newScene) {
             Scene = newScene;
@@ -68,7 +70,7 @@ var Scene, Camera;
         });
     }
 
-
+}
 ////////////////Controls///////////////////////////
 function activate_controls(){
     set_keys();
