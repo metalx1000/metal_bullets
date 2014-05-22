@@ -406,6 +406,7 @@ function set_collision(str){
 //Enemy settings
 var Load_Enemy = function(obj){
     Enemies.push(this);
+    this.active = false;
 
     if(obj.name.indexOf("Tur") > -1){
         this.type = "Tur";
@@ -415,12 +416,17 @@ var Load_Enemy = function(obj){
     this.update = function(){
         if(this.follow == true){
             obj.lookAt(Camera.position);
-            var dis = check_distance(obj, Camera);
-            if(dis < 50){
-                console.log("Enemy Has Spotted You!!!");
-            }
         }
-    }    
+
+        var dis = check_distance(obj, Camera);
+        if(dis < 50 && this.active == false){
+            this.active = true;
+            console.log("You have been spotted!");
+        }else if(dis > 100 && this.active == true){
+            this.active = false;
+            console.log("You have escaped!");
+        }
+    }
 }
 
 function Enemy_Update(){
