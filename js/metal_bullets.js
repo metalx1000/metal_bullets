@@ -10,7 +10,7 @@ var height = window.innerHeight;
 ////////////////////////////Load Scene/////////////////////////////
 var Scene, Camera, canvas, engine;
 
-function Load_Scene(){
+function Load_Scene(MUSIC){
     if (BABYLON.Engine.isSupported()) {
         canvas = document.getElementById("renderCanvas");
         engine = new BABYLON.Engine(canvas, true);
@@ -48,7 +48,13 @@ function Load_Scene(){
                 create_music_menu();
 
                 go_fullscreen();//fullscreen on click and mouse Grab
-                Music = new Load_Music(["../../music/Level_1.ogg"], 1, true);
+                var music = [];
+                music.push("../../music/Level_1.ogg");
+                if (MUSIC != null){
+                    music.push(MUSIC);
+                }
+                console.log(music);
+                Music = new Load_Music(music, 1, true);
                 create_music_menu();
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
