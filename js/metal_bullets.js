@@ -366,6 +366,9 @@ function preload_sounds(){
 }
 //setup collision on wall, floors, etc
 var Teleporters = [];
+var Walls = [];
+var Doors = [];
+var Floors = [];
 function set_collision(str){
             var obj;
             for(var x = 0;x < str.length;x++){
@@ -374,11 +377,14 @@ function set_collision(str){
                     if(obj.name.indexOf(str[x]) > -1){
                         if(str[x] == "Wall"){
                             obj.Wall = true;
+                            Walls.push(obj);
                         }else if(str[x] == "Door"){
                             Check_Door_Type(obj);
                             obj.Door = true;
+                            Doors.push(obj);
                         }else if(str[x] == "Floor"){
                             obj.Floor = true;
+                            Floors.push(obj);
                         }
 
                         obj.checkCollisions = true;
