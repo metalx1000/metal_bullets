@@ -408,6 +408,17 @@ var Load_Enemy = function(obj){
     Enemies.push(this);
     this.active = false;
 
+    //get enemy health
+    this.health = 10;
+    HL = obj.name.split(".");
+    for(i =0; i < HL.length;i++){
+        if(HL[i].indexOf("HL-") > -1){
+            H = HL[i].split("-");
+            this.health = H[1];
+            break; 
+        }
+    }
+
     if(obj.name.indexOf("Tur") > -1){
         this.type = "Tur";
         this.follow = true;
