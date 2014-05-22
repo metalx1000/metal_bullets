@@ -438,10 +438,26 @@ function list_mesh(){
 //checks the distance between two object
 function check_distance(obj, obj1){
     var DIS = new Object();
-    DIS['x'] = obj.position.x - obj1.position.x * -1;
-    DIS['y'] = obj.position.y - obj1.position.y * -1;
-    DIS['z'] = obj.position.z - obj1.position.z * -1;
-    return DIS;
+    if(obj.position.x > obj1.position.x){
+        DIS['x'] = obj.position.x - obj1.position.x;
+    }else{
+        DIS['x'] = obj1.position.x - obj.position.x;
+    }
+
+    if(obj.position.y > obj1.position.y){
+        DIS['y'] = obj.position.y - obj1.position.y;
+    }else{
+        DIS['y'] = obj1.position.y - obj.position.y;
+    }
+
+    if(obj.position.z > obj1.position.z){
+        DIS['z'] = obj.position.z - obj1.position.z;
+    }else{
+        DIS['z'] = obj1.position.z - obj.position.z;
+    }
+
+    x = Math.min(DIS['x'],DIS['y'],DIS['z']);
+    return x;
 }
 
 function Check_Door_Type(obj){
