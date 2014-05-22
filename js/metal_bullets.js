@@ -383,10 +383,10 @@ function set_collision(str){
                             Walls.push(obj);
                         }else if(str[x] == "Door"){
                             Check_Door_Type(obj);
-                //            obj.Door = true;
+                            obj.Door = true;
                             Doors.push(obj);
                         }else if(str[x] == "Floor"){
-              //              obj.Floor = true;
+                            obj.Floor = true;
                             Floors.push(obj);
                         }else if(str[x] == "Enemy"){
                             Enemies.push(new Load_Enemy(obj));
@@ -515,6 +515,7 @@ function Check_Door_Type(obj){
             var floor = Scene.meshes[i];
             if(obj.intersectsMesh(floor) && floor.Floor == true){
                 obj.Floor = floor.position.y;
+                break;
             }
         }
         
@@ -534,6 +535,7 @@ function Open_Door(obj){
         Open = new TWEEN.Tween({y: obj.position.y})
         .to({ y: obj.Floor }, 1000)
         .onUpdate( function(){
+            console.log("Door");
             obj.position.y=this.y;
         });
 
