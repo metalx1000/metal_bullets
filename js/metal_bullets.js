@@ -29,7 +29,7 @@ function Load_Scene(MUSIC){
                 Scene.collisionsEnabled = true;
 
                 preload_sounds();
-                set_collision(["Floor","Wall", "Door"]);
+                set_collision(["Floor","Wall", "Door", "Enemy"]);
 
                 Camera.minZ = 1;
                 Camera.checkCollisions = true;
@@ -61,6 +61,7 @@ function Load_Scene(MUSIC){
                     Scene.render();
                     TWEEN.update();
                     check_camSensor();
+                    Enemy_Update();
                 });
             });
         }, function (progress) {
@@ -369,6 +370,7 @@ var Teleporters = [];
 var Walls = [];
 var Doors = [];
 var Floors = [];
+var Enemies = [];
 function set_collision(str){
             var obj;
             for(var x = 0;x < str.length;x++){
@@ -376,15 +378,17 @@ function set_collision(str){
                     obj = Scene.meshes[i];
                     if(obj.name.indexOf(str[x]) > -1){
                         if(str[x] == "Wall"){
-                            obj.Wall = true;
+                  //          obj.Wall = true;
                             Walls.push(obj);
                         }else if(str[x] == "Door"){
                             Check_Door_Type(obj);
-                            obj.Door = true;
+                //            obj.Door = true;
                             Doors.push(obj);
                         }else if(str[x] == "Floor"){
-                            obj.Floor = true;
+              //              obj.Floor = true;
                             Floors.push(obj);
+                        }else if(str[x] == "Enemy"){
+                            Enemies.push(new Load_Enemy(obj));
                         }
 
                         obj.checkCollisions = true;
@@ -397,6 +401,27 @@ function set_collision(str){
                     }
                 }
             }
+}
+
+//Enemy settings
+var Load_Enemy = function(obj){
+    Enemies.push(this);
+    if(obj.name.indexOf("Tur") > -1){
+        this.type = "Tur";
+        this.active = true;
+    }
+
+    this.update = function(){
+        if(this.active == true){
+            obj.lookAt(Camera.position);
+        }
+    }    
+}
+
+function Enemy_Update(){
+    for(var i = 0;i < Enemies.length;i++){
+        Enemies[i].update();
+    }
 }
 
 //lists all meshes in scene
