@@ -157,6 +157,9 @@ window.addEventListener('contextmenu', function (event) {
 //resize Render Window on window resize
 window.addEventListener("resize", function () {
   engine.resize();
+  width = window.innerWidth;
+  height = window.innerHeight;
+
 });
 
 /////////////////Audio/////////////////////////////
