@@ -440,6 +440,9 @@ var Load_Enemy = function(obj){
 
     this.death = function(){
         console.log(this.type + " is dead!!!");
+        if(this.death_type=="explosion"){
+            Explosion(obj.position);
+        }
         obj.dispose();
     }
 
@@ -463,7 +466,20 @@ function Turret(turret){
     turret.type = "Turret";
     turret.follow = true;
     
-//    var spriteManagerPlayer = new BABYLON.SpriteManager("playerManagr", "Assets/Player.png", 2, 64, scene);
+    turret.death_type="explosion";
+}
+
+function Explosion(pos){
+    var explosion = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 192, Scene);
+    var Explode = new BABYLON.Sprite("explode", explosion);
+    Explode.playAnimation(0, 64, false, 5);
+    Explode.position = pos;
+    Explode.size = 10;
+
+    var delay=5000;//1 seconds
+    setTimeout(function(){
+        Explode.dispose();
+    },delay);  
 }
 
 function Enemy_Update(){
