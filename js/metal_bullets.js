@@ -425,9 +425,8 @@ var Load_Enemy = function(obj){
         }
     }
 
-    if(obj.name.indexOf("Tur") > -1){
-        this.type = "Tur";
-        this.follow = true;
+    if(obj.name.indexOf("Turret") > -1){
+        Turret(this);
     }
 
     this.shot = function(damage){
@@ -458,6 +457,13 @@ var Load_Enemy = function(obj){
             console.log("You have escaped!");
         }
     }
+}
+
+function Turret(turret){
+    turret.type = "Turret";
+    turret.follow = true;
+    
+//    var spriteManagerPlayer = new BABYLON.SpriteManager("playerManagr", "Assets/Player.png", 2, 64, scene);
 }
 
 function Enemy_Update(){
