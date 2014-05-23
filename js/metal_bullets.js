@@ -469,14 +469,17 @@ function Turret(turret){
     turret.death_type="explosion";
 }
 
+
 function Explosion(pos){
+    var explode_sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 );
     var explosion = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 192, Scene);
+    explode_sound.play();
     var Explode = new BABYLON.Sprite("explode", explosion);
     Explode.playAnimation(0, 64, false, 5);
     Explode.position = pos;
     Explode.size = 10;
 
-    var delay=5000;//1 seconds
+    var delay=5000;
     setTimeout(function(){
         Explode.dispose();
     },delay);  
