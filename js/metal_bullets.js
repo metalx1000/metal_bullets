@@ -8,7 +8,7 @@ var width = window.innerWidth;
 var height = window.innerHeight;
 
 ////////////////////////////Load Scene/////////////////////////////
-var Scene, Camera, canvas, engine;
+var Scene, Camera, canvas, engine, CrossHair;
 
 function Load_Scene(MUSIC){
     if (BABYLON.Engine.isSupported()) {
@@ -95,6 +95,7 @@ function set_keys(){
     window.addEventListener("keydown", function (event) {
         //console.log(event); //uncomment to test key value
         if (event.keyCode === 32) {
+            console.log("box");
             //"Space as activate key"
             Activate();
         }else if (event.keyCode === 27) {
@@ -112,7 +113,11 @@ function set_keys(){
         }else if (event.keyCode === 76) {
             //lists all mesh when 'l' is pressed
             list_mesh();
+        }else if (event.keyCode === 73) {
+            //lists all mesh when 'l' is pressed
+            CrossHair = new Load_Crosshair();
         }
+
 
 
 
@@ -411,6 +416,7 @@ function set_collision(str){
 var Load_Enemy = function(obj){
     Enemies.push(this);
     this.active = false;
+    this.mesh = obj;
     obj.shootable = true;
     obj.enemy = this;
 
@@ -493,12 +499,32 @@ function Enemy_Update(){
 
 //check if shot
 function Shot(){
+    width = window.innerWidth;
+    height = window.innerHeight;
+
     var active = Scene.pick(width*0.5,height*0.5);
 //    console.log(active.pickedMesh);
+    console.log(active.pickedMesh);
     if(active.pickedMesh != null && active.pickedMesh.shootable == true){
             var enemy = active.pickedMesh.enemy;
             enemy.shot(10);
     }
+}
+
+//Crosshair
+function Load_Crosshair(){
+    console.log("Loading Crosshair");
+    var Crosshair = BABYLON.Mesh.CreateBox("Cross", 0.05, Scene);
+//    var crosshair = new BABYLON.SpriteManager("Crosshair", "../../sprites/crosshairs/crosshair_1.png", 1, 16, Scene);
+//    var Crosshair = new BABYLON.Sprite("crosshair", crosshair);
+    Crosshair.parent = Camera;
+    Crosshair.position.x = 0;
+    Crosshair.position.y = 0;
+    Crosshair.position.z = 2;
+
+//    Crosshair.position = Camera.position.add(new BABYLON.Vector3(0, 0, 5));
+//    Crosshair.size = 5;
+
 }
 
 //lists all meshes in scene
