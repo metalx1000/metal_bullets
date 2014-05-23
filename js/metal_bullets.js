@@ -354,11 +354,12 @@ var Sound = function ( sources, radius, volume ) {
 var postProcess;
 function Activate(){
     var active = Scene.pick(width*0.5,height*0.5);
-    if(active.pickedMesh != null){
-        if(active.pickedMesh.name.indexOf('Door') > -1 && active.distance < 5){
-            Open_Door(active.pickedMesh);
-        }
+    if(active.pickedMesh != null && active.pickedMesh.door == true){
+            var obj = active.pickedMesh;
+            var door = active.pickedMesh.actor;
+            door.Open(obj);
     }
+
 }
 
 function preload_sounds(){
@@ -382,9 +383,8 @@ function set_collision(str){
                   //          obj.Wall = true;
                             Walls.push(obj);
                         }else if(str[x] == "Door"){
-                            Check_Door_Type(obj);
                             obj.Door = true;
-                            Doors.push(obj);
+                            Doors.push(new Load_Door(obj));
                         }else if(str[x] == "Floor"){
                             obj.Floor = true;
                             Floors.push(obj);
@@ -508,65 +508,74 @@ function check_distance(obj, obj1){
     return x;
 }
 
-function Check_Door_Type(obj){
-    if (obj.name.indexOf("Down") != -1){
-        obj.Type = "Down";
-        for(var i=0;i<Scene.meshes.length;i++){
-            var floor = Scene.meshes[i];
-            if(obj.intersectsMesh(floor) && floor.Floor == true){
-                obj.Floor = floor.position.y;
-                break;
+
+//Doors
+var Load_Door = function(obj){
+    this.sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
+    obj.door = true;
+    obj.actor = this;
+
+
+    this.type = function(obj){
+        if (obj.name.indexOf("Down") != -1){
+            obj.Type = "Down";
+            for(var i=0;i<Scene.meshes.length;i++){
+                var floor = Scene.meshes[i];
+                if(obj.intersectsMesh(floor) && floor.Floor == true){
+                    obj.Floor = floor.position.y;
+                 //   break;
+                }
             }
-        }
-        
-    }
-}
-
-
-function Open_Door(obj){
-    if(obj.lock != "1"){
-        obj.lock = "1";
-        obj.orgPosY = obj.position.y;
     
-        //console.log("Door Open.");
-        door_sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
-        //door_sound.position.copy( obj.scaling.y );
-        door_sound.play();
-        Open = new TWEEN.Tween({y: obj.position.y})
-        .to({ y: obj.Floor }, 1000)
-        .onUpdate( function(){
-            console.log("Door");
-            obj.position.y=this.y;
-        });
+        }
+        return obj.Type;    
+    }
 
-        Open.start();
-        Close_Door(obj);
+
+    this.type(obj);
+    this.Open = function(obj){
+
+        if(obj.Type == null){
+            obj.Type = this.Type;
+        }
+        if(obj.lock != "1"){
+            obj.lock = "1";
+            obj.orgPosY = obj.position.y;
+        
+            //console.log("Door Open.");
+            //door_sound.position.copy( obj.scaling.y );
+            this.sound.play();
+            Open = new TWEEN.Tween({y: obj.position.y})
+            .to({ y: obj.Floor }, 1000)
+            .onUpdate( function(){
+                obj.position.y=this.y;
+            });
+    
+            Open.start();
+            this.Close(obj);
+        }
+    }
+
+
+    this.Close = function(obj){
+            var sound = this.sound;
+            setTimeout(function(){
+                sound.play();
+                    //door_sound.position.copy( obj.position );
+                        Close = new TWEEN.Tween({y: obj.position.y})
+                        .to({ y: obj.orgPosY}, 1000)
+                        .onUpdate( function(){
+                            obj.position.y=this.y;
+                            if(obj.position.y.toFixed(4) == obj.orgPosY.toFixed(4)){
+                                obj.lock = "0";
+                            }
+                        });
+                        Close.start();
+    
+            },5000);
+    
     }
 }
-
-
-function Close_Door(obj){
-        setTimeout(function(){
-
-            if (obj.name.indexOf("Down") != -1){
-                door_sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
-                //door_sound.position.copy( obj.position );
-                door_sound.play();
-                    Close = new TWEEN.Tween({y: obj.position.y})
-                    .to({ y: obj.orgPosY}, 1000)
-                    .onUpdate( function(){
-                        obj.position.y=this.y;
-                        if(obj.position.y.toFixed(4) == obj.orgPosY.toFixed(4)){
-                            obj.lock = "0";
-                        }
-                    });
-                    Close.start();
-            }
-
-        },5000);
-
-}
-
 //Fullscreen and Mouse Cursor Grab
 var FullScreenGrab=false;
 function go_fullscreen(){
