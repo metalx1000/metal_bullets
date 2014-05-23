@@ -29,7 +29,7 @@ function Load_Scene(MUSIC){
                 Scene.collisionsEnabled = true;
 
                 preload_sounds();
-                set_collision(["Floor","Wall", "Door", "Enemy"]);
+                Object_Setup(["Floor","Wall", "Door", "Enemy", "Explosion"]);
 
                 Camera.minZ = 1;
                 Camera.checkCollisions = true;
@@ -381,7 +381,7 @@ var Walls = [];
 var Doors = [];
 var Floors = [];
 var Enemies = [];
-function set_collision(str){
+function Object_Setup(str){
             var obj;
             for(var x = 0;x < str.length;x++){
                 for(var i = 0;i<Scene.meshes.length;i++){ 
@@ -398,6 +398,8 @@ function set_collision(str){
                             Floors.push(obj);
                         }else if(str[x] == "Enemy"){
                             Enemies.push(new Load_Enemy(obj));
+                        }else if(str[x] == "Explosion"){
+                           Explosion(obj.position, 20, Math.floor(Math.random() * 6) + 1); 
                         }
 
                         obj.checkCollisions = true;
@@ -476,23 +478,34 @@ function Turret(turret){
 }
 
 
-function Explosion(pos, size){
+function Explosion(pos, size, delay){
     var explode_sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 );
     var explosion = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 192, Scene);
-    explode_sound.play();
-    var Explode = new BABYLON.Sprite("explode", explosion);
-    Explode.playAnimation(0, 64, false, 5);
-    Explode.position = pos;
-    if(size == null){
-        Explode.size = 10;
+
+    if(delay == null){
+        delay = 0;
     }else{
-        Explode.size = size;
+        delay *= 1000;
     }
 
-    var delay=5000;
+    console.log("delay: " + delay);
+
     setTimeout(function(){
-        Explode.dispose();
-    },delay);  
+        var Explode = new BABYLON.Sprite("explode", explosion);
+        explode_sound.play();
+        Explode.playAnimation(0, 64, false, 5);
+        Explode.position = pos;
+        if(size == null){
+            Explode.size = 10;
+        }else{
+            Explode.size = size;
+        }
+        setTimeout(function(){
+            Explode.dispose();
+        },5000);  
+    
+    },delay);
+
 }
 
 function Enemy_Update(){
