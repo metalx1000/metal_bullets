@@ -435,6 +435,11 @@ var Load_Enemy = function(obj){
 
     if(obj.name.indexOf("Turret") > -1){
         Turret(this);
+    }else if(obj.name.indexOf("ProxyDeath") > -1){
+        console.log("Loading Proxy");
+        //Wait for player to get close then explode
+        this.ProxyDeath = true;
+        this.death_type="explosion";
     }
 
     this.shot = function(damage){
@@ -463,6 +468,10 @@ var Load_Enemy = function(obj){
         if(dis < 50 && this.active == false){
             this.active = true;
             console.log("You have been spotted!");
+            if(this.ProxyDeath == true){
+                this.death();
+                this.ProxyDeath = false;
+            }
         }else if(dis > 100 && this.active == true){
             this.active = false;
             console.log("You have escaped!");
