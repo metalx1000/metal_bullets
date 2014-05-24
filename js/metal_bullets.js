@@ -8,9 +8,10 @@ var width = window.innerWidth;
 var height = window.innerHeight;
 
 ////////////////////////////Load Scene/////////////////////////////
-var Scene, Camera, canvas, engine, CrossHair;
+var Scene, Camera, canvas, engine, Player, CrossHair;
 
 function Load_Scene(MUSIC){
+    Player = new Load_Player();
     if (BABYLON.Engine.isSupported()) {
         canvas = document.getElementById("renderCanvas");
         engine = new BABYLON.Engine(canvas, true);
@@ -39,8 +40,7 @@ function Load_Scene(MUSIC){
 
 
                 create_camSensor();
-//                var gun = new BABYLON.Sprite("gun", "../../sprites/weapons/glock/gun.png");
-
+ 
                 activate_controls();
                 FullScreenGrab=true;
 
@@ -399,7 +399,7 @@ function Object_Setup(str){
                         }else if(str[x] == "Enemy"){
                             Enemies.push(new Load_Enemy(obj));
                         }else if(str[x] == "Explosion"){
-                           Explosion(obj.position, 20, Math.floor(Math.random() * 6) + 1); 
+                           Explode = new Explosion(obj.position, 20, Math.floor(Math.random() * 6) + 1); 
                         }
 
                         obj.checkCollisions = true;
@@ -436,7 +436,6 @@ var Load_Enemy = function(obj){
     if(obj.name.indexOf("Turret") > -1){
         Turret(this);
     }else if(obj.name.indexOf("ProxyDeath") > -1){
-        console.log("Loading Proxy");
         //Wait for player to get close then explode
         this.ProxyDeath = true;
         this.death_type="explosion";
@@ -454,7 +453,7 @@ var Load_Enemy = function(obj){
     this.death = function(){
         console.log(this.type + " is dead!!!");
         if(this.death_type=="explosion"){
-            Explosion(obj.position);
+            Explode = new Explosion(obj.position, 50);
         }
         obj.dispose();
     }
@@ -487,17 +486,29 @@ function Turret(turret){
 }
 
 
-function Explosion(pos, size, delay){
+var Explosion = function(pos, size, delay){
     var explode_sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 );
     var explosion = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 192, Scene);
+    this.position = pos;
+
+        if(size == null){
+            size = 10;
+        }
+        
+    this.dis = check_distance(this, Camera);
+    if(this.dis < 50){
+        this.pdamage = 100 - this.dis;
+        this.pdamage = this.pdamage * 0.1 ;
+        console.log("D: " + this.pdamage);
+        Player.damage(this.pdamage);
+    }
+
 
     if(delay == null){
         delay = 0;
     }else{
         delay *= 1000;
     }
-
-    console.log("delay: " + delay);
 
     setTimeout(function(){
         var Explode = new BABYLON.Sprite("explode", explosion);
@@ -714,7 +725,36 @@ function go_fullscreen(){
 }
 
 /////////Player Configs/////////
+var Load_Player = function(health){
+    if(health == null){
+        this.health = 100;
+    }else{
+        this.health = health;
+    }
 
+    this.update = function(){
+        console.log("Health " + this.health);
+
+        if(this.health < 1){
+            this.death();
+        }
+    }
+
+    this.damage = function(hit){   
+        this.health -= hit;
+        this.update();
+    }
+
+    this.med = function(med){
+        this.health += med;
+        this.update();
+        
+    }
+
+    this.death = function(){
+        console.log("Player Died!!!");
+    }
+}
 //jump
 function player_jump(){
             //you would think this would be set to 0
