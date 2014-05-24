@@ -453,7 +453,7 @@ var Load_Enemy = function(obj){
     this.death = function(){
         console.log(this.type + " is dead!!!");
         if(this.death_type=="explosion"){
-            Explode = new Explosion(obj.position, 50);
+            Explode = new Explosion(obj.position, 50, Math.floor(Math.random() * 2) + 1);
         }
         obj.dispose();
     }
@@ -490,19 +490,11 @@ var Explosion = function(pos, size, delay){
     var explode_sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 );
     var explosion = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 192, Scene);
     this.position = pos;
+    me = this;
 
         if(size == null){
-            size = 10;
-        }
-        
-    this.dis = check_distance(this, Camera);
-    if(this.dis < 50){
-        this.pdamage = 100 - this.dis;
-        this.pdamage = this.pdamage * 0.1 ;
-        console.log("D: " + this.pdamage);
-        Player.damage(this.pdamage);
-    }
-
+            var size = 10;
+        }        
 
     if(delay == null){
         delay = 0;
@@ -511,6 +503,14 @@ var Explosion = function(pos, size, delay){
     }
 
     setTimeout(function(){
+        dis = check_distance(me, Camera);
+        if(dis < 50){
+            this.pdamage = 100 - dis;
+            this.pdamage = this.pdamage * 0.1 * (size * .1);
+            Player.damage(this.pdamage);
+        }
+
+
         var Explode = new BABYLON.Sprite("explode", explosion);
         explode_sound.play();
         Explode.playAnimation(0, 64, false, 5);
