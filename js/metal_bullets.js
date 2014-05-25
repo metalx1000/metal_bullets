@@ -319,9 +319,17 @@ function create_music_menu(){
 }
 
 //sounds
-var Sound = function ( sources, radius, volume ) {
+var Sound = function ( sources, obj, volume, radius ) {
 
                 var audio = document.createElement( 'audio' );
+
+                if(volume == null){
+                    volume = 1;
+                }
+
+                if(radius == null){
+                    radius = 100;
+                }
 
                 for ( var i = 0; i < sources.length; i ++ ) {
 
@@ -342,12 +350,12 @@ var Sound = function ( sources, radius, volume ) {
 
                 this.update = function ( camera ) {
 
-                    var distance = this.position.distanceTo( camera.position );
+                    var distance = check_distance( obj, camera );
 
                     if ( distance <= radius ) {
 
                         audio.volume = volume * ( 1 - distance / radius );
-
+                        console.log("volume: " + audio.volume);
                     } else {
 
                         audio.volume = 0;
@@ -381,6 +389,7 @@ var Walls = [];
 var Doors = [];
 var Floors = [];
 var Enemies = [];
+var Sounds = [];
 function Object_Setup(str){
             var obj;
             for(var x = 0;x < str.length;x++){
@@ -435,6 +444,8 @@ var Load_Enemy = function(obj){
 
     if(obj.name.indexOf("Turret") > -1){
         Turret(this);
+    }else if(obj.name.indexOf("Barrel") > -1){
+        Barrel(this);
     }else if(obj.name.indexOf("ProxyDeath") > -1){
         //Wait for player to get close then explode
         this.ProxyDeath = true;
@@ -453,7 +464,7 @@ var Load_Enemy = function(obj){
     this.death = function(){
         console.log(this.type + " is dead!!!");
         if(this.death_type=="explosion"){
-            Explode = new Explosion(obj.position, 50, Math.floor(Math.random() * 2) + 1);
+            Explode = new Explosion(obj.position, this.death_size=10, this.death_delay=0)
         }
         obj.dispose();
     }
@@ -478,19 +489,32 @@ var Load_Enemy = function(obj){
     }
 }
 
-function Turret(turret){
-    turret.type = "Turret";
-    turret.follow = true;
+function Turret(_this){
+    _this.type = "Turret";
+    _this.follow = true;
+    _this.death_type="explosion";
+    _this.death_size=10;
+    _this.death_delay=0;
     
-    turret.death_type="explosion";
+}
+
+function Barrel(_this){
+    _this.type = "Barrel";
+    _this.follow = false;
+    _this.death_type="explosion";
+    _this.death_size=10;
+    _this.death_delay=0;
 }
 
 
+
 var Explosion = function(pos, size, delay){
-    var explode_sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 );
+    //Sounds.push(new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 ));
+    //var s = Sounds.length;
+    this.sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 );
     var explosion = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 192, Scene);
     this.position = pos;
-    me = this;
+    var _this = this;
 
         if(size == null){
             var size = 10;
@@ -502,8 +526,9 @@ var Explosion = function(pos, size, delay){
         delay *= 1000;
     }
 
-    setTimeout(function(){
-        dis = check_distance(me, Camera);
+    
+    this.active = function(){
+        dis = check_distance(this, Camera);
         if(dis < 50){
             this.pdamage = 100 - dis;
             this.pdamage = this.pdamage * 0.1 * (size * .1);
@@ -512,7 +537,8 @@ var Explosion = function(pos, size, delay){
 
 
         var Explode = new BABYLON.Sprite("explode", explosion);
-        explode_sound.play();
+        //Sounds[s].play();
+        this.sound.play();
         Explode.playAnimation(0, 64, false, 5);
         Explode.position = pos;
         if(size == null){
@@ -520,10 +546,15 @@ var Explosion = function(pos, size, delay){
         }else{
             Explode.size = size;
         }
+
         setTimeout(function(){
             Explode.dispose();
         },5000);  
-    
+    }
+
+    setTimeout(function(){ 
+        console.log(delay);
+        _this.active();
     },delay);
 
 }
