@@ -408,7 +408,7 @@ function Object_Setup(str){
                         }else if(str[x] == "Enemy"){
                             Enemies.push(new Load_Enemy(obj));
                         }else if(str[x] == "Explosion"){
-                           Explode = new Explosion(obj.position, 20, Math.floor(Math.random() * 6) + 1); 
+                           Explode = new Explosion(obj, 20, Math.floor(Math.random() * 6) + 1); 
                         }
 
                         obj.checkCollisions = true;
@@ -431,6 +431,7 @@ var Load_Enemy = function(obj){
     this.mesh = obj;
     obj.shootable = true;
     obj.enemy = this;
+    this.dead = false;
 
     //get enemy health
     this.health = 10;
@@ -454,20 +455,19 @@ var Load_Enemy = function(obj){
 
     this.damage = function(damage){
         this.health -= damage;
-        console.log(this.type + " has been hit!!!");
-        console.log(this.type + " health is " + this.health);
+//        console.log(this.mesh.name + " has been hit!!!");
+        console.log(this.mesh.name + " health is " + this.health);
         if(this.health < 1){
             this.death();
         }
     }
 
     this.death = function(){
-        console.log(this.type + " is dead!!!");
+        this.dead = true;
+        console.log(this.mesh.name + " is dead!!!");
         if(this.death_type=="explosion"){
-            Explode = new Explosion(obj.position, this.death_size, this.death_delay)
+            Explode = new Explosion(obj, this.death_size, this.death_delay)
         }
-        this.mesh.dispose();
-        Enemies.splice(this.index,1);
     }
 
     this.update = function(){
@@ -519,12 +519,14 @@ function Barrel(_this){
 
 
 
-var Explosion = function(pos, size, delay){
+var Explosion = function(obj, size, delay){
+    this.mesh = obj;
     Sounds.push(new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 ));
     var s = Sounds.length - 1;
 //    this.sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 );
     var explosion = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 192, Scene);
-    this.position = pos;
+    this.position = obj.position;
+    var pos = obj.position;
     var _this = this;
 
         if(size == null){
@@ -548,16 +550,17 @@ var Explosion = function(pos, size, delay){
 
         for(var i = 0;i<Enemies.length;i++){
             dis = check_distance(this, Enemies[i].mesh);
-            if(dis < 5){
-                this.pdamage = 100 - dis;
-                this.pdamage = this.pdamage * 0.1 * (size * .1);
-                //Enemies[i].damage(this.pdamage);//if this line is uncommented the whole level explodes and games crashes
-            console.log(dis);
-                
+            if(Enemies[i].mesh != this.mesh && Enemies[i].dead == false && dis < 15){ 
+            console.log("Distance is " + dis);
+                    var pdamage = 100 - dis;
+                    pdamage = this.pdamage * 0.5 * (size * .1);
+                    console.log(Enemies[i].mesh.name + " hit with damage of " + this.pdamage);
+                    Enemies[i].death_delay = Math.floor(Math.random() * 3) * 0.5 ; 
+                    Enemies[i].damage(pdamage);//if this line is uncommented the whole level explodes and games crashes
             }
 
         }
-
+        obj.dispose();
         var Explode = new BABYLON.Sprite("explode", explosion);
         Sounds[s].play();
         //this.sound.play();
