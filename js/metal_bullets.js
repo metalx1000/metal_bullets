@@ -449,8 +449,7 @@ var Load_Enemy = function(obj){
         Barrel(this);
     }else if(obj.name.indexOf("ProxyDeath") > -1){
         //Wait for player to get close then explode
-        this.ProxyDeath = true;
-        this.death_type="explosion";
+        ProxyDeath(this);
     }
 
     this.damage = function(damage){
@@ -465,7 +464,7 @@ var Load_Enemy = function(obj){
     this.death = function(){
         console.log(this.type + " is dead!!!");
         if(this.death_type=="explosion"){
-            Explode = new Explosion(obj.position, this.death_size=10, this.death_delay=0)
+            Explode = new Explosion(obj.position, this.death_size, this.death_delay)
         }
         this.mesh.dispose();
         Enemies.splice(this.index,1);
@@ -498,6 +497,16 @@ function Turret(_this){
     _this.death_size=10;
     _this.death_delay=0;
     
+}
+
+function ProxyDeath(_this){
+    _this.type = "ProxyDeath";
+    _this.follow = true;
+    _this.death_type = "explosion";
+    _this.death_size = 30;
+    _this.death_delay = Math.floor(Math.random() * 3) + 1;
+    _this.ProxyDeath = true;
+    _this.death_type = "explosion";
 }
 
 function Barrel(_this){
