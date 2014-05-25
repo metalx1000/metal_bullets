@@ -426,7 +426,7 @@ function Object_Setup(str){
 //Enemy settings
 var Load_Enemy = function(obj){
     Enemies.push(this);
-    this.index = Enemies.length;
+    this.index = Enemies.length - 1;
     this.active = false;
     this.mesh = obj;
     obj.shootable = true;
@@ -511,9 +511,9 @@ function Barrel(_this){
 
 
 var Explosion = function(pos, size, delay){
-    //Sounds.push(new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 ));
-    //var s = Sounds.length;
-    this.sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 );
+    Sounds.push(new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 ));
+    var s = Sounds.length - 1;
+//    this.sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 );
     var explosion = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 192, Scene);
     this.position = pos;
     var _this = this;
@@ -550,8 +550,8 @@ var Explosion = function(pos, size, delay){
         }
 
         var Explode = new BABYLON.Sprite("explode", explosion);
-        //Sounds[s].play();
-        this.sound.play();
+        Sounds[s].play();
+        //this.sound.play();
         Explode.playAnimation(0, 64, false, 5);
         Explode.position = pos;
         if(size == null){
