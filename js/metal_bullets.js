@@ -426,6 +426,7 @@ function Object_Setup(str){
 //Enemy settings
 var Load_Enemy = function(obj){
     Enemies.push(this);
+    this.index = Enemies.length;
     this.active = false;
     this.mesh = obj;
     obj.shootable = true;
@@ -452,9 +453,9 @@ var Load_Enemy = function(obj){
         this.death_type="explosion";
     }
 
-    this.shot = function(damage){
+    this.damage = function(damage){
         this.health -= damage;
-        console.log(this.type + " has been shot!!!");
+        console.log(this.type + " has been hit!!!");
         console.log(this.type + " health is " + this.health);
         if(this.health < 1){
             this.death();
@@ -466,7 +467,8 @@ var Load_Enemy = function(obj){
         if(this.death_type=="explosion"){
             Explode = new Explosion(obj.position, this.death_size=10, this.death_delay=0)
         }
-        obj.dispose();
+        this.mesh.dispose();
+        Enemies.splice(this.index,1);
     }
 
     this.update = function(){
@@ -535,6 +537,17 @@ var Explosion = function(pos, size, delay){
             Player.damage(this.pdamage);
         }
 
+        for(var i = 0;i<Enemies.length;i++){
+            dis = check_distance(this, Enemies[i].mesh);
+            if(dis < 5){
+                this.pdamage = 100 - dis;
+                this.pdamage = this.pdamage * 0.1 * (size * .1);
+                //Enemies[i].damage(this.pdamage);//if this line is uncommented the whole level explodes and games crashes
+            console.log(dis);
+                
+            }
+
+        }
 
         var Explode = new BABYLON.Sprite("explode", explosion);
         //Sounds[s].play();
@@ -575,7 +588,7 @@ function Shot(){
     console.log(active.pickedMesh);
     if(active.pickedMesh != null && active.pickedMesh.shootable == true){
             var enemy = active.pickedMesh.enemy;
-            enemy.shot(10);
+            enemy.damage(10);
     }
 }
 
