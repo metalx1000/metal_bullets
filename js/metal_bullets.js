@@ -504,7 +504,7 @@ var Load_Enemy = function(obj){
             }
 
             if(this.physics == false){
-                this.physics_activate(true);
+                //this.physics_activate(true);
             }
         }else if(dis > 100 && this.active == true){
             this.active = false;
