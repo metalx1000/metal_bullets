@@ -98,7 +98,6 @@ function set_keys(){
     window.addEventListener("keydown", function (event) {
         //console.log(event); //uncomment to test key value
         if (event.keyCode === 32) {
-            console.log("box");
             //"Space as activate key"
             Activate();
         }else if (event.keyCode === 27) {
@@ -462,7 +461,7 @@ var Load_Enemy = function(obj){
     this.damage = function(damage){
         this.health -= damage;
 //        console.log(this.mesh.name + " has been hit!!!");
-        console.log(this.mesh.name + " health is " + this.health);
+//        console.log(this.mesh.name + " health is " + this.health);
         
         if(this.health < 1){
             this.death();
@@ -505,7 +504,7 @@ var Load_Enemy = function(obj){
         var dis = check_distance(obj, Camera);
         if(dis < 50 && this.active == false){
             this.active = true;
-            console.log("You have been spotted!");
+            //console.log("You have been spotted!");
             if(this.ProxyDeath == true){
                 this.death();
                 this.ProxyDeath = false;
@@ -516,7 +515,7 @@ var Load_Enemy = function(obj){
             }
         }else if(dis > 100 && this.active == true){
             this.active = false;
-            console.log("You have escaped!");
+            //console.log("You have escaped!");
         }
     }
 }
@@ -591,11 +590,11 @@ var Explosion = function(obj, size, delay){
             dis = Math.round( dis );
             if(Enemies[i].mesh != this.mesh && Enemies[i].dead == false && dis < 5){ 
             
-            console.log("Distance is " + dis);
+            //console.log("Distance is " + dis);
                     var damage = 100 - dis;
                     damage = damage * 0.5 * (size * .1);
                     damage = Math.round( damage );
-                    console.log(Enemies[i].mesh.name + " hit with damage of " + damage);
+                    //console.log(Enemies[i].mesh.name + " hit with damage of " + damage);
                     Enemies[i].death_delay = Math.floor(Math.random() * 6) * 0.5 ; 
                     Enemies[i].damage(damage);//if this line is uncommented the whole level explodes and games crashes
             }
@@ -638,7 +637,7 @@ function Shot(){
     
     var active = Scene.pick(x,y);
 //    console.log("Height/Width : " + height + "/" + width);
-    console.log("y/x : " + y + "/" + x);
+    //console.log("y/x : " + y + "/" + x);
 //    console.log(active.pickedMesh.name);
     if(active.pickedMesh != null && active.pickedMesh.shootable == true){
             var enemy = active.pickedMesh.enemy;
@@ -920,7 +919,7 @@ function check_camSensor(){
 
 var camSensor;
 function create_camSensor(){
-    console.log("creating camSensor");
+    //console.log("creating camSensor");
     // create sensor mesh  - parent to  camera
     camSensor = new BABYLON.Mesh.CreateBox("sensor", 1, Scene);
     camSensor.material = new BABYLON.StandardMaterial("camMat", Scene);
