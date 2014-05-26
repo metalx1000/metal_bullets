@@ -486,6 +486,11 @@ var Load_Enemy = function(obj){
                     mass: this.mass,
                     friction: this.friction,
                     restitution: this.restitution });
+            var _this = this;
+            setTimeout(function(){
+                //console.log(_this.mesh.name + " Physics disabled!");
+                _this.mesh.setPhysicsState({});
+            },10000)
         }
     }
 
