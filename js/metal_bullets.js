@@ -460,9 +460,15 @@ var Load_Enemy = function(obj){
         this.health -= damage;
 //        console.log(this.mesh.name + " has been hit!!!");
         console.log(this.mesh.name + " health is " + this.health);
+        
         if(this.health < 1){
             this.death();
         }
+
+        if(this.physics == false){
+            this.physics_activate(true);
+        }
+
     }
 
     this.death = function(){
@@ -470,6 +476,16 @@ var Load_Enemy = function(obj){
         console.log(this.mesh.name + " is dead!!!");
         if(this.death_type=="explosion"){
             Explode = new Explosion(obj, this.death_size, this.death_delay)
+        }
+    }
+
+    this.physics_activate = function(on){
+        if(on == true){
+                this.mesh.setPhysicsState({
+                    impostor: BABYLON.PhysicsEngine.BoxImpostor,
+                    mass: this.mass,
+                    friction: this.friction,
+                    restitution: this.restitution });
         }
     }
 
@@ -488,11 +504,7 @@ var Load_Enemy = function(obj){
             }
 
             if(this.physics == false){
-                this.mesh.setPhysicsState({ 
-                    impostor: BABYLON.PhysicsEngine.BoxImpostor, 
-                    mass: this.mass, 
-                    friction: this.friction, 
-                    restitution: this.restitution });
+                this.physics_activate(true);
             }
         }else if(dis > 100 && this.active == true){
             this.active = false;
