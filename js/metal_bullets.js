@@ -586,7 +586,7 @@ var Explosion = function(obj, size, delay){
         for(var i = 0;i<Enemies.length;i++){
             var dis = check_distance(this, Enemies[i].mesh);
             dis = Math.round( dis );
-            if(Enemies[i].mesh != this.mesh && Enemies[i].dead == false && dis < 15){ 
+            if(Enemies[i].mesh != this.mesh && Enemies[i].dead == false && dis < 5){ 
             
             console.log("Distance is " + dis);
                     var damage = 100 - dis;
