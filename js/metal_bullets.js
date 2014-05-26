@@ -630,9 +630,9 @@ function Enemy_Update(){
 
 //check if shot
 function Shot(){
-    var x = window.innerWidth * 0.5;
-    var y = window.innerHeight * 0.5;
-
+    var x = Math.round(window.innerWidth * 0.5);
+    var y = Math.round(window.innerHeight * 0.5);
+    
     var active = Scene.pick(x,y);
     console.log("Height/Width : " + height + "/" + width);
     console.log("y/x : " + y + "/" + x);
