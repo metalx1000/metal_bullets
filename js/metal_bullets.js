@@ -486,6 +486,14 @@ var Load_Enemy = function(obj){
                 this.death();
                 this.ProxyDeath = false;
             }
+
+            if(this.physics == false){
+                this.mesh.setPhysicsState({ 
+                    impostor: BABYLON.PhysicsEngine.BoxImpostor, 
+                    mass: this.mass, 
+                    friction: this.friction, 
+                    restitution: this.restitution });
+            }
         }else if(dis > 100 && this.active == true){
             this.active = false;
             console.log("You have escaped!");
@@ -514,11 +522,15 @@ function ProxyDeath(_this){
 
 function Barrel(_this){
     _this.type = "Barrel";
+    _this.active = false;
     _this.follow = false;
     _this.death_type="explosion";
     _this.death_size=10;
     _this.death_delay=0;
-    _this.mesh.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 5, friction: 1, restitution: 0 });
+    _this.mass = 5;
+    _this.friction = 1;
+    _this.restitution = 0;
+    _this.physics = false;
 }
 
 
