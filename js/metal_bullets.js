@@ -404,6 +404,7 @@ function Object_Setup(str){
                             Doors.push(new Load_Door(obj));
                         }else if(str[x] == "Floor"){
                             obj.Floor = true;
+                            obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
                             Floors.push(obj);
                         }else if(str[x] == "Enemy"){
                             Enemies.push(new Load_Enemy(obj));
@@ -597,7 +598,7 @@ function Shot(){
 
     var active = Scene.pick(width*0.5,height*0.5);
 //    console.log(active.pickedMesh);
-    console.log(active.pickedMesh);
+    console.log(active.pickedMesh.name);
     if(active.pickedMesh != null && active.pickedMesh.shootable == true){
             var enemy = active.pickedMesh.enemy;
             enemy.damage(10);
@@ -695,6 +696,7 @@ var Load_Door = function(obj){
             Open = new TWEEN.Tween({y: obj.position.y})
             .to({ y: obj.Floor }, 1000)
             .onUpdate( function(){
+                //obj.translate(BABYLON.Axis.Y, -0.2, BABYLON.Space.WORLD);
                 obj.position.y=this.y;
             });
     
@@ -712,6 +714,7 @@ var Load_Door = function(obj){
                         Close = new TWEEN.Tween({y: obj.position.y})
                         .to({ y: obj.orgPosY}, 1000)
                         .onUpdate( function(){
+                            //obj.translate(BABYLON.Axis.Y, 0.2, BABYLON.Space.WORLD);
                             obj.position.y=this.y;
                             if(obj.position.y.toFixed(4) == obj.orgPosY.toFixed(4)){
                                 obj.lock = "0";
