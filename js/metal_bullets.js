@@ -575,9 +575,11 @@ var Explosion = function(obj, size, delay){
     
     this.active = function(){
         var pdis = check_distance(this, Camera);
-        if(pdis < 50){
+        if(pdis < 25){
             var pdamage = 100 - pdis;
-            pdamage = pdamage * 0.05 * (size * .1);
+            pdamage = Math.round(pdamage);
+            pdamage = pdamage * 0.2 * (size * .1);
+            pdamage = Math.round(pdamage);
             Player.damage(pdamage);
         }
 
@@ -614,7 +616,7 @@ var Explosion = function(obj, size, delay){
     }
 
     setTimeout(function(){ 
-        console.log(delay);
+        //console.log(delay);
         _this.active();
     },delay);
 
