@@ -406,7 +406,7 @@ function Object_Setup(str){
                             //obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
                         }else if(str[x] == "Floor"){
                             obj.Floor = true;
-                            obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 1, restitution: 0 });
+                            obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.7, restitution: 0.7 });
                             Floors.push(obj);
                         }else if(str[x] == "Enemy"){
                             Enemies.push(new Load_Enemy(obj));
@@ -574,22 +574,25 @@ var Explosion = function(obj, size, delay){
 
     
     this.active = function(){
-        dis = check_distance(this, Camera);
-        if(dis < 50){
-            this.pdamage = 100 - dis;
-            this.pdamage = this.pdamage * 0.1 * (size * .1);
-            Player.damage(this.pdamage);
+        var pdis = check_distance(this, Camera);
+        if(pdis < 50){
+            var pdamage = 100 - pdis;
+            pdamage = pdamage * 0.05 * (size * .1);
+            Player.damage(pdamage);
         }
 
         for(var i = 0;i<Enemies.length;i++){
-            dis = check_distance(this, Enemies[i].mesh);
+            var dis = check_distance(this, Enemies[i].mesh);
+            dis = Math.round( dis );
             if(Enemies[i].mesh != this.mesh && Enemies[i].dead == false && dis < 15){ 
+            
             console.log("Distance is " + dis);
-                    var pdamage = 100 - dis;
-                    pdamage = this.pdamage * 0.5 * (size * .1);
-                    console.log(Enemies[i].mesh.name + " hit with damage of " + this.pdamage);
-                    Enemies[i].death_delay = Math.floor(Math.random() * 3) * 0.5 ; 
-                    Enemies[i].damage(pdamage);//if this line is uncommented the whole level explodes and games crashes
+                    var damage = 100 - dis;
+                    damage = damage * 0.5 * (size * .1);
+                    damage = Math.round( damage );
+                    console.log(Enemies[i].mesh.name + " hit with damage of " + damage);
+                    Enemies[i].death_delay = Math.floor(Math.random() * 6) * 0.5 ; 
+                    Enemies[i].damage(damage);//if this line is uncommented the whole level explodes and games crashes
             }
 
         }
