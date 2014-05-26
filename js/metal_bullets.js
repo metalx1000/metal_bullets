@@ -4,8 +4,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-var width = window.innerWidth;
-var height = window.innerHeight;
+//var width = window.innerWidth;
+//var height = window.innerHeight;
 
 ////////////////////////////Load Scene/////////////////////////////
 var Scene, Camera, canvas, engine, Player, CrossHair;
@@ -15,6 +15,9 @@ function Load_Scene(MAP, MUSIC){
     if (BABYLON.Engine.isSupported()) {
         canvas = document.getElementById("renderCanvas");
         engine = new BABYLON.Engine(canvas, true);
+
+        var width = engine.getRenderWidth();
+        var height = engine.getRenderHeight();
 
         BABYLON.SceneLoader.Load("", MAP, engine, function (newScene) {
             Scene = newScene;
@@ -162,8 +165,8 @@ window.addEventListener('contextmenu', function (event) {
 //resize Render Window on window resize
 window.addEventListener("resize", function () {
   engine.resize();
-  width = window.innerWidth;
-  height = window.innerHeight;
+  width = engine.getRenderWidth();
+  height = engine.getRenderHeight();
 
 });
 
@@ -630,11 +633,11 @@ function Enemy_Update(){
 
 //check if shot
 function Shot(){
-    var x = Math.round(window.innerWidth * 0.5);
-    var y = Math.round(window.innerHeight * 0.5);
+    var x = Math.round(engine.getRenderWidth() * 0.5);
+    var y = Math.round(engine.getRenderHeight() * 0.5);
     
     var active = Scene.pick(x,y);
-    console.log("Height/Width : " + height + "/" + width);
+//    console.log("Height/Width : " + height + "/" + width);
     console.log("y/x : " + y + "/" + x);
 //    console.log(active.pickedMesh.name);
     if(active.pickedMesh != null && active.pickedMesh.shootable == true){
