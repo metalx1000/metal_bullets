@@ -625,12 +625,13 @@ function Enemy_Update(){
 
 //check if shot
 function Shot(){
-    width = window.innerWidth;
-    height = window.innerHeight;
+    var x = window.innerWidth * 0.5;
+    var y = window.innerHeight * 0.5;
 
-    var active = Scene.pick(width*0.5,height*0.5);
-//    console.log(active.pickedMesh);
-    console.log(active.pickedMesh.name);
+    var active = Scene.pick(x,y);
+    console.log("Height/Width : " + height + "/" + width);
+    console.log("y/x : " + y + "/" + x);
+//    console.log(active.pickedMesh.name);
     if(active.pickedMesh != null && active.pickedMesh.shootable == true){
             var enemy = active.pickedMesh.enemy;
             enemy.damage(10);
