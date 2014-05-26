@@ -397,11 +397,13 @@ function Object_Setup(str){
                     obj = Scene.meshes[i];
                     if(obj.name.indexOf(str[x]) > -1){
                         if(str[x] == "Wall"){
-                  //          obj.Wall = true;
+                            obj.Wall = true;
                             Walls.push(obj);
+//                            obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0 });
                         }else if(str[x] == "Door"){
                             obj.Door = true;
                             Doors.push(new Load_Door(obj));
+                            //obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
                         }else if(str[x] == "Floor"){
                             obj.Floor = true;
                             obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
@@ -516,6 +518,7 @@ function Barrel(_this){
     _this.death_type="explosion";
     _this.death_size=10;
     _this.death_delay=0;
+    _this.mesh.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.5, restitution: 0 });
 }
 
 
@@ -887,5 +890,6 @@ function create_camSensor(){
     camSensor.material.wireframe = true;
     camSensor.scaling = new BABYLON.Vector3(1, 2, 1);
     camSensor.position = Camera.position;
+//    camSensor.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 5, friction: 0.5, restitution: 0 });
     //camSensor.parent = Camera;
 }
