@@ -10,13 +10,13 @@ var height = window.innerHeight;
 ////////////////////////////Load Scene/////////////////////////////
 var Scene, Camera, canvas, engine, Player, CrossHair;
 
-function Load_Scene(MUSIC){
+function Load_Scene(MAP, MUSIC){
     Player = new Load_Player();
     if (BABYLON.Engine.isSupported()) {
         canvas = document.getElementById("renderCanvas");
         engine = new BABYLON.Engine(canvas, true);
 
-        BABYLON.SceneLoader.Load("", "scene.babylon", engine, function (newScene) {
+        BABYLON.SceneLoader.Load("", MAP, engine, function (newScene) {
             Scene = newScene;
             // Wait for textures and shaders to be ready
             Scene.executeWhenReady(function () {
