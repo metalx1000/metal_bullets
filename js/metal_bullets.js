@@ -406,7 +406,7 @@ function Object_Setup(str){
                             //obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
                         }else if(str[x] == "Floor"){
                             obj.Floor = true;
-                            obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
+                            obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 1, restitution: 0 });
                             Floors.push(obj);
                         }else if(str[x] == "Enemy"){
                             Enemies.push(new Load_Enemy(obj));
@@ -518,7 +518,7 @@ function Barrel(_this){
     _this.death_type="explosion";
     _this.death_size=10;
     _this.death_delay=0;
-    _this.mesh.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.5, restitution: 0 });
+    _this.mesh.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 5, friction: 1, restitution: 0 });
 }
 
 
