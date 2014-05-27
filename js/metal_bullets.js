@@ -65,6 +65,7 @@ function Load_Scene(MAP, MUSIC){
                     TWEEN.update();
                     check_camSensor();
                     Enemy_Update();
+                    Player.update();
                 });
             });
         }, function (progress) {
@@ -833,7 +834,9 @@ var Load_Player = function(health){
 
     this.update = function(){
         console.log("Health " + this.health);
-
+        
+        var hud_health = document.getElementById("health");
+        hud_health.innerHTML = "Health: " + this.health;
         if(this.health < 1){
             this.death();
         }
