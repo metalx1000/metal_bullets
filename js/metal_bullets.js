@@ -489,7 +489,9 @@ var Load_Enemy = function(obj){
         if(this.death_type=="explosion"){
             Explode = new Explosion(obj, this.death_size, this.death_delay)
         }
+        //this.mesh.dispose();//This line stops click of items not working, but barrel death does not look as good
     }
+    
 
     this.physics_activate = function(on){
         if(on == true){
@@ -604,7 +606,7 @@ var Explosion = function(obj, size, delay){
             }
 
         }
-        obj.dispose();
+        obj.dispose();//This is the line that cause object to not work correctly
         var Explode = new BABYLON.Sprite("explode", explosion);
         Sounds[s].play();
         //this.sound.play();
@@ -924,7 +926,6 @@ function check_camSensor(){
 
         for(var i=0;i<Items.length;i++){
             obj = Items[i];
-            console.log("check");
             if(camSensor.intersectsMesh(obj.mesh)){
                 Touch_Sensor = 1;
                 setTimeout(function(){ Touch_Sensor = 0; },100); //wait for touch_sensor to reactivate
