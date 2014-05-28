@@ -393,6 +393,7 @@ var Doors = [];
 var Floors = [];
 var Enemies = [];
 var Sounds = [];
+var Items = [];
 function Object_Setup(str){
             var obj;
             for(var x = 0;x < str.length;x++){
@@ -416,15 +417,22 @@ function Object_Setup(str){
                         }else if(str[x] == "Explosion"){
                            Explode = new Explosion(obj, 20, Math.floor(Math.random() * 6) + 1); 
                         }
-
                         obj.checkCollisions = true;
+
                     }else if (obj.name.indexOf("Teleporter") > -1){
                         obj = Scene.meshes[i];
                         Teleporters.push(obj);
                         obj.Teleporter = true;
                         objarray = obj.name.split(".");
                         obj.pos = objarray[1];
-                    }
+                    }else if(obj.name.indexOf("Item") > -1){
+                            if(obj.name.indexOf("HealthPack") > -1){
+                            console.log("test"); 
+                                Items.push(new Load_Item(obj));
+                            }
+                        }
+
+
                 }
             }
 }
@@ -833,7 +841,7 @@ var Load_Player = function(health){
     }
 
     this.update = function(){
-        console.log("Health " + this.health);
+//        console.log("Health " + this.health);
         
         var hud_health = document.getElementById("health");
         hud_health.innerHTML = "Health: " + this.health;
@@ -846,8 +854,9 @@ var Load_Player = function(health){
         this.health -= hit;
         this.update();
     }
-
+    
     this.med = function(med){
+        med = parseInt(med);
         this.health += med;
         this.update();
         
@@ -917,6 +926,21 @@ function check_camSensor(){
                 break;
             }
         }
+
+        for(var i=0;i<Items.length;i++){
+            obj = Items[i];
+            console.log("check");
+            if(camSensor.intersectsMesh(obj.mesh)){
+                Touch_Sensor = 1;
+                setTimeout(function(){ Touch_Sensor = 0; },100); //wait for touch_sensor to reactivate
+                if(obj.type == "HealthPack" && obj.active == true){
+                    obj.active = false;
+                    obj.mesh.dispose();
+                    Player.med(obj.health);
+                }
+                    break;
+            }
+        }
     }
 }
 
@@ -932,4 +956,31 @@ function create_camSensor(){
     camSensor.position = Camera.position;
 //    camSensor.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 5, friction: 0.5, restitution: 0 });
     //camSensor.parent = Camera;
+}
+
+//items
+
+var Load_Item = function(item){
+    this.index = Enemies.length - 1;
+    this.active = true;
+    this.mesh = item;
+    if(item.name.indexOf("HealthPack") > -1){
+        //if it's a HealthPack
+        HealthPack(this);
+    }
+}
+
+function HealthPack(_this){
+    _this.health = 25;
+    _this.type = "HealthPack";
+    obj = _this.mesh;
+    HL = obj.name.split(".");
+    for(i =0; i < HL.length;i++){
+        if(HL[i].indexOf("HL-") > -1){
+            H = HL[i].split("-");
+            _this.health = H[1];
+            break;
+        }
+    }
+    
 }
