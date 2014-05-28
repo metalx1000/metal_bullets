@@ -81,6 +81,7 @@ function Load_Scene(MAP, MUSIC){
         });
     }
 
+
 }
 ////////////////Controls///////////////////////////
 function activate_controls(){
@@ -519,12 +520,6 @@ var Load_Enemy = function(obj){
                 this.ProxyDeath = false;
             }
 
-            if(this.physics == false){
-                //this.physics_activate(true);
-            }
-        }else if(dis > 100 && this.active == true){
-            this.active = false;
-            //console.log("You have escaped!");
         }
     }
 }
@@ -589,7 +584,7 @@ var Explosion = function(obj, size, delay){
         if(pdis < 25){
             var pdamage = 100 - pdis;
             pdamage = Math.round(pdamage);
-            pdamage = pdamage * 0.2 * (size * .1);
+            pdamage = pdamage * 0.1 * (size * .1);
             pdamage = Math.round(pdamage);
             Player.damage(pdamage);
         }
