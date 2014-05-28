@@ -975,3 +975,20 @@ function HealthPack(_this){
     }
     
 }
+
+//HTML Elements/HUD
+//get body
+var html_body = document.getElementsByTagName('body')[0];
+
+//basic html setup for game
+var HTML_HUD ='\
+<div id="hud" class="hud">\
+    <div id="health" class="hud"></div>\
+    <div id="ammo" class="hud">Ammo: 100</div>\
+</div>\
+\
+<div id="crosshairs"><img src="../../sprites/crosshairs/crosshair_1.png"></div>\
+'
+
+html_body.innerHTML += HTML_HUD;
+
