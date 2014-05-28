@@ -324,9 +324,11 @@ function create_music_menu(){
 }
 
 //sounds
+var sound_num = 0;
 var Sound = function ( sources, obj, volume, radius ) {
 
                 var audio = document.createElement( 'audio' );
+
                 if(volume == null){
                     volume = 1;
                 }
@@ -347,10 +349,19 @@ var Sound = function ( sources, obj, volume, radius ) {
 //                this.position = new THREE.Vector3();
 
                 this.play = function () {
+                    sound_num += 1;
+                    if(sound_num <= 25){
+                        audio.play();
+                    }
 
-                    audio.play();
-
+                    setTimeout(function(){
+                        sound_num -= 1;
+                        if(sound_num < 0){
+                            sound_num = 0;
+                        }
+                    },1000);
                 }
+
 
                 this.update = function ( camera ) {
 
@@ -358,7 +369,7 @@ var Sound = function ( sources, obj, volume, radius ) {
                     if ( distance <= radius ) {
 
                         audio.volume = volume * ( 1 - distance / radius );
-                        console.log("volume: " + audio.volume);
+//                        console.log("volume: " + audio.volume);
                     } else {
 
                         audio.volume = 0;
