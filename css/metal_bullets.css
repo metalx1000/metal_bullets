@@ -36,7 +36,7 @@
     background-color:rgb(255,0,0);
 }
 
-#health{
+#hud{
     position: absolute;
     left: 0px;
     top: 0px;
