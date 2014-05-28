@@ -32,7 +32,6 @@ function Load_Scene(MAP, MUSIC){
                 Scene.gravity = new BABYLON.Vector3(0, -1, 0);
                 Scene.collisionsEnabled = true;
 
-                preload_sounds();
                 Object_Setup(["Floor","Wall", "Door", "Enemy", "Explosion"]);
 
                 Camera.minZ = 1;
@@ -382,11 +381,6 @@ function Activate(){
 
 }
 
-function preload_sounds(){
-    Sound( [ '../../sounds/weapons/gun1.wav' ], 275, 1 );
-    Sound( [ '../../sounds/teleporter.wav' ], 275, 1 );
-    Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
-}
 //setup collision on wall, floors, etc
 var Teleporters = [];
 var Walls = [];
