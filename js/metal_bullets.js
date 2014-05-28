@@ -65,6 +65,7 @@ function Load_Scene(MAP, MUSIC){
                     check_camSensor();
                     Enemy_Update();
                     Player.update();
+                    Sounds_Update();
                 });
             });
         }, function (progress) {
@@ -326,7 +327,6 @@ function create_music_menu(){
 var Sound = function ( sources, obj, volume, radius ) {
 
                 var audio = document.createElement( 'audio' );
-
                 if(volume == null){
                     volume = 1;
                 }
@@ -354,8 +354,7 @@ var Sound = function ( sources, obj, volume, radius ) {
 
                 this.update = function ( camera ) {
 
-                    var distance = check_distance( obj, camera );
-
+                    var distance = check_distance( obj, Camera );
                     if ( distance <= radius ) {
 
                         audio.volume = volume * ( 1 - distance / radius );
@@ -370,6 +369,11 @@ var Sound = function ( sources, obj, volume, radius ) {
 
 }
 
+function Sounds_Update(){
+    for(var i = 0; i < Sounds.length; i++){
+        Sounds[i].update();
+    }   
+}
 //////////////////////////World Settings/////////////////
 var postProcess;
 function Activate(){
@@ -557,8 +561,8 @@ function Barrel(_this){
 
 var Explosion = function(obj, size, delay){
     this.mesh = obj;
-    Sounds.push(new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 ));
-    var s = Sounds.length - 1;
+    this.sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], obj, 1, 200 );
+    Sounds.push(this.sound);
 //    this.sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 );
     var explosion = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 192, Scene);
     this.position = obj.position;
@@ -603,7 +607,7 @@ var Explosion = function(obj, size, delay){
         }
         obj.dispose();//This is the line that cause object to not work correctly
         var Explode = new BABYLON.Sprite("explode", explosion);
-        Sounds[s].play();
+        this.sound.play();
         //this.sound.play();
         Explode.playAnimation(0, 64, false, 5);
         Explode.position = pos;
