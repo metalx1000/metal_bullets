@@ -8,7 +8,7 @@
 //var height = window.innerHeight;
 
 ////////////////////////////Load Scene/////////////////////////////
-var Scene, Camera, canvas, engine, Player, CrossHair;
+var Scene, Camera, canvas, engine, Player;
 
 function Load_Scene(MAP, MUSIC){
     Player = new Load_Player();
@@ -119,7 +119,7 @@ function set_keys(){
             list_mesh();
         }else if (event.keyCode === 73) {
             //lists all mesh when 'l' is pressed
-            CrossHair = new Load_Crosshair();
+            Crosshair();
         }
 
 
@@ -652,19 +652,14 @@ function Shot(){
 }
 
 //Crosshair
-function Load_Crosshair(){
-    console.log("Loading Crosshair");
-    var Crosshair = BABYLON.Mesh.CreateBox("Cross", 0.05, Scene);
-//    var crosshair = new BABYLON.SpriteManager("Crosshair", "../../sprites/crosshairs/crosshair_1.png", 1, 16, Scene);
-//    var Crosshair = new BABYLON.Sprite("crosshair", crosshair);
-    Crosshair.parent = Camera;
-    Crosshair.position.x = 0;
-    Crosshair.position.y = 0;
-    Crosshair.position.z = 2;
-
-//    Crosshair.position = Camera.position.add(new BABYLON.Vector3(0, 0, 5));
-//    Crosshair.size = 5;
-
+function Crosshair(){
+    if(crosshairs == true){
+        crosshairs = false;
+        document.getElementById("crosshairs").style.visibility="hidden";
+    }else{
+        crosshairs = true;
+        document.getElementById("crosshairs").style.visibility="visible";
+    }
 }
 
 //lists all meshes in scene
