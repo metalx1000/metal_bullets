@@ -46,15 +46,10 @@
 }
 
 #crosshairs{
-    width: 100px;
-    height: 100px;
-
-    position: absolute;
-    top:0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-    margin: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -8px;
+  margin-left: -8px;
 }
         
