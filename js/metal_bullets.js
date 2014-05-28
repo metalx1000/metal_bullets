@@ -979,6 +979,7 @@ var HTML_HUD ='\
 <div id="hud" class="hud">\
     <div id="health" class="hud"></div>\
     <div id="ammo" class="hud">Ammo: 100</div>\
+    <div id="bugs" class="hud">Current Known Bugs:</div>\
 </div>\
 \
 <div id="crosshairs"><img src="../../sprites/crosshairs/crosshair_1.png"></div>\
@@ -986,3 +987,5 @@ var HTML_HUD ='\
 
 html_body.innerHTML += HTML_HUD;
 
+var BUGS = document.getElementById('bugs');
+BUGS.innerHTML += "<br>After a lot of explosions items such as Healthpacks and Teleporters Stop Working.";

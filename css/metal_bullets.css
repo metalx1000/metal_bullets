@@ -44,6 +44,11 @@
     color: green;
 
 }
+#bugs{
+    position: fixed;
+    bottom: 0;
+}
+
 
 #crosshairs{
   position: fixed;
