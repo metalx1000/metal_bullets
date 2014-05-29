@@ -484,7 +484,11 @@ var Load_Enemy = function(obj){
     }else if(obj.name.indexOf("ProxyDeath") > -1){
         //Wait for player to get close then explode
         ProxyDeath(this);
+    }else if(obj.name.indexOf("ShootPhysics") > -1){
+        //Wait for player to get close then explode
+        ShootPhysics(this);
     }
+
 
     this.damage = function(damage){
         this.health -= damage;
@@ -497,6 +501,14 @@ var Load_Enemy = function(obj){
 
         if(this.physics == false){
             this.physics_activate(true);
+            if(this.physics_others == true){
+                for(var i = 0;i < Enemies.length;i++){
+                    var dis = check_distance(this.mesh, Enemies[i].mesh);
+                    if(dis < 15){
+                        Enemies[i].physics_activate(true);
+                    }                    
+                }
+            }
         }
 
     }
@@ -523,8 +535,9 @@ var Load_Enemy = function(obj){
             setTimeout(function(){
                 //console.log(_this.mesh.name + " Physics disabled!");
                 _this.mesh.setPhysicsState({});
-            },10000)
+            },this.physics_time)
         }
+
     }
 
     this.update = function(){
@@ -575,6 +588,21 @@ function Barrel(_this){
     _this.friction = 1;
     _this.restitution = 0;
     _this.physics = false;
+    _this.physics_time = 10000;
+    _this.physics_others = false;
+}
+
+function ShootPhysics(_this){
+    _this.type = "ShootPhysics";
+    _this.active = false;
+    _this.follow = false;
+    _this.mass = 4;
+    _this.friction = 1;
+    _this.restitution = 0;
+    _this.physics = false;
+    _this.physics_time = 10000;
+    _this.physics_others = true;
+    _this.health = 10000;
 }
 
 

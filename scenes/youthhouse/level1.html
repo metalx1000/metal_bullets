@@ -12,6 +12,18 @@
 
     <script src="../../js/metal_bullets.js"></script>
     <script>
+        function writeViewPort() {
+            var ua = navigator.userAgent;
+            if (ua.indexOf("Android") >= 0 && ua.indexOf("AppleWebKit") >= 0) {
+                var webkitVersion = parseFloat(ua.slice(ua.indexOf("AppleWebKit") + 12));
+                // targets android browser, not chrome browser (http://jimbergman.net/webkit-version-in-android-version/)
+                if (webkitVersion < 535) {
+                    document.write('<meta name="viewport" content="initial-scale=1" />');
+                }
+            }
+        }
+
+        writeViewPort();
         Load_Scene("youthhouse.babylon","http://www.tannerhelland.com/dmusic/CyaronsGate.ogg");
     </script>
 
