@@ -131,6 +131,7 @@ function set_keys(){
 
 
 //Mouse Controls
+
 function set_mouse(){
     window.addEventListener("mousemove", function(event) {
                 var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
@@ -147,10 +148,10 @@ function set_mouse(){
 }
 
 window.addEventListener("mousedown", function(event) {
+    var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ] );
     event.preventDefault();//This prevents the highlighting of elements when shooting
     //console.log(event.which);//uncomment to test buttons
     if(event.which == 1){
-        var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ], 275, 1 );
         gun_sound.play();
         Shot();
     }else if(event.which == 3){
@@ -324,7 +325,6 @@ function create_music_menu(){
 }
 
 //sounds
-var sound_num = 0;
 var Sound = function ( sources, obj, volume, radius ) {
 
                 var audio = document.createElement( 'audio' );
@@ -349,17 +349,17 @@ var Sound = function ( sources, obj, volume, radius ) {
 //                this.position = new THREE.Vector3();
 
                 this.play = function () {
-                    sound_num += 1;
-                    if(sound_num <= 25){
+                    //sound_num += 1;//uncomment to limit number of sounds at one time
+//                    if(sound_num <= 25){
                         audio.play();
-                    }
+/*                   }
 
                     setTimeout(function(){
                         sound_num -= 1;
                         if(sound_num < 0){
                             sound_num = 0;
                         }
-                    },1000);
+                    },1000); */
                 }
 
 
@@ -493,9 +493,10 @@ var Load_Enemy = function(obj){
 
     }
 
+
     this.death = function(){
         this.dead = true;
-        console.log(this.mesh.name + " is dead!!!");
+        //console.log(this.mesh.name + " is dead!!!");
         if(this.death_type=="explosion"){
             Explode = new Explosion(obj, this.death_size, this.death_delay)
         }
@@ -569,7 +570,7 @@ function Barrel(_this){
 }
 
 
-
+var sound_limit = 0;
 var Explosion = function(obj, size, delay){
     this.mesh = obj;
     this.sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], obj, 1, 200 );
@@ -618,7 +619,22 @@ var Explosion = function(obj, size, delay){
         }
         obj.dispose();//This is the line that cause object to not work correctly
         var Explode = new BABYLON.Sprite("explode", explosion);
-        this.sound.play();
+
+        //Limit the number of Explotion sounds
+        sound_limit += 1;//uncomment to limit number of sounds at one time
+        if(sound_limit <=10){
+            this.sound.play();
+        }
+
+        setTimeout(function(){
+            sound_limit -= 1;
+            if(sound_limit < 0){
+                sound_limit = 0;
+            }
+        },1000); 
+
+
+
         //this.sound.play();
         Explode.playAnimation(0, 64, false, 5);
         Explode.position = pos;
