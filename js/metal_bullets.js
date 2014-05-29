@@ -860,6 +860,8 @@ function go_fullscreen(){
 
 /////////Player Configs/////////
 var Load_Player = function(health){
+    this.dead = false;
+
     if(health == null){
         this.health = 100;
     }else{
@@ -889,7 +891,10 @@ var Load_Player = function(health){
     }
 
     this.death = function(){
-        console.log("Player Died!!!");
+        if(this.dead == false){
+            this.dead = true;
+            console.log("Player Died!!!");
+        }
     }
 }
 //jump
