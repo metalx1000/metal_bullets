@@ -447,7 +447,6 @@ function Object_Setup(str){
                         obj.pos = objarray[1];
                     }else if(obj.name.indexOf("Item") > -1){
                             if(obj.name.indexOf("HealthPack") > -1){
-                            console.log("test"); 
                                 Items.push(new Load_Item(obj));
                             }
                         }
@@ -1015,7 +1014,11 @@ function HealthPack(_this){
 function Load_HUD(){
     //get body
     var html_body = document.getElementsByTagName('body')[0];
-
+    
+    //load canvas element
+    var canvas = '<canvas id="renderCanvas"></canvas>';
+    html_body.innerHTML += canvas;
+    
     //basic html setup for game
     var HTML_HUD ='\
     <div id="hud" class="hud">\
@@ -1031,4 +1034,9 @@ function Load_HUD(){
     
     var BUGS = document.getElementById('bugs');
     BUGS.innerHTML += "<br>After a lot of explosions items such as Healthpacks and Teleporters Stop Working.";
+
+
+    var HTML_LOAD ='<div id="load_screen" class="load_screen"><img src="Load_Screen.png" class="load_screen"></div>';
+    html_body.innerHTML += HTML_LOAD;
 }
+
