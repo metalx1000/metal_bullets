@@ -893,7 +893,7 @@ var Load_Player = function(health){
     this.death = function(){
         if(this.dead == false){
             this.dead = true;
-            console.log("Player Died!!!");
+            New_MSG("Player Died!!!");
         }
     }
 }
@@ -1016,6 +1016,28 @@ function HealthPack(_this){
 }
 
 //HTML Elements/HUD
+
+var msg = [];
+var msg_wait = 0;
+setInterval(function(){
+    if(msg.length > 0 && msg_wait == 0){
+        msg.splice(0,1);
+        var MSG = document.getElementById("MSG");
+        MSG.innerHTML = "";
+        for(var i = 0; i < msg.length;i++){
+            MSG.innerHTML += "<br>" + msg[i]; 
+        }
+    }else{
+        msg_wait = 0;
+    }
+},2000);
+
+function New_MSG(message){
+    msg_wait = 1;
+    msg.push(message);
+    MSG.innerHTML += "<br>" + message;
+}
+
 function Load_HUD(){
     //get body
     var html_body = document.getElementsByTagName('body')[0];
@@ -1044,7 +1066,7 @@ function Load_HUD(){
     var HTML_LOAD ='<div id="load_screen" class="load_screen"><img src="Load_Screen.png" class="load_screen"></div>';
     html_body.innerHTML += HTML_LOAD;
 
-    var HTML_MSG = '<div id="MSG">Message</div>';
+    var HTML_MSG = '<div id="MSG"></div>';
     html_body.innerHTML += HTML_MSG;
 }
 
