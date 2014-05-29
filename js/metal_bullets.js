@@ -10,6 +10,9 @@
 ////////////////////////////Load Scene/////////////////////////////
 var Scene, Camera, canvas, engine, Player;
 
+//Load HUD hidden
+Load_HUD();
+
 function Load_Scene(MAP, MUSIC){
     Player = new Load_Player();
     if (BABYLON.Engine.isSupported()) {
@@ -58,6 +61,8 @@ function Load_Scene(MAP, MUSIC){
                 console.log(music);
                 Music = new Load_Music(music, 1, true);
                 create_music_menu();
+
+
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
                     Scene.render();
@@ -72,8 +77,11 @@ function Load_Scene(MAP, MUSIC){
             // To do: give progress feedback to user
             if (progress.lengthComputable) {
                 p = (progress.loaded * 100 / progress.total).toFixed();
-                if(p = 100){
+                if(p == 100){
                     document.title ="Metal Bullets";
+                    document.getElementById("hud").style.visibility="visible";
+                    document.getElementById("load_screen").style.visibility="hidden";
+                    
                 }else{
                     document.title = "Loading, please wait..." + p + "%";
                 }
@@ -385,6 +393,7 @@ function Sounds_Update(){
         Sounds[i].update();
     }   
 }
+
 //////////////////////////World Settings/////////////////
 var postProcess;
 function Activate(){
@@ -1003,21 +1012,23 @@ function HealthPack(_this){
 }
 
 //HTML Elements/HUD
-//get body
-var html_body = document.getElementsByTagName('body')[0];
+function Load_HUD(){
+    //get body
+    var html_body = document.getElementsByTagName('body')[0];
 
-//basic html setup for game
-var HTML_HUD ='\
-<div id="hud" class="hud">\
-    <div id="health" class="hud"></div>\
-    <div id="ammo" class="hud">Ammo: 100</div>\
-    <div id="bugs" class="hud">Current Known Bugs:</div>\
-</div>\
-\
-<div id="crosshairs"><img src="../../sprites/crosshairs/crosshair_1.png"></div>\
-'
-
-html_body.innerHTML += HTML_HUD;
-
-var BUGS = document.getElementById('bugs');
-BUGS.innerHTML += "<br>After a lot of explosions items such as Healthpacks and Teleporters Stop Working.";
+    //basic html setup for game
+    var HTML_HUD ='\
+    <div id="hud" class="hud">\
+        <div id="health" class="hud"></div>\
+        <div id="ammo" class="hud">Ammo: 100</div>\
+        <div id="bugs" class="hud">Current Known Bugs:</div>\
+    </div>\
+    \
+    <div id="crosshairs"><img src="../../sprites/crosshairs/crosshair_1.png"></div>\
+    '
+    
+    html_body.innerHTML += HTML_HUD;
+    
+    var BUGS = document.getElementById('bugs');
+    BUGS.innerHTML += "<br>After a lot of explosions items such as Healthpacks and Teleporters Stop Working.";
+}
