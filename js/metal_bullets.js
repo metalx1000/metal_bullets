@@ -58,7 +58,7 @@ function Load_Scene(MAP, MUSIC){
                 if (MUSIC != null){
                     music.push(MUSIC);
                 }
-                console.log(music);
+                //console.log(music);
                 Music = new Load_Music(music, 1, true);
                 create_music_menu();
 
