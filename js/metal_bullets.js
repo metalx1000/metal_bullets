@@ -1091,7 +1091,8 @@ function Load_HUD(){
     BUGS.innerHTML += "<br>After a lot of explosions items such as Healthpacks and Teleporters Stop Working.";
 
     //Load Screen
-    var HTML_LOAD ='<div id="load_screen" class="load_screen"><img src="Load_Screen.png" class="load_screen"></div>';
+//    var HTML_LOAD ='<div id="load_screen" class="load_screen"><img src="Load_Screen.png" class="load_screen"></div>';//commented out until I figure out why loadscreen doesn't work in Windows 
+    var HTML_LOAD ='<div id="load_screen" class="load_screen"></div>';
     html_body.innerHTML += HTML_LOAD;
 
     var HTML_MSG = '<div id="MSG"></div>';
