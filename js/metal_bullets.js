@@ -35,6 +35,8 @@ function Load_Scene(MAP, MUSIC){
                 Scene.gravity = new BABYLON.Vector3(0, -1, 0);
                 Scene.collisionsEnabled = true;
 
+                //Load_Fog();
+                //Load_Sky();
                 Object_Setup();
 
                 Camera.minZ = 1;
@@ -89,6 +91,23 @@ function Load_Scene(MAP, MUSIC){
 
 }
 
+////////////////World Settings//////////////////////
+function Load_Fog(){
+    Scene.fogMode = BABYLON.Scene.FOGMODE_LINEAR;
+//    Scene.fogDensity = 0.01;
+    Scene.fogStart = 20.0;
+    Scene.fogEnd = 60.0;
+}
+
+function Load_Sky(){
+    var skybox = BABYLON.Mesh.CreateBox("skyBox", 1000.0, Scene);
+    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", Scene);
+    skyboxMaterial.backFaceCulling = false;
+    skybox.material = skyboxMaterial;
+    
+    skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+    skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+}
 
 ////////////////Controls///////////////////////////
 function activate_controls(){
