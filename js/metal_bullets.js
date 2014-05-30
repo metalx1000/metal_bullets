@@ -62,7 +62,7 @@ function Load_Scene(MAP, MUSIC){
                 Music = new Load_Music(music, 1, true);
                 create_music_menu();
 
-
+                Activate_HUD();
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
                     Scene.render();
@@ -78,10 +78,7 @@ function Load_Scene(MAP, MUSIC){
             if (progress.lengthComputable) {
                 p = (progress.loaded * 100 / progress.total).toFixed();
                 if(p == 100){
-                    document.title ="Metal Bullets";
-                    document.getElementById("hud").style.visibility="visible";
-                    document.getElementById("load_screen").style.visibility="hidden";
-                    
+                   
                 }else{
                     document.title = "Loading, please wait..." + p + "%";
                 }
@@ -91,6 +88,8 @@ function Load_Scene(MAP, MUSIC){
 
 
 }
+
+
 ////////////////Controls///////////////////////////
 function activate_controls(){
     set_keys();
@@ -1091,11 +1090,16 @@ function Load_HUD(){
     BUGS.innerHTML += "<br>After a lot of explosions items such as Healthpacks and Teleporters Stop Working.";
 
     //Load Screen
-//    var HTML_LOAD ='<div id="load_screen" class="load_screen"><img src="Load_Screen.png" class="load_screen"></div>';//commented out until I figure out why loadscreen doesn't work in Windows 
-    var HTML_LOAD ='<div id="load_screen" class="load_screen"></div>';
+    var HTML_LOAD ='<div id="load_screen" class="load_screen"><img src="Load_Screen.png" class="load_screen"></div>';//commented out until I figure out why loadscreen doesn't work in Windows 
+//    var HTML_LOAD ='<div id="load_screen" class="load_screen"></div>';
     html_body.innerHTML += HTML_LOAD;
 
     var HTML_MSG = '<div id="MSG"></div>';
     html_body.innerHTML += HTML_MSG;
 }
 
+function Activate_HUD(){
+                    document.title ="Metal Bullets";
+                    document.getElementById("hud").style.visibility="visible";
+                    document.getElementById("load_screen").style.visibility="hidden";
+} 
