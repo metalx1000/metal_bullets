@@ -35,7 +35,7 @@ function Load_Scene(MAP, MUSIC){
                 Scene.gravity = new BABYLON.Vector3(0, -1, 0);
                 Scene.collisionsEnabled = true;
 
-                Object_Setup(["Floor","Wall", "Door", "Enemy", "Explosion"]);
+                Object_Setup();
 
                 Camera.minZ = 1;
                 Camera.checkCollisions = true;
@@ -413,46 +413,47 @@ var Floors = [];
 var Enemies = [];
 var Sounds = [];
 var Items = [];
-function Object_Setup(str){
-            var obj;
-            for(var x = 0;x < str.length;x++){
-                for(var i = 0;i<Scene.meshes.length;i++){ 
-                    obj = Scene.meshes[i];
-                    if(obj.name.indexOf(str[x]) > -1){
-                        if(str[x] == "Wall"){
-                            obj.Wall = true;
-                            Walls.push(obj);
-//                            obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0 });
-                        }else if(str[x] == "Door"){
-                            obj.Door = true;
-                            Doors.push(new Load_Door(obj));
-                            //obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
-                        }else if(str[x] == "Floor"){
-                            obj.Floor = true;
-                            obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.7, restitution: 0.7 });
-                            Floors.push(obj);
-                        }else if(str[x] == "Enemy"){
-                            Enemies.push(new Load_Enemy(obj));
-                        }else if(str[x] == "Explosion"){
-                           Explode = new Explosion(obj, 20, Math.floor(Math.random() * 6) + 1); 
-                        }
-                        obj.checkCollisions = true;
+function Object_Setup(){
+            
+    Teleporters = [];
+    Walls = [];
+    Doors = [];
+    Floors = [];
+    Enemies = [];
+    Sounds = [];
+    Items = [];
 
-                    }else if (obj.name.indexOf("Teleporter") > -1){
-                        obj = Scene.meshes[i];
-                        Teleporters.push(obj);
-                        obj.Teleporter = true;
-                        objarray = obj.name.split(".");
-                        obj.pos = objarray[1];
-                    }else if(obj.name.indexOf("Item") > -1){
-                            if(obj.name.indexOf("HealthPack") > -1){
-                                Items.push(new Load_Item(obj));
-                            }
-                        }
-
-
-                }
+    var obj;
+    for(var i = 0;i<Scene.meshes.length;i++){ 
+        obj = Scene.meshes[i];
+        obj.array = obj.name.split(".");
+        obj.type = obj.array[0];
+        if( obj.type == "Wall"){
+            Walls.push(obj);
+            obj.checkCollisions = true;
+            //obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0 });
+        }else if(obj.type == "Door"){
+            Doors.push(new Load_Door(obj));
+            obj.checkCollisions = true;
+            //obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
+        }else if(obj.type == "Floor"){
+            obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.7, restitution: 0.7 });
+            obj.checkCollisions = true;
+            Floors.push(obj);
+        }else if(obj.type == "Enemy"){
+            obj.checkCollisions = true;
+            Enemies.push(new Load_Enemy(obj));
+        }else if(obj.type == "Explosion"){
+            Explode = new Explosion(obj, 20, Math.floor(Math.random() * 6) + 1); 
+        }else if(obj.type == "Teleporter"){
+            Teleporters.push(obj);
+            obj.pos = obj.array[1];
+        }else if(obj.type == "Item"){
+            if(obj.array[1] == "HealthPack"){
+                Items.push(new Load_Item(obj));
             }
+        }
+    }
 }
 
 //Enemy settings
@@ -652,7 +653,15 @@ var Explosion = function(obj, size, delay){
             }
 
         }
-        obj.dispose();//This is the line that cause object to not work correctly
+        //obj.dispose();//This is the line that cause object to not work correctly
+        //disposing of meshes seems to sometimes cause other items (healthpacks and teleporters)
+        //to stop working and walls sometimes disapear.
+        //for right now, we'll just hide everything]        
+        obj.isVisible = false;
+        obj.setPhysicsState({});
+        obj.checkCollisions = false;
+
+
         var Explode = new BABYLON.Sprite("explode", explosion);
 
         //Limit the number of Explotion sounds
@@ -1078,7 +1087,7 @@ function Load_HUD(){
     <div id="hud" class="hud">\
         <div id="health" class="hud"></div>\
         <div id="ammo" class="hud">Ammo: 100</div>\
-        <div id="bugs" class="hud">Current Known Bugs:</div>\
+        <div id="bugs" class="hud"></div>\
     </div>\
     \
     <div id="crosshairs"><img src="../../sprites/crosshairs/crosshair_1.png"></div>\
@@ -1087,7 +1096,7 @@ function Load_HUD(){
     html_body.innerHTML += HTML_HUD;
     
     var BUGS = document.getElementById('bugs');
-    BUGS.innerHTML += "<br>After a lot of explosions items such as Healthpacks and Teleporters Stop Working.";
+//    BUGS.innerHTML += "<br>";
 
     //Load Screen
     var HTML_LOAD ='<div id="load_screen" class="load_screen"><img src="Load_Screen.png" class="load_screen"></div>';//commented out until I figure out why loadscreen doesn't work in Windows 
