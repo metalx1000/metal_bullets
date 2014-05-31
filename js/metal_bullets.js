@@ -597,6 +597,9 @@ var Load_Enemy = function(obj){
     }
 
     this.update = function(){
+        if(this.projectile == true){
+            this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, -this.speed));
+        }
         if(this.far == null){this.far = 100};
         if(this.dead != true){
             this.pos = this.mesh.position;
@@ -707,8 +710,9 @@ function Flying(_this){
 
 function Heat_Missile(_this,mother){
     _this.type = "Flying";
+    _this.projectile = true;
     _this.follow = true;
-
+    _this.far = 4000;
     _this.weapon = null;
     _this.collsion_death = true;
     _this.mother = mother.mesh;
@@ -717,17 +721,18 @@ function Heat_Missile(_this,mother){
     _this.death_delay=0;
     _this.lookcam_d = 0;  
     _this.lookcam = _this.lookcam_d;   
-    _this.speed = 2;
+    _this.speed = 1;
     _this.suicide = true; //Kill themsselves to kill player
 
 }
 
 function Missile(_this,mother){
     _this.type = "Flying";
+    _this.projectile = true;
     _this.follow = "none";
     _this.lookcam_d = 1000;
     _this.lookcam = _this.lookcam_d;
-
+    _this.far = 4000;
     _this.weapon = null;
     _this.collsion_death = true;
     _this.mother = mother.mesh;
