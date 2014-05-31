@@ -585,10 +585,14 @@ var Load_Enemy = function(obj){
     this.attack = function(){
         if(this.weapon == "HEAT"){
             var missile = BABYLON.Mesh.CreateSphere("Sphere", 5.0, 0.5, Scene);
-            missile.position = this.mesh.position.add(new BABYLON.Vector3(0, 0, -2));
+            missile.position = this.mesh.position.add(new BABYLON.Vector3(0, 0, 0));
             var mis = new Load_Enemy(missile);
             Heat_Missile(mis,this);
-           
+        }else if(this.weapon == "Missile"){
+            var missile = BABYLON.Mesh.CreateSphere("Sphere", 5.0, 0.5, Scene);
+            missile.position = this.mesh.position.add(new BABYLON.Vector3(0, 0, 0));
+            var mis = new Load_Enemy(missile);
+            Missile(mis,this);
         }
     }
 
@@ -626,9 +630,13 @@ var Load_Enemy = function(obj){
                 if(this.lookcam < 1){
                     this.lookcam = this.lookcam_d;
                     this.mesh.lookAt(Camera.position);
-                    this.attack();
                 }
-                
+               
+                this.attack_delay -=1;
+                if(this.attack_delay < 1){
+                    this.attack_delay = this.attack_delay_d;
+                    this.attack();
+                } 
                 //check collisions
                 for(var i=0;i<Obstacles.length;i++){
                     var obs = Obstacles[i];
@@ -646,14 +654,18 @@ var Load_Enemy = function(obj){
                         if(this.collsion_death == true){
                             this.death();
                         }
-                        this.follow = false; 
+                        if (this.follow != "none"){
+                            this.follow = false; 
+                        }
 //                        this.mesh.position = this.pos;
                         var rotate = Math.floor(Math.random() * 4) + 1
                         this.mesh.rotate(BABYLON.Axis.Y, rotate, BABYLON.Space.LOCAL);
                         this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, 1));
                         return true;
                     }else{
-                        this.follow = true; 
+                        if (this.follow != "none"){
+                            this.follow = true; 
+                        }
                         this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, -this.speed));
                         return false;
                     }
@@ -667,7 +679,12 @@ function Turret(_this){
     _this.death_type="explosion";
     _this.death_size=10;
     _this.death_delay=0;
-    
+    _this.lookcam_d = 0;
+    _this.lookcam = _this.lookcam_d;
+    _this.speed = 0;
+    _this.weapon = "Missile"    
+    _this.attack_delay_d = 100;
+    _this.attack_delay = _this.attack_delay_d;
 }
 
 function Flying(_this){
@@ -675,7 +692,8 @@ function Flying(_this){
     _this.follow = true;
     _this.lookcam_d = 100;
     _this.lookcam = _this.lookcam_d;
-
+    _this.attack_delay_d = 100;
+    _this.attack_delay = _this.attack_delay_d;
     _this.weapon = "HEAT";
     _this.death_type="explosion";
     _this.death_size=10;
@@ -688,8 +706,6 @@ function Flying(_this){
 function Heat_Missile(_this,mother){
     _this.type = "Flying";
     _this.follow = true;
-    _this.lookcam_d = 100;
-    _this.lookcam = _this.lookcam_d;
 
     _this.weapon = null;
     _this.collsion_death = true;
@@ -699,10 +715,29 @@ function Heat_Missile(_this,mother){
     _this.death_delay=0;
     _this.lookcam_d = 0;  
     _this.lookcam = _this.lookcam_d;   
-    _this.speed = 1;
+    _this.speed = 2;
     _this.suicide = true; //Kill themsselves to kill player
 
 }
+
+function Missile(_this,mother){
+    _this.type = "Flying";
+    _this.follow = "none";
+    _this.lookcam_d = 1000;
+    _this.lookcam = _this.lookcam_d;
+
+    _this.weapon = null;
+    _this.collsion_death = true;
+    _this.mother = mother.mesh;
+    _this.death_type="explosion";
+    _this.death_size=10;
+    _this.death_delay=0;
+    _this.speed = 2;
+    _this.suicide = true; //Kill themsselves to kill playeri
+    _this.mesh.lookAt(Camera.position);
+
+}
+
 
 function ProxyDeath(_this){
     _this.type = "ProxyDeath";
