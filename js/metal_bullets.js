@@ -168,8 +168,10 @@ function set_mouse(){
                 if(!Camera){
                     console.log("Waiting for Camera to load...");
                 }else{
-                    Camera.rotation.y += movementX * 0.002;
-                    Camera.rotation.x += movementY * 0.002;
+                    if(Player.dead == false){
+                        Camera.rotation.y += movementX * 0.002;
+                        Camera.rotation.x += movementY * 0.002;
+                    }
                 }
     });
 }
@@ -952,6 +954,7 @@ var Load_Player = function(health){
     }
 
     this.death = function(){
+        Camera.detachControl(canvas);
         if(this.dead == false){
             this.dead = true;
             New_MSG("Player Died!!!");
