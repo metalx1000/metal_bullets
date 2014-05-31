@@ -607,24 +607,29 @@ var Load_Enemy = function(obj){
                 
                 //check collisions
                 for(var i=0;i<Walls.length;i++){
-                    wall = Walls[i];
+                    var obs = Walls[i];
                     //console.log(wall.name + " is " + this.mesh.intersectsMesh(wall));
-                    if(this.mesh.intersectsMesh(wall)){
-                        console.log("wall");
+                    var col = this.check_collision(obs); 
+                    if(col){break;}
+                }
+            }
+  
+        }
+    }
+
+    this.check_collision = function(obs){
+                    if(this.mesh.intersectsMesh(obs)){
                         this.follow = false; 
 //                        this.mesh.position = this.pos;
                         var rotate = Math.floor(Math.random() * 4) + 1
                         this.mesh.rotate(BABYLON.Axis.Y, rotate, BABYLON.Space.LOCAL);
                         this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, 1));
-                        break;
+                        return true;
                     }else{
                         this.follow = true; 
                         this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, -this.speed));
+                        return false;
                     }
-                }
-            }
-  
-        }
     }
 }
 
