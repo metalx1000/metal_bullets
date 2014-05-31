@@ -573,7 +573,7 @@ var Load_Enemy = function(obj){
         if(this.dead != true){
             this.pos = this.mesh.position;
 
-            if(this.follow == true && this.active == true){
+            if(this.follow == true && this.active == true && this.lookcam == 0){
                 obj.lookAt(Camera.position);
             }
     
@@ -597,6 +597,14 @@ var Load_Enemy = function(obj){
     
             //move enemy
             if(this.speed != null && this.active == true){
+                //delay camera following
+                this.lookcam -= 1;
+                console.log(this.lookcam);
+                if(this.lookcam < 1){
+                    this.lookcam = this.lookcam_d;
+                    this.mesh.lookAt(Camera.position);
+                }
+                
                 //check collisions
                 for(var i=0;i<Walls.length;i++){
                     wall = Walls[i];
@@ -605,7 +613,8 @@ var Load_Enemy = function(obj){
                         console.log("wall");
                         this.follow = false; 
 //                        this.mesh.position = this.pos;
-                        this.mesh.rotate(BABYLON.Axis.Y, 1.0, BABYLON.Space.LOCAL);
+                        var rotate = Math.floor(Math.random() * 4) + 1
+                        this.mesh.rotate(BABYLON.Axis.Y, rotate, BABYLON.Space.LOCAL);
                         this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, 1));
                         break;
                     }else{
@@ -622,6 +631,7 @@ var Load_Enemy = function(obj){
 function Turret(_this){
     _this.type = "Turret";
     _this.follow = true;
+    _this.lookcam = 0;
     _this.death_type="explosion";
     _this.death_size=10;
     _this.death_delay=0;
@@ -631,6 +641,9 @@ function Turret(_this){
 function Flying(_this){
     _this.type = "Flying";
     _this.follow = true;
+    _this.lookcam_d = 100;
+    _this.lookcam = _this.lookcam_d;
+
     _this.death_type="explosion";
     _this.death_size=10;
     _this.death_delay=0;
