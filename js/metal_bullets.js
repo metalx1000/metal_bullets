@@ -513,6 +513,9 @@ var Load_Enemy = function(obj){
     }else if(obj.name.indexOf("ShootPhysics") > -1){
         //Wait for player to get close then explode
         ShootPhysics(this);
+    }else if(obj.name.indexOf("Flying") > -1){
+        //Wait for player to get close then explode
+        Flying(this);
     }
 
 
@@ -567,20 +570,35 @@ var Load_Enemy = function(obj){
     }
 
     this.update = function(){
-        if(this.follow == true){
-            obj.lookAt(Camera.position);
-        }
-
-        var dis = check_distance(obj, Camera);
-        if(dis < 50 && this.active == false){
-            this.active = true;
-            //console.log("You have been spotted!");
-            if(this.ProxyDeath == true){
-                this.death();
-                this.ProxyDeath = false;
+        if(this.dead != true){
+            if(this.follow == true){
+                obj.lookAt(Camera.position);
             }
-
+    
+            var dis = check_distance(obj, Camera);
+            if(dis < 50 && this.active == false){
+                this.active = true;
+                //console.log("You have been spotted!");
+                if(this.ProxyDeath == true){
+                    this.death();
+                    this.ProxyDeath = false;
+                }
+    
+            }else if(dis > 100 && this.active == true){
+                this.active = false;
+            }else if(dis < 5 && this.active == true){
+                this.active = false;
+                if(this.suicide == true){
+                    this.death();
+                }
+            }
+    
+            if(this.speed != null && this.active == true){
+                this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, -this.speed));
+            }
         }
+
+
     }
 }
 
@@ -592,6 +610,17 @@ function Turret(_this){
     _this.death_delay=0;
     
 }
+
+function Flying(_this){
+    _this.type = "Flying";
+    _this.follow = true;
+    _this.death_type="explosion";
+    _this.death_size=10;
+    _this.death_delay=0;
+    _this.speed = .2;
+    _this.suicide = true; //Kill themsselves to kill player
+}
+
 
 function ProxyDeath(_this){
     _this.type = "ProxyDeath";
