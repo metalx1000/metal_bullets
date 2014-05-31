@@ -632,11 +632,12 @@ var Load_Enemy = function(obj){
                     this.mesh.lookAt(Camera.position);
                 }
                
-                this.attack_delay -=1;
-                if(this.attack_delay < 1){
+                if(this.attack_delay < 1 && this.weapon != null){
                     this.attack_delay = this.attack_delay_d;
                     this.attack();
-                } 
+                }else if(this.attack_delay != null){    
+                    this.attack_delay -=1;
+                }
                 //check collisions
                 for(var i=0;i<Obstacles.length;i++){
                     var obs = Obstacles[i];
@@ -674,6 +675,7 @@ var Load_Enemy = function(obj){
 
 function Turret(_this){
     _this.type = "Turret";
+    _this.far = 200;
     _this.follow = true;
     _this.lookcam = 0;
     _this.death_type="explosion";
