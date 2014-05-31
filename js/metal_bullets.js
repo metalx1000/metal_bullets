@@ -582,6 +582,27 @@ var Load_Enemy = function(obj){
 
     }
 
+    this.attack = function(){
+        if(this.weapon == "HEAT"){
+            var missile = BABYLON.Mesh.CreateSphere("Sphere", 5.0, 0.5, Scene);
+            missile.position = this.mesh.position.add(new BABYLON.Vector3(0, 0, -2));
+            var mis = new Load_Enemy(missile);
+            Flying(mis);
+            mis.follow = true;
+            mis.lookcam_d = 0;  
+            mis.lookcam = mis.lookcam_d;   
+            mis.mother = this.mesh;
+            mis.collsion_death = true;
+            mis.weapon = null;
+            mis.death_type="explosion";
+            mis.death_size=10;
+            mis.death_delay=0;
+            mis.speed = 1;
+            mis.suicide = true; //Kill themsselves to kill player
+            
+        }
+    }
+
     this.update = function(){
         if(this.dead != true){
             this.pos = this.mesh.position;
@@ -615,6 +636,7 @@ var Load_Enemy = function(obj){
                 if(this.lookcam < 1){
                     this.lookcam = this.lookcam_d;
                     this.mesh.lookAt(Camera.position);
+                    this.attack();
                 }
                 
                 //check collisions
@@ -630,7 +652,10 @@ var Load_Enemy = function(obj){
     }
 
     this.check_collision = function(obs){
-                    if(this.mesh.intersectsMesh(obs) && this.mesh != obs){
+                    if(this.mesh.intersectsMesh(obs) && this.mesh != obs && obs != this.mother){
+                        if(this.collsion_death == true){
+                            this.death();
+                        }
                         this.follow = false; 
 //                        this.mesh.position = this.pos;
                         var rotate = Math.floor(Math.random() * 4) + 1
@@ -661,6 +686,7 @@ function Flying(_this){
     _this.lookcam_d = 100;
     _this.lookcam = _this.lookcam_d;
 
+    _this.weapon = "HEAT";
     _this.death_type="explosion";
     _this.death_size=10;
     _this.death_delay=0;
