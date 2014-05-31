@@ -1031,10 +1031,11 @@ function check_camSensor(){
 
         for(var i=0;i<Items.length;i++){
             obj = Items[i];
-            if(camSensor.intersectsMesh(obj.mesh)){
+            dis = check_distance(obj.mesh, Camera)
+            if(dis < 5){
                 Touch_Sensor = 1;
                 setTimeout(function(){ Touch_Sensor = 0; },10); //wait for touch_sensor to reactivate
-                if(obj.type == "HealthPack" && obj.active == true){
+                if(obj.type == "HealthPack" && obj.active == true && Player.health < 100){
                     obj.active = false;
                     obj.mesh.dispose();
                     Player.med(obj.health);
@@ -1062,7 +1063,6 @@ function create_camSensor(){
 //items
 
 var Load_Item = function(item){
-    this.index = Enemies.length - 1;
     this.active = true;
     this.mesh = item;
     if(item.name.indexOf("HealthPack") > -1){
