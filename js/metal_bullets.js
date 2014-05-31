@@ -439,8 +439,10 @@ var Floors = [];
 var Enemies = [];
 var Sounds = [];
 var Items = [];
+var Obstacles = [];
+
 function Object_Setup(){
-            
+    //clear arrays       
     Teleporters = [];
     Walls = [];
     Doors = [];
@@ -448,6 +450,7 @@ function Object_Setup(){
     Enemies = [];
     Sounds = [];
     Items = [];
+    Obstacles = [];
 
     var obj;
     for(var i = 0;i<Scene.meshes.length;i++){ 
@@ -456,18 +459,22 @@ function Object_Setup(){
         obj.type = obj.array[0];
         if( obj.type == "Wall"){
             Walls.push(obj);
+            Obstacles.push(obj);
             obj.checkCollisions = true;
             //obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0 });
         }else if(obj.type == "Door"){
             Doors.push(new Load_Door(obj));
+            Obstacles.push(obj);
             obj.checkCollisions = true;
             //obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
         }else if(obj.type == "Floor"){
             obj.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.7, restitution: 0.7 });
             obj.checkCollisions = true;
+            Obstacles.push(obj);
             Floors.push(obj);
         }else if(obj.type == "Enemy"){
             obj.checkCollisions = true;
+            Obstacles.push(obj);
             Enemies.push(new Load_Enemy(obj));
         }else if(obj.type == "Explosion"){
             Explode = new Explosion(obj, 20, Math.floor(Math.random() * 6) + 1); 
@@ -480,6 +487,7 @@ function Object_Setup(){
             }
         }
     }
+    
 }
 
 //Enemy settings
@@ -599,15 +607,14 @@ var Load_Enemy = function(obj){
             if(this.speed != null && this.active == true){
                 //delay camera following
                 this.lookcam -= 1;
-                console.log(this.lookcam);
                 if(this.lookcam < 1){
                     this.lookcam = this.lookcam_d;
                     this.mesh.lookAt(Camera.position);
                 }
                 
                 //check collisions
-                for(var i=0;i<Walls.length;i++){
-                    var obs = Walls[i];
+                for(var i=0;i<Obstacles.length;i++){
+                    var obs = Obstacles[i];
                     //console.log(wall.name + " is " + this.mesh.intersectsMesh(wall));
                     var col = this.check_collision(obs); 
                     if(col){break;}
@@ -618,7 +625,7 @@ var Load_Enemy = function(obj){
     }
 
     this.check_collision = function(obs){
-                    if(this.mesh.intersectsMesh(obs)){
+                    if(this.mesh.intersectsMesh(obs) && this.mesh != obs){
                         this.follow = false; 
 //                        this.mesh.position = this.pos;
                         var rotate = Math.floor(Math.random() * 4) + 1
