@@ -935,12 +935,18 @@ var Load_Player = function(health){
 
     this.damage = function(hit){   
         this.health -= hit;
+        if(this.health <0){
+            this.health = 0;
+        }
         this.update();
     }
     
     this.med = function(med){
         med = parseInt(med);
         this.health += med;
+        if(this.health > 200){
+            this.health = 200;
+        }
         this.update();
         
     }
@@ -951,6 +957,13 @@ var Load_Player = function(health){
             New_MSG("Player Died!!!");
         }
     }
+
+    var _this = this;
+    setInterval(function(){
+        if(_this.health > 100){
+            _this.health -= 1;
+        }
+    },1000);
 }
 //jump
 function player_jump(){
