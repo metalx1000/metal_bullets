@@ -188,7 +188,12 @@ window.addEventListener("mousedown", function(event) {
         gun_sound.play();
         Shot();
     }else if(event.which == 3){
-        player_jump();
+        if(Player.dead == false){
+            player_jump();
+        }else{
+            location.reload();//reload level if player is dead
+        }
+
     }
 }, false);
 
