@@ -127,8 +127,12 @@ function set_keys(){
     window.addEventListener("keydown", function (event) {
         //console.log(event); //uncomment to test key value
         if (event.keyCode === 32) {
-            //"Space as activate key"
-            Activate();
+            if(Player.dead == false){
+                //"Space as activate key"
+                Activate();
+            }else{
+                location.reload();
+            }
         }else if (event.keyCode === 27) {
             //"Menu on 'esc'"
             Menu_Open();
@@ -958,6 +962,7 @@ var Load_Player = function(health){
         if(this.dead == false){
             this.dead = true;
             New_MSG("Player Died!!!");
+            New_MSG("Press Space to restart level");
         }
     }
 
