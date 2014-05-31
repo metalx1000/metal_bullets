@@ -1017,7 +1017,7 @@ function check_camSensor(){
             obj = Items[i];
             if(camSensor.intersectsMesh(obj.mesh)){
                 Touch_Sensor = 1;
-                setTimeout(function(){ Touch_Sensor = 0; },100); //wait for touch_sensor to reactivate
+                setTimeout(function(){ Touch_Sensor = 0; },10); //wait for touch_sensor to reactivate
                 if(obj.type == "HealthPack" && obj.active == true){
                     obj.active = false;
                     obj.mesh.dispose();
