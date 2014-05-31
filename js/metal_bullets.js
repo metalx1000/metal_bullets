@@ -597,9 +597,9 @@ var Load_Enemy = function(obj){
     }
 
     this.update = function(){
-        if(this.projectile == true){
+       /* if(this.projectile == true){
             this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, -this.speed));
-        }
+        }*/
         if(this.far == null){this.far = 100};
         if(this.dead != true){
             this.pos = this.mesh.position;
