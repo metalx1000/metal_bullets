@@ -571,7 +571,9 @@ var Load_Enemy = function(obj){
 
     this.update = function(){
         if(this.dead != true){
-            if(this.follow == true){
+            this.pos = this.mesh.position;
+
+            if(this.follow == true && this.active == true){
                 obj.lookAt(Camera.position);
             }
     
@@ -593,12 +595,27 @@ var Load_Enemy = function(obj){
                 }
             }
     
+            //move enemy
             if(this.speed != null && this.active == true){
-                this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, -this.speed));
+                //check collisions
+                for(var i=0;i<Walls.length;i++){
+                    wall = Walls[i];
+                    //console.log(wall.name + " is " + this.mesh.intersectsMesh(wall));
+                    if(this.mesh.intersectsMesh(wall)){
+                        console.log("wall");
+                        this.follow = false; 
+//                        this.mesh.position = this.pos;
+                        this.mesh.rotate(BABYLON.Axis.Y, 1.0, BABYLON.Space.LOCAL);
+                        this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, 1));
+                        break;
+                    }else{
+                        this.follow = true; 
+                        this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, -this.speed));
+                    }
+                }
             }
+  
         }
-
-
     }
 }
 
