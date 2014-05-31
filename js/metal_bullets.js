@@ -790,7 +790,8 @@ function check_distance(obj, obj1){
 
 //Doors
 var Load_Door = function(obj){
-    this.sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
+    this.sound = new Sound( [ '../../sounds/doors/door.wav' ], obj, 1, 200 );
+    Sounds.push(this.sound);
     this.mesh = obj;
     obj.actor = this;
     this.array = obj.name.split(".");
