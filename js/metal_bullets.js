@@ -587,23 +587,13 @@ var Load_Enemy = function(obj){
             var missile = BABYLON.Mesh.CreateSphere("Sphere", 5.0, 0.5, Scene);
             missile.position = this.mesh.position.add(new BABYLON.Vector3(0, 0, -2));
             var mis = new Load_Enemy(missile);
-            Flying(mis);
-            mis.follow = true;
-            mis.lookcam_d = 0;  
-            mis.lookcam = mis.lookcam_d;   
-            mis.mother = this.mesh;
-            mis.collsion_death = true;
-            mis.weapon = null;
-            mis.death_type="explosion";
-            mis.death_size=10;
-            mis.death_delay=0;
-            mis.speed = 1;
-            mis.suicide = true; //Kill themsselves to kill player
-            
+            Heat_Missile(mis,this);
+           
         }
     }
 
     this.update = function(){
+        if(this.far == null){this.far = 100};
         if(this.dead != true){
             this.pos = this.mesh.position;
 
@@ -620,7 +610,7 @@ var Load_Enemy = function(obj){
                     this.ProxyDeath = false;
                 }
     
-            }else if(dis > 100 && this.active == true){
+            }else if(dis > this.far && this.active == true){
                 this.active = false;
             }else if(dis < 5 && this.active == true){
                 this.active = false;
@@ -692,8 +682,27 @@ function Flying(_this){
     _this.death_delay=0;
     _this.speed = .2;
     _this.suicide = true; //Kill themsselves to kill player
+ 
 }
 
+function Heat_Missile(_this,mother){
+    _this.type = "Flying";
+    _this.follow = true;
+    _this.lookcam_d = 100;
+    _this.lookcam = _this.lookcam_d;
+
+    _this.weapon = null;
+    _this.collsion_death = true;
+    _this.mother = mother.mesh;
+    _this.death_type="explosion";
+    _this.death_size=10;
+    _this.death_delay=0;
+    _this.lookcam_d = 0;  
+    _this.lookcam = _this.lookcam_d;   
+    _this.speed = 1;
+    _this.suicide = true; //Kill themsselves to kill player
+
+}
 
 function ProxyDeath(_this){
     _this.type = "ProxyDeath";
