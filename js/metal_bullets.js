@@ -38,6 +38,7 @@ function Load_Scene(MAP, MUSIC){
                 //Load_Fog();
                 //Load_Sky();
                 Object_Setup();
+                Object_Setup();//Load Object Setup twice or interacting objects might be missed
 
                 Camera.minZ = 1;
                 Camera.checkCollisions = true;
@@ -416,7 +417,7 @@ function Sounds_Update(){
 var postProcess;
 function Activate(){
     var active = Scene.pick(width*0.5,height*0.5);
-    if(active.pickedMesh != null && active.pickedMesh.door == true){
+    if(active.pickedMesh != null && active.pickedMesh.type == "Door"){
             var obj = active.pickedMesh;
             var door = active.pickedMesh.actor;
             door.Open(obj);
@@ -790,34 +791,32 @@ function check_distance(obj, obj1){
 //Doors
 var Load_Door = function(obj){
     this.sound = new Sound( [ '../../sounds/doors/door.wav' ], 275, 1 );
-    obj.door = true;
+    this.mesh = obj;
     obj.actor = this;
+    this.array = obj.name.split(".");
+    this.DoorType = obj.array[1];
+    var lock = 0;
 
-
-    this.type = function(obj){
-        if (obj.name.indexOf("Down") != -1){
-            obj.Type = "Down";
-            for(var i=0;i<Scene.meshes.length;i++){
-                var floor = Scene.meshes[i];
-                if(obj.intersectsMesh(floor) && floor.Floor == true){
-                    obj.Floor = floor.position.y;
-                 //   break;
-                }
+    if (this.DoorType == "Down"){
+        for(var i=0;i<Scene.meshes.length;i++){
+            var floor = Scene.meshes[i];
+            if(obj.intersectsMesh(floor) && floor.type == "Floor"){
+                obj.Floor = floor.position.y;
             }
-    
         }
-        return obj.Type;    
+    
     }
 
 
-    this.type(obj);
     this.Open = function(obj){
 
-        if(obj.Type == null){
-            obj.Type = this.Type;
+        if(this.DoorType == null){
+            //obj.DoorType = this.Type;
+            Console.log("This Door doesn't have a DoorType");
         }
-        if(obj.lock != "1"){
-            obj.lock = "1";
+
+        if(lock != "1"){
+            lock = "1";
             obj.orgPosY = obj.position.y;
         
             //console.log("Door Open.");
@@ -847,7 +846,7 @@ var Load_Door = function(obj){
                             //obj.translate(BABYLON.Axis.Y, 0.2, BABYLON.Space.WORLD);
                             obj.position.y=this.y;
                             if(obj.position.y.toFixed(4) == obj.orgPosY.toFixed(4)){
-                                obj.lock = "0";
+                                lock = "0";
                             }
                         });
                         Close.start();
