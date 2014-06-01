@@ -835,7 +835,7 @@ var Explosion = function(obj, size, delay){
     this.sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], obj, 1, 200 );
     Sounds.push(this.sound);
 //    this.sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 );
-    var explosion = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 64, Scene);
+    var explosion = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 32, Scene);
     this.position = obj.position;
     var pos = obj.position;
     var _this = this;
