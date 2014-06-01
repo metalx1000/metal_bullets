@@ -530,6 +530,7 @@ function Object_Setup(){
 }
 
 //Enemy settings
+var Missile_ID = 0;
 var Load_Enemy = function(obj){
     Enemies.push(this);
     this.index = Enemies.length - 1;
@@ -624,8 +625,15 @@ var Load_Enemy = function(obj){
             var mis = new Load_Enemy(missile);
             Heat_Missile(mis,this);
         }else if(this.weapon == "Missile"){
-            var missile = BABYLON.Mesh.CreateSphere("Sphere", 5.0, 0.5, Scene);
-            missile.position = this.mesh.position.add(new BABYLON.Vector3(0, 0, 0));
+            //var missile = BABYLON.Mesh.CreateSphere("Sphere", 5.0, 0.5, Scene);   
+            var MissileDUD = Scene.getMeshByName("Missile.Dud")
+            MissileDUD.lookAt(Camera.position);
+            MissileDUD.position = this.mesh.position;
+            var missile = MissileDUD.clone("MissileID" + Missile_ID);
+            missile = Scene.getMeshByName("MissileID" + Missile_ID);
+            Missile_ID += 1;
+            //missile.position = this.mesh.position.add(new BABYLON.Vector3(2, 2, 2));
+//            console.log(this);
             var mis = new Load_Enemy(missile);
             Missile(mis,this);
         }
@@ -757,7 +765,7 @@ function Heat_Missile(_this,mother){
     _this.death_delay=0;
     _this.lookcam_d = 0;  
     _this.lookcam = _this.lookcam_d;   
-    _this.speed = 1;
+    _this.speed = 5;
     _this.suicide = true; //Kill themsselves to kill player
 
 }
@@ -775,7 +783,7 @@ function Missile(_this,mother){
     _this.death_type="explosion";
     _this.death_size=10;
     _this.death_delay=0;
-    _this.speed = 2;
+    _this.speed = 8;
     _this.suicide = true; //Kill themsselves to kill playeri
     _this.mesh.lookAt(Camera.position);
 
