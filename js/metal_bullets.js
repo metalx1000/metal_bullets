@@ -233,6 +233,8 @@ var Load_Music = function ( sources, volume ) {
                     this.pause_val = 0;
         }
 
+
+
     this.play = function () {
        this.audio.play();
        this.pause_val = 0;
@@ -256,7 +258,8 @@ var Load_Music = function ( sources, volume ) {
         }else{
             this.vol = vol;
             this.audio.volume=this.vol;
-            console.log("Volume is set to " + this.vol * 100 + "%")
+            console.log("Volume is set to " + this.vol * 100 + "%");
+            localStorage.setItem("Music_Vol", this.vol);
         }
     }
 
@@ -268,7 +271,8 @@ var Load_Music = function ( sources, volume ) {
             this.vol = 0;
         }
         this.audio.volume=this.vol;
-        console.log("Volume is set to " + this.vol * 100 + "%")
+        console.log("Volume is set to " + this.vol * 100 + "%");
+        localStorage.setItem("Music_Vol", this.vol);
     }
 
     this.vol_down = function(){
@@ -280,6 +284,7 @@ var Load_Music = function ( sources, volume ) {
         }
         this.audio.volume=this.vol;
         console.log("Volume is set to " + this.vol * 100 + "%")
+        localStorage.setItem("Music_Vol", this.vol);
     }
 
 
@@ -294,9 +299,17 @@ var Load_Music = function ( sources, volume ) {
                     this.audio.load(); 
                     this.audio.play();    
                     this.pause_val = 0;
+
         }
-        Menu_Close(); 
     }
+
+
+    ////////////////Retrieve Saved music Volume
+    if(localStorage.getItem("Music_Vol") != null){
+        this.vol = localStorage.getItem("Music_Vol");
+        this.set_vol(this.vol);
+    }
+
 }
 
 //Store url for loaded songs for future use
