@@ -597,9 +597,6 @@ var Load_Enemy = function(obj){
     }
 
     this.update = function(){
-       /* if(this.projectile == true){
-            this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, -this.speed));
-        }*/
         if(this.far == null){this.far = 100};
         if(this.dead != true){
             this.pos = this.mesh.position;
@@ -627,7 +624,7 @@ var Load_Enemy = function(obj){
             }
     
             //move enemy
-            if(this.speed != null && this.active == true){
+            if(this.speed != null && this.active == true || this.projectile == true){
                 //delay camera following
                 this.lookcam -= 1;
                 if(this.lookcam < 1){
