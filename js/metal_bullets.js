@@ -1326,7 +1326,7 @@ function Activate_HUD(){
 
 
 function call_sprite(img){
-    var spriteManagerPlayer = new BABYLON.SpriteManager("playerManagr","../../textures/sky.jpg", 2, 64, Scene);
+    var spriteManagerPlayer = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 192, Scene);
     var player = new BABYLON.Sprite("player", spriteManagerPlayer);
     player.position = Camera.position.add(new BABYLON.Vector3(10, 0, 10));;
     player.playAnimation(0, 43, true, 100);
