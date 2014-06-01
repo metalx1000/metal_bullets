@@ -12,18 +12,8 @@
 
     <script src="../../js/metal_bullets.js"></script>
     <script>
-        function writeViewPort() {
-            var ua = navigator.userAgent;
-            if (ua.indexOf("Android") >= 0 && ua.indexOf("AppleWebKit") >= 0) {
-                var webkitVersion = parseFloat(ua.slice(ua.indexOf("AppleWebKit") + 12));
-                // targets android browser, not chrome browser (http://jimbergman.net/webkit-version-in-android-version/)
-                if (webkitVersion < 535) {
-                    document.write('<meta name="viewport" content="initial-scale=1" />');
-                }
-            }
-        }
-
-        writeViewPort();
+        ProxyMSG = ["Enter here to go to Github to get the Source Code", "Enter Here to go to www.FilmsByKris.com"];
+        ProxyURL = ["https://github.com/metalx1000/metal_bullets", "http://filmsbykris.com"];
         Load_Scene("youthhouse.babylon","http://filmsbykris.com/tmp/d_e1m1.ogg");
     </script>
 

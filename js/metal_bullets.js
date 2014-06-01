@@ -523,9 +523,7 @@ function Object_Setup(){
             Teleporters.push(obj);
             obj.pos = obj.array[1];
         }else if(obj.type == "Item"){
-            if(obj.array[1] == "HealthPack"){
-                Items.push(new Load_Item(obj));
-            }
+            Items.push(new Load_Item(obj));
         }
     }
     
@@ -1182,15 +1180,21 @@ function check_camSensor(){
         for(var i=0;i<Items.length;i++){
             obj = Items[i];
             dis = check_distance(obj.mesh, Camera)
-            if(dis < 5){
+            if(dis < obj.dis){
                 Touch_Sensor = 1;
                 setTimeout(function(){ Touch_Sensor = 0; },10); //wait for touch_sensor to reactivate
                 if(obj.type == "HealthPack" && obj.active == true && Player.health < 100){
                     obj.active = false;
                     obj.mesh.dispose();
                     Player.med(obj.health);
+                }else if(obj.type == "MSG" && obj.active == true){
+                    obj.active = false;
+                    New_MSG(ProxyMSG[obj.id]);
+                }else if(obj.type == "Redirect" && obj.active == true){
+                    obj.active = false;
+                    window.location = ProxyURL[obj.id];
                 }
-                    break;
+            break;
             }
         }
     }
@@ -1215,10 +1219,22 @@ function create_camSensor(){
 var Load_Item = function(item){
     this.active = true;
     this.mesh = item;
-    if(item.name.indexOf("HealthPack") > -1){
+    this.name = item.name.split(".");
+    this.type = this.name[1];
+    if(this.type == "HealthPack"){
+        this.dis = 5;
         //if it's a HealthPack
         HealthPack(this);
+    }else if(this.type == "Redirect"){
+        this.active = true;
+        this.id = this.name[2];
+        this.dis = 10;
+    }else if(this.type == "MSG"){
+        this.active = true;
+        this.id = this.name[2];
+        this.dis = 20;
     }
+
 }
 
 function HealthPack(_this){
