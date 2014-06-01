@@ -133,8 +133,8 @@ function set_keys(){
             }else{
                 location.reload();
             }
-        }else if (event.keyCode === 27) {
-            //"Menu on 'esc'"
+        }else if (event.keyCode === 77) {
+            //"Menu on 'M'"
             Menu_Open();
         }else if (event.keyCode === 61) {
             //music volume up on '+'
@@ -181,6 +181,7 @@ function set_mouse(){
 }
 
 window.addEventListener("mousedown", function(event) {
+    Pointer_Lock(true);
     var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ] );
     event.preventDefault();//This prevents the highlighting of elements when shooting
     //console.log(event.which);//uncomment to test buttons
@@ -325,10 +326,22 @@ function create_music_history(){
 
 }
 
+
+var MenuOpen = false;
 function Menu_Open(){
-    FullScreenGrab=false;
-    var music_menu = document.getElementById('music_menu');
-    music_menu.hidden = false;
+    if(MenuOpen == false){
+        MenuOpen = true;
+        var music_menu = document.getElementById('music_menu');
+        music_menu.hidden = false;
+        Pointer_Lock(false);
+    }else{
+        MenuOpen = false;
+        FullScreenGrab=true;
+        var music_menu = document.getElementById('music_menu');
+        music_menu.hidden = true;
+        Pointer_Lock(true);
+
+    }
 }
 
 function Menu_Close(){
@@ -362,6 +375,23 @@ function create_music_menu(){
                 create_music_history();
 }
 
+
+//pointer/cursor lock
+function Pointer_Lock(lock){
+    if(lock == true){
+        var element = document.body;
+        element.requestPointerLock = element.requestPointerLock ||
+                 element.mozRequestPointerLock ||
+                 element.webkitRequestPointerLock;
+// Ask the browser to lock the pointer
+        element.requestPointerLock();
+    }else{
+        document.exitPointerLock = document.exitPointerLock ||
+               document.mozExitPointerLock ||
+               document.webkitExitPointerLock;
+        document.exitPointerLock();
+    }
+}
 //sounds
 var Sound = function ( sources, obj, volume, radius ) {
 
