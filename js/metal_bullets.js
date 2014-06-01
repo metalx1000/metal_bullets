@@ -714,6 +714,7 @@ function Turret(_this){
 
 function Flying(_this){
     _this.type = "Flying";
+    _this.far = 4000;
     _this.follow = true;
     _this.lookcam_d = 100;
     _this.lookcam = _this.lookcam_d;
