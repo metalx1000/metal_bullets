@@ -1267,7 +1267,7 @@ setInterval(function(){
     }else{
         msg_wait = 0;
     }
-},2000);
+},3000);
 
 function New_MSG(message){
     var MSG_Sound = new Sound( [ "../../sounds/msg.wav" ] );
