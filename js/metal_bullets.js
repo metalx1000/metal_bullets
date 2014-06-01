@@ -50,12 +50,10 @@ function Load_Scene(MAP, MUSIC){
                 create_camSensor();
  
                 activate_controls();
-                FullScreenGrab=true;
 
                 //music menu
                 create_music_menu();
 
-                go_fullscreen();//fullscreen on click and mouse Grab
                 var music = [];
                 music.push("../../music/Level_1.ogg");
                 if (MUSIC != null){
@@ -181,6 +179,7 @@ function set_mouse(){
 }
 
 window.addEventListener("mousedown", function(event) {
+    Full_Screen();
     Pointer_Lock(true);
     var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ] );
     event.preventDefault();//This prevents the highlighting of elements when shooting
@@ -336,7 +335,6 @@ function Menu_Open(){
         Pointer_Lock(false);
     }else{
         MenuOpen = false;
-        FullScreenGrab=true;
         var music_menu = document.getElementById('music_menu');
         music_menu.hidden = true;
         Pointer_Lock(true);
@@ -344,11 +342,6 @@ function Menu_Open(){
     }
 }
 
-function Menu_Close(){
-    FullScreenGrab=true;
-    var music_menu = document.getElementById('music_menu');
-    music_menu.hidden = true;
-}
 
 function create_music_menu(){
                 //music menu
@@ -1042,61 +1035,15 @@ var Load_Door = function(obj){
     
     }
 }
-//Fullscreen and Mouse Cursor Grab
-var FullScreenGrab=false;
-function go_fullscreen(){
-    
-            var instructions = document;
 
-            // http://www.html5rocks.com/en/tutorials/pointerlock/intro/
+function Full_Screen(){
+    var element = document.body;
+    element.requestFullscreen = element.requestFullscreen || 
+        element.mozRequestFullscreen || 
+        element.mozRequestFullScreen || 
+        element.webkitRequestFullscreen;
 
-            var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
-
-            if ( havePointerLock ) {
-
-                var element = document.body;
-                instructions.addEventListener( 'click', function ( event ) {
-
-// instructions.style.display = 'none';
-        if( FullScreenGrab == true ){
-                    // Ask the browser to lock the pointer
-                    element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
-
-                    if ( /Firefox/i.test( navigator.userAgent ) ) {
-
-                        var fullscreenchange = function ( event ) {
-
-                            if ( document.fullscreenElement === element || document.mozFullscreenElement === element || document.mozFullScreenElement === element ) {
-
-                                document.removeEventListener( 'fullscreenchange', fullscreenchange );
-                                document.removeEventListener( 'mozfullscreenchange', fullscreenchange );
-
-                                element.requestPointerLock();
-                            }
-
-                        }
-
-                        document.addEventListener( 'fullscreenchange', fullscreenchange, false );
-                        document.addEventListener( 'mozfullscreenchange', fullscreenchange, false );
-
-                        element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
-
-                        element.requestFullscreen();
-
-                    } else {
-
-                        element.requestPointerLock();
-
-                    }
-        }
-
-                }, false );
-
-            } else {
-
-                instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
-
-            }
+    element.requestFullscreen();
 }
 
 /////////Player Configs/////////
