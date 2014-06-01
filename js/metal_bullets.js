@@ -577,6 +577,7 @@ var Load_Enemy = function(obj){
             this.death();
         }
 
+        this.active = true;
         if(this.physics == false){
             this.physics_activate(true);
             if(this.physics_others == true){
