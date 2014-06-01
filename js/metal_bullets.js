@@ -1237,6 +1237,8 @@ setInterval(function(){
 },2000);
 
 function New_MSG(message){
+    var MSG_Sound = new Sound( [ "../../sounds/msg.wav" ] );
+    MSG_Sound.play();
     msg_wait = 1;
     msg.push(message);
     MSG.innerHTML += "<br>" + message;
