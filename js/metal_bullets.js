@@ -1322,4 +1322,12 @@ function Activate_HUD(){
                     document.title ="Metal Bullets";
                     document.getElementById("hud").style.visibility="visible";
                     document.getElementById("load_screen").style.visibility="hidden";
+}
+
+
+function call_sprite(img){
+    var spriteManagerPlayer = new BABYLON.SpriteManager("playerManagr","../../textures/sky.jpg", 2, 64, Scene);
+    var player = new BABYLON.Sprite("player", spriteManagerPlayer);
+    player.position = Camera.position.add(new BABYLON.Vector3(10, 0, 10));;
+    player.playAnimation(0, 43, true, 100);
 } 
