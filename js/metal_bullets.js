@@ -646,6 +646,9 @@ var Load_Enemy = function(obj){
                 this.active = true;
                 //console.log("You have been spotted!");
                 if(this.ProxyDeath == true){
+                    this.beep_sound = new Sound( [ "../../sounds/weapons/Proxy_Beep.wav" ], obj, 1, 50 );
+                    Sounds.push(this.beep_sound);
+                    this.beep_sound.play();
                     this.death();
                     this.ProxyDeath = false;
                 }
