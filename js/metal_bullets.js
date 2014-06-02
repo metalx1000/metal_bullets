@@ -511,6 +511,7 @@ function Activate(){
 
 }
 
+
 //setup collision on wall, floors, etc
 var Teleporters = [];
 var Walls = [];
@@ -1245,7 +1246,11 @@ function check_camSensor(){
                     bullets.innerHTML = "Bullets: " + Player.bullets;
                 }else if(obj.type == "Weapon" && obj.active == true){
                     obj.active = false;
-                    obj.mesh.dispose();
+                    obj.mesh.parent = Camera;
+                    obj.mesh.position.x = 1;
+                    obj.mesh.position.y = -1;
+                    obj.mesh.position.z = 1;
+                    //obj.mesh.dispose();
                     if(obj.wtype == "Gun2"){
                         Player.gun = 2;
                         Player.bullets += 100;
@@ -1393,6 +1398,6 @@ function Activate_HUD(){
 function call_sprite(img){
     var spriteManagerPlayer = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 192, Scene);
     var player = new BABYLON.Sprite("player", spriteManagerPlayer);
-    player.position = Camera.position.add(new BABYLON.Vector3(10, 0, 10));;
+    player.position = Camera.position.add(new BABYLON.Vector3(10, 0, 10));
     player.playAnimation(0, 43, true, 100);
 } 
