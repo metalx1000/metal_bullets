@@ -178,15 +178,14 @@ function set_mouse(){
     });
 }
 
+var gun_active = false;
 window.addEventListener("mousedown", function(event) {
     Full_Screen();
     Pointer_Lock(true);
-    var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ] );
     event.preventDefault();//This prevents the highlighting of elements when shooting
     //console.log(event.which);//uncomment to test buttons
     if(event.which == 1){
-        gun_sound.play();
-        Shot();
+        Gun_Shoot();
     }else if(event.which == 3){
         if(Player.dead == false){
             player_jump();
@@ -196,6 +195,28 @@ window.addEventListener("mousedown", function(event) {
 
     }
 }, false);
+
+window.addEventListener("mouseup", function(event) {
+    if(event.which == 1){
+        gun_active = false;
+    }
+},false);
+
+/////////Weapons///////////
+function Gun_Shoot(){
+    gun_active = true;
+ 
+    var machinegun = setInterval(function(){
+        var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ] );
+        gun_sound.play();
+        Shot();
+
+        if(gun_active == false){
+            clearInterval(machinegun);
+        }
+    },100);
+
+}
 
 /////////////////////////////////Window Controls///////////////
 //Prevents Menu From popping up on right click
@@ -765,7 +786,7 @@ function Heat_Missile(_this,mother){
     _this.death_delay=0;
     _this.lookcam_d = 0;  
     _this.lookcam = _this.lookcam_d;   
-    _this.speed = 5;
+    _this.speed = 3;
     _this.suicide = true; //Kill themsselves to kill player
 
 }
@@ -783,7 +804,7 @@ function Missile(_this,mother){
     _this.death_type="explosion";
     _this.death_size=10;
     _this.death_delay=0;
-    _this.speed = 8;
+    _this.speed = 5;
     _this.suicide = true; //Kill themsselves to kill playeri
     _this.mesh.lookAt(Camera.position);
 
