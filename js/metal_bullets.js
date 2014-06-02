@@ -206,22 +206,23 @@ window.addEventListener("mouseup", function(event) {
 function Gun_Shoot(){
     gun_active = true;
 
-    if( Player.bullets > 0 ){
-        Gun_Fire();
-    } 
-
-    var machinegun = setInterval(function(){
-        
-        if( Player.bullets < 1){
-            clearInterval(machinegun);
-        }else{
+    if(Player.gun == 1 && Player.bullets > 0){
             Gun_Fire();
-        }
-
-        if(gun_active == false){
-            clearInterval(machinegun);
-        }
-    },100);
+    }else if (Player.gun == 2 && Player.bullets > 0){
+        Gun_Fire();
+        var machinegun = setInterval(function(){
+            
+            if( Player.bullets < 1){
+                clearInterval(machinegun);
+            }else{
+                Gun_Fire();
+            }
+    
+            if(gun_active == false){
+                clearInterval(machinegun);
+            }
+        },100);
+    }
 
 }
 
@@ -1111,6 +1112,7 @@ function Full_Screen(){
 /////////Player Configs/////////
 var Load_Player = function(health){
     this.dead = false;
+    this.gun = 1;
     this.bullets = 100;
     this.shells = 0;
 
@@ -1241,6 +1243,15 @@ function check_camSensor(){
                     Player.bullets += 100;
                     var bullets = document.getElementById("bullets");
                     bullets.innerHTML = "Bullets: " + Player.bullets;
+                }else if(obj.type == "Weapon" && obj.active == true){
+                    obj.active = false;
+                    obj.mesh.dispose();
+                    if(obj.wtype == "Gun2"){
+                        Player.gun = 2;
+                        Player.bullets += 100;
+                        var bullets = document.getElementById("bullets");
+                        bullets.innerHTML = "Bullets: " + Player.bullets;
+                    }
                 }else if(obj.type == "MSG" && obj.active == true){
                     obj.active = false;
                     New_MSG(ProxyMSG[obj.id]);
@@ -1290,7 +1301,12 @@ var Load_Item = function(item){
     }else if(this.type == "Bullets"){
         this.active = true;
         this.dis = 5;
+    }else if(this.type == "Weapon"){
+        this.active = true;
+        this.wtype = this.name[2];
+        this.dis = 5;
     }
+
 
 }
 
