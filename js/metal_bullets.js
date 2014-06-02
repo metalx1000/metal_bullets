@@ -184,7 +184,7 @@ window.addEventListener("mousedown", function(event) {
     Pointer_Lock(true);
     event.preventDefault();//This prevents the highlighting of elements when shooting
     //console.log(event.which);//uncomment to test buttons
-    if(event.which == 1){
+    if(event.which == 1 && Player.dead == false){
         Gun_Shoot();
     }else if(event.which == 3){
         if(Player.dead == false){
@@ -205,11 +205,18 @@ window.addEventListener("mouseup", function(event) {
 /////////Weapons///////////
 function Gun_Shoot(){
     gun_active = true;
- 
+
+    if( Player.bullets > 0 ){
+        Gun_Fire();
+    } 
+
     var machinegun = setInterval(function(){
-        var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ] );
-        gun_sound.play();
-        Shot();
+        
+        if( Player.bullets < 1){
+            clearInterval(machinegun);
+        }else{
+            Gun_Fire();
+        }
 
         if(gun_active == false){
             clearInterval(machinegun);
@@ -218,6 +225,16 @@ function Gun_Shoot(){
 
 }
 
+function Gun_Fire(){
+            Player.bullets -= 1;
+            var bullets = document.getElementById("bullets");
+            bullets.innerHTML = "Bullets: " + Player.bullets;
+
+            var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ] );
+            gun_sound.play();
+            Shot();
+
+}
 /////////////////////////////////Window Controls///////////////
 //Prevents Menu From popping up on right click
 window.addEventListener('contextmenu', function (event) {
@@ -1094,6 +1111,8 @@ function Full_Screen(){
 /////////Player Configs/////////
 var Load_Player = function(health){
     this.dead = false;
+    this.bullets = 100;
+    this.shells = 0;
 
     if(health == null){
         this.health = 100;
@@ -1318,7 +1337,7 @@ function Load_HUD(){
     var HTML_HUD ='\
     <div id="hud" class="hud">\
         <div id="health" class="hud"></div>\
-        <div id="ammo" class="hud">Ammo: 100</div>\
+        <div id="bullets" class="hud"></div>\
         <div id="bugs" class="hud"></div>\
     </div>\
     \
