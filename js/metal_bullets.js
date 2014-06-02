@@ -1235,6 +1235,12 @@ function check_camSensor(){
                     obj.active = false;
                     obj.mesh.dispose();
                     Player.med(obj.health);
+                }else if(obj.type == "Bullets" && obj.active == true && Player.bullets < 300){
+                    obj.active = false;
+                    obj.mesh.dispose();
+                    Player.bullets += 100;
+                    var bullets = document.getElementById("bullets");
+                    bullets.innerHTML = "Bullets: " + Player.bullets;
                 }else if(obj.type == "MSG" && obj.active == true){
                     obj.active = false;
                     New_MSG(ProxyMSG[obj.id]);
@@ -1281,6 +1287,9 @@ var Load_Item = function(item){
         this.active = true;
         this.id = this.name[2];
         this.dis = 20;
+    }else if(this.type == "Bullets"){
+        this.active = true;
+        this.dis = 5;
     }
 
 }
