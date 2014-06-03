@@ -68,7 +68,7 @@ function Load_Scene(MAP, MUSIC){
                 engine.runRenderLoop(function() {
                     Scene.render();
                     check_camSensor();
-                    Enemy_Update();
+                    //Enemy_Update();
                     Player.update();
                     Sounds_Update();
                 });
@@ -633,6 +633,7 @@ var Load_Enemy = function(obj){
 
     this.death = function(){
         this.dead = true;
+        clearInterval(update);
         //console.log(this.mesh.name + " is dead!!!");
         if(this.death_type=="explosion"){
             Explode = new Explosion(obj, this.death_size, this.death_delay)
@@ -678,6 +679,9 @@ var Load_Enemy = function(obj){
         }
     }
 
+    var _this = this;
+    var update = setInterval(function(){_this.update()},10);
+
     this.update = function(){
         if(this.far == null){this.far = 100};
         if(this.dead != true){
@@ -718,6 +722,7 @@ var Load_Enemy = function(obj){
                 }
                
                 if(this.attack_delay < 1 && this.weapon != null){
+                    console.log(this.attack_delay_d);
                     this.attack_delay = this.attack_delay_d;
                     this.attack();
                 }else if(this.attack_delay != null){    
@@ -770,7 +775,7 @@ function Turret(_this){
     _this.lookcam = _this.lookcam_d;
     _this.speed = 0;
     _this.weapon = "Missile"    
-    _this.attack_delay_d = 100;
+    _this.attack_delay_d = Math.floor(Math.random() * 100) + 50;
     _this.attack_delay = _this.attack_delay_d;
 }
 
@@ -780,7 +785,7 @@ function Flying(_this){
     _this.follow = true;
     _this.lookcam_d = 100;
     _this.lookcam = _this.lookcam_d;
-    _this.attack_delay_d = 100;
+    _this.attack_delay_d = Math.floor(Math.random() * 100) + 50;
     _this.attack_delay = _this.attack_delay_d;
     _this.weapon = "HEAT";
     _this.death_type="explosion";
