@@ -684,6 +684,14 @@ var Load_Enemy = function(obj){
     var update = setInterval(function(){_this.update()},10);
 
     this.update = function(){
+
+        //if object has life_time, die when the life time runs out
+        if(this.life_time != null && this.life_time > 0){
+            this.life_time -= 1;
+        }else if(this.life_time != null && this.life_time < 1){
+            this.death();
+        }
+
         if(this.far == null){this.far = 100};
         if(this.dead != true){
             this.pos = this.mesh.position;
@@ -812,6 +820,7 @@ function Heat_Missile(_this,mother){
     _this.lookcam = _this.lookcam_d;   
     _this.speed = 3;
     _this.suicide = true; //Kill themsselves to kill player
+    _this.life_time = 100;
 
 }
 
@@ -831,6 +840,7 @@ function Missile(_this,mother){
     _this.speed = 5;
     _this.suicide = true; //Kill themsselves to kill playeri
     _this.mesh.lookAt(Camera.position);
+    _this.life_time = 100;
 
 }
 
