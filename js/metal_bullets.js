@@ -661,7 +661,8 @@ var Load_Enemy = function(obj){
     this.attack = function(){
         if(this.weapon == "HEAT"){
             var missile = BABYLON.Mesh.CreateSphere("Sphere", 5.0, 0.5, Scene);
-            missile.position = this.mesh.position.add(new BABYLON.Vector3(0, 0, 0));
+            missile.position = this.mesh.position;
+            //missile.position = this.mesh.position.add(new BABYLON.Vector3(0, 0, 0));
             var mis = new Load_Enemy(missile);
             Heat_Missile(mis,this);
         }else if(this.weapon == "Missile"){
