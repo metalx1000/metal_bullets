@@ -43,7 +43,7 @@ function Load_Scene(MAP, MUSIC){
                 Camera.minZ = 1;
                 Camera.checkCollisions = true;
                 Camera.applyGravity = true;
-                Camera.ellipsoid = new BABYLON.Vector3(1, 2, 1);
+                Camera.ellipsoid = new BABYLON.Vector3(4, 2, 1);
                 Camera.speed = 1;
 
 
