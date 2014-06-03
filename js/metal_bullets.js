@@ -1147,9 +1147,13 @@ var Load_Player = function(health){
     }
 
     this.damage = function(hit){   
-        this.health -= hit;
-        if(this.health <0){
-            this.health = 0;
+        if(god_mode == false){
+            this.health -= hit;
+            if(this.health <0){
+                this.health = 0;
+            }
+        }else{
+            this.health = 100;
         }
         this.update();
     }
@@ -1414,4 +1418,19 @@ function call_sprite(img){
     var player = new BABYLON.Sprite("player", spriteManagerPlayer);
     player.position = Camera.position.add(new BABYLON.Vector3(10, 0, 10));
     player.playAnimation(0, 43, true, 100);
+}
+
+
+///////cheats/////
+var god_mode = false;
+function GOD(){
+
+    if(god_mode == false){
+        god_mode = true;
+        New_MSG("GOD MODE ENABLED!!!");
+    }else{
+        god_mode = false;
+        New_MSG("GOD MODE DISABLED!!!");
+    }
+
 } 
