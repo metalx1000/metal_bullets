@@ -67,7 +67,6 @@ function Load_Scene(MAP, MUSIC){
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
                     Scene.render();
-                    TWEEN.update();
                     check_camSensor();
                     Enemy_Update();
                     Player.update();
@@ -1066,37 +1065,35 @@ var Load_Door = function(obj){
             //console.log("Door Open.");
             //door_sound.position.copy( obj.scaling.y );
             this.sound.play();
-            Open = new TWEEN.Tween({y: obj.position.y})
-            .to({ y: obj.Floor }, 1000)
-            .onUpdate( function(){
-                //obj.translate(BABYLON.Axis.Y, -0.2, BABYLON.Space.WORLD);
-                obj.position.y=this.y;
-            });
-    
-            Open.start();
-            this.Close(obj);
+            var _this = this;
+            var open = setInterval(function(){
+                obj.locallyTranslate(new BABYLON.Vector3(0, -0.2, 0));
+                if(obj.position.y < obj.Floor){
+                    clearInterval(open);
+                    setTimeout(function(){
+                        _this.Close();
+                    },5000);
+                }
+            },10);
         }
     }
 
 
-    this.Close = function(obj){
-            var sound = this.sound;
-            setTimeout(function(){
-                sound.play();
-                    //door_sound.position.copy( obj.position );
-                        Close = new TWEEN.Tween({y: obj.position.y})
-                        .to({ y: obj.orgPosY}, 1000)
-                        .onUpdate( function(){
-                            //obj.translate(BABYLON.Axis.Y, 0.2, BABYLON.Space.WORLD);
-                            obj.position.y=this.y;
-                            if(obj.position.y.toFixed(4) == obj.orgPosY.toFixed(4)){
-                                lock = "0";
-                            }
-                        });
-                        Close.start();
-    
-            },5000);
-    
+
+    this.Close = function(){
+        this.sound.play();
+        var close = setInterval(function(){
+            obj.locallyTranslate(new BABYLON.Vector3(0, 0.2, 0));
+            if(camSensor.intersectsMesh(obj)){
+                Camera.position.y = obj.position.y + 3;
+            }
+            if(obj.position.y.toFixed(4) == obj.orgPosY.toFixed(4)){
+                lock = "0";
+//                Camera.cameraDirection.y = 2;
+                clearInterval(close);
+            }
+        },10);
+
     }
 }
 
@@ -1200,17 +1197,18 @@ function Teleport(obj){
 
 function Teleport_Blur(){
     var blurw = 10;
-    postProcess = new BABYLON.BlurPostProcess("Horizontal blur", new BABYLON.Vector2(1.0, 0), blurw, .25, Camera, null, engine, true);
+    var postProcess = new BABYLON.BlurPostProcess("Horizontal blur", new BABYLON.Vector2(1.0, 0), blurw, .25, Camera, null, engine, true);
 
-                    Blur = new TWEEN.Tween({w: blurw})
-                    .to({ w: 0}, 1000)
-                    .onUpdate( function(){
-                        postProcess.blurWidth = this.w;
-                        if(this.w == 0){
-                            postProcess.dispose();
-                        }
-                    });
-                    Blur.start();
+    var blur = setInterval(function(){
+        console.log(blurw);
+        blurw -= 0.2;
+        postProcess.blurWidth = blurw;
+        if(blurw < 0){
+            blurw = 0;
+            postProcess.dispose();
+            clearInterval(blur);
+        }
+    },10);
 }
 
 
