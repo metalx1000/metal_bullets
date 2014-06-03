@@ -64,6 +64,7 @@ function Load_Scene(MAP, MUSIC){
                 create_music_menu();
 
                 Activate_HUD();
+                Crosshairs("load");//check local storage to see if crosshairs should be on
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
                     Scene.render();
@@ -147,7 +148,7 @@ function set_keys(){
             list_mesh();
         }else if (event.keyCode === 73) {
             //lists all mesh when 'l' is pressed
-            Crosshair();
+            Crosshairs();
         }
 
 
@@ -1004,13 +1005,27 @@ function Shot(){
 }
 
 //Crosshair
-function Crosshair(){
-    if(crosshairs == true){
-        crosshairs = false;
-        document.getElementById("crosshairs").style.visibility="hidden";
+function Crosshairs(get){
+    if(get == "load"){
+        if(localStorage.getItem("crosshairs") === null){
+            localStorage.setItem("crosshairs", "false");
+        }else if(localStorage.getItem("crosshairs") == "true"){
+            crosshairs = true;
+            document.getElementById("crosshairs").style.visibility="visible";
+        }else if(localStorage.getItem("crosshairs") == "false"){
+            crosshairs = false;
+            document.getElementById("crosshairs").style.visibility="hidden";
+        }
     }else{
-        crosshairs = true;
-        document.getElementById("crosshairs").style.visibility="visible";
+        if(crosshairs == true){
+            crosshairs = false;
+            localStorage.setItem("crosshairs", "false");
+            document.getElementById("crosshairs").style.visibility="hidden";
+        }else{
+            crosshairs = true;
+            localStorage.setItem("crosshairs", "true");
+            document.getElementById("crosshairs").style.visibility="visible";
+        }
     }
 }
 
