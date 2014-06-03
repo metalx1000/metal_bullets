@@ -723,7 +723,7 @@ var Load_Enemy = function(obj){
                 }
                
                 if(this.attack_delay < 1 && this.weapon != null){
-                    console.log(this.attack_delay_d);
+                    this.mesh.lookAt(Camera.position);
                     this.attack_delay = this.attack_delay_d;
                     this.attack();
                 }else if(this.attack_delay != null){    
