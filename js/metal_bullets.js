@@ -689,9 +689,9 @@ var Load_Enemy = function(obj){
     this.update = function(){
 
         //if object has life_time, die when the life time runs out
-        if(this.life_time != null && this.life_time > 0){
+        if(this.life_time != null && this.life_time > 0 && this.dead != true){
             this.life_time -= 1;
-        }else if(this.life_time != null && this.life_time < 1){
+        }else if(this.life_time != null && this.life_time < 1 && this.dead != true){
             this.death();
         }
 
