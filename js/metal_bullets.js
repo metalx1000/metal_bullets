@@ -1423,14 +1423,16 @@ function call_sprite(img){
 
 ///////cheats/////
 var god_mode = false;
-function GOD(){
+var GOD = function(){
 
     if(god_mode == false){
         god_mode = true;
         New_MSG("GOD MODE ENABLED!!!");
+        return "GOD MODE ENABLED!!!";
     }else{
         god_mode = false;
         New_MSG("GOD MODE DISABLED!!!");
+        return "GOD MODE DISABLED!!!";
     }
 
 } 
