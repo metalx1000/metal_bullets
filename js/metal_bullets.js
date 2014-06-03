@@ -65,11 +65,12 @@ function Load_Scene(MAP, MUSIC){
 
                 Activate_HUD();
                 Crosshairs("load");//check local storage to see if crosshairs should be on
+                Enemy_Update();
+
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
                     Scene.render();
                     check_camSensor();
-                    //Enemy_Update();
                     Player.update();
                     Sounds_Update();
                 });
@@ -638,7 +639,6 @@ var Load_Enemy = function(obj){
 
     this.death = function(){
         this.dead = true;
-        clearInterval(update);
         //console.log(this.mesh.name + " is dead!!!");
         if(this.death_type=="explosion"){
             Explode = new Explosion(obj, this.death_size, this.death_delay)
@@ -685,8 +685,6 @@ var Load_Enemy = function(obj){
         }
     }
 
-    var _this = this;
-    var update = setInterval(function(){_this.update()},10);
 
     this.update = function(){
 
@@ -698,6 +696,7 @@ var Load_Enemy = function(obj){
         }
 
         if(this.far == null){this.far = 100};
+
         if(this.dead != true){
             this.pos = this.mesh.position;
 
@@ -984,9 +983,11 @@ var Explosion = function(obj, size, delay){
 }
 
 function Enemy_Update(){
-    for(var i = 0;i < Enemies.length;i++){
-        Enemies[i].update();
-    }
+    var update = setInterval(function(){
+        for(var i = 0;i < Enemies.length;i++){
+            Enemies[i].update();
+        }
+    },10);
 }
 
 //check if shot
