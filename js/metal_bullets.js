@@ -227,13 +227,17 @@ function Gun_Shoot(){
 
 function Gun_Fire(){
             Player.bullets -= 1;
-            var bullets = document.getElementById("bullets");
-            bullets.innerHTML = "Bullets: " + Player.bullets;
+            Update_Ammo();
 
             var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ] );
             gun_sound.play();
             Shot();
 
+}
+
+function Update_Ammo(){
+            var bullets = document.getElementById("bullets");
+            bullets.innerHTML = "Bullets: " + Player.bullets;
 }
 /////////////////////////////////Window Controls///////////////
 //Prevents Menu From popping up on right click
@@ -1136,6 +1140,7 @@ var Load_Player = function(health){
         this.health = health;
     }
 
+    
     this.update = function(){
 //        console.log("Health " + this.health);
         
@@ -1260,8 +1265,7 @@ function check_camSensor(){
                     obj.active = false;
                     obj.mesh.dispose();
                     Player.bullets += 100;
-                    var bullets = document.getElementById("bullets");
-                    bullets.innerHTML = "Bullets: " + Player.bullets;
+                    Update_Ammo();
                 }else if(obj.type == "Weapon" && obj.active == true){
                     obj.active = false;
                     obj.mesh.parent = Camera;
@@ -1272,8 +1276,7 @@ function check_camSensor(){
                     if(obj.wtype == "Gun2"){
                         Player.gun = 2;
                         Player.bullets += 100;
-                        var bullets = document.getElementById("bullets");
-                        bullets.innerHTML = "Bullets: " + Player.bullets;
+                        Update_Ammo();
                     }
                 }else if(obj.type == "MSG" && obj.active == true){
                     obj.active = false;
@@ -1410,6 +1413,7 @@ function Activate_HUD(){
                     document.title ="Metal Bullets";
                     document.getElementById("hud").style.visibility="visible";
                     document.getElementById("load_screen").style.visibility="hidden";
+                    Update_Ammo();
 }
 
 
