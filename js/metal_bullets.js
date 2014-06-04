@@ -757,18 +757,20 @@ var Load_Enemy = function(obj){
 
     this.check_collision = function(obs){
 //                   console.log(obs.dead) ;
-                    if(this.mesh.intersectsMesh(obs) && this.mesh != obs && obs != this.mother && obs.dead == false){
-                        if(this.collsion_death == true){
-                            this.death();
+                    if(this.mesh.intersectsMesh(obs) && this.mesh != obs && obs != this.mother){
+                        if(obs.dead == false || obs.dead == null){
+                            if(this.collsion_death == true){
+                                this.death();
+                            }
+                            if (this.follow != "none"){
+                                this.follow = false; 
+                            }
+    //                        this.mesh.position = this.pos;
+                            var rotate = Math.floor(Math.random() * 4) + 1
+                            this.mesh.rotate(BABYLON.Axis.Y, rotate, BABYLON.Space.LOCAL);
+                            this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, 1));
+                            return true;
                         }
-                        if (this.follow != "none"){
-                            this.follow = false; 
-                        }
-//                        this.mesh.position = this.pos;
-                        var rotate = Math.floor(Math.random() * 4) + 1
-                        this.mesh.rotate(BABYLON.Axis.Y, rotate, BABYLON.Space.LOCAL);
-                        this.mesh.locallyTranslate(new BABYLON.Vector3(0, 0, 1));
-                        return true;
                     }else{
                         if (this.follow != "none"){
                             this.follow = true; 
