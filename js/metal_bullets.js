@@ -687,16 +687,27 @@ var Load_Enemy = function(obj){
         }
     }
 
+   
+    this.life_span = function(){ 
+        if(this.life_time != null && this.active == true && this.dead != true){
+            var _this = this;
+            setTimeout(function(){
+                _this.death();
+            },this.life_time);
+            this.life_time = null;
+        }
+    }
 
     this.update = function(){
-
         //if object has life_time, die when the life time runs out
+        this.life_span();
+/*
         if(this.life_time != null && this.life_time > 0 && this.dead != true){
             this.life_time -= 1;
         }else if(this.life_time != null && this.life_time < 1 && this.dead != true){
             this.death();
         }
-
+*/
         if(this.far == null){this.far = 100};
 
         if(this.dead != true){
@@ -815,7 +826,7 @@ function Flying(_this){
 }
 
 function Heat_Missile(_this,mother){
-    _this.type = "Flying";
+    _this.type = "Heat_Missile";
     _this.projectile = true;
     _this.follow = true;
     _this.far = 4000;
@@ -829,12 +840,12 @@ function Heat_Missile(_this,mother){
     _this.lookcam = _this.lookcam_d;   
     _this.speed = 3;
     _this.suicide = true; //Kill themsselves to kill player
-    _this.life_time = 100;
+    _this.life_time = 5000;
 
 }
 
 function Missile(_this,mother){
-    _this.type = "Flying";
+    _this.type = "Missile";
     _this.projectile = true;
     _this.follow = "none";
     _this.lookcam_d = 1000;
@@ -849,7 +860,7 @@ function Missile(_this,mother){
     _this.speed = 5;
     _this.suicide = true; //Kill themsselves to kill playeri
     _this.mesh.lookAt(Camera.position);
-    _this.life_time = 100;
+    _this.life_time = 5000;
 
 }
 
