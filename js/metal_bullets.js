@@ -584,6 +584,7 @@ var Load_Enemy = function(obj){
     obj.shootable = true;
     obj.enemy = this;
     this.dead = false;
+    this.mesh.dead = false;
 
     //get enemy health
     this.health = 10;
@@ -639,6 +640,7 @@ var Load_Enemy = function(obj){
 
     this.death = function(){
         this.dead = true;
+        this.mesh.dead = true;
         //console.log(this.mesh.name + " is dead!!!");
         if(this.death_type=="explosion"){
             Explode = new Explosion(obj, this.death_size, this.death_delay)
@@ -754,7 +756,8 @@ var Load_Enemy = function(obj){
     }
 
     this.check_collision = function(obs){
-                    if(this.mesh.intersectsMesh(obs) && this.mesh != obs && obs != this.mother){
+//                   console.log(obs.dead) ;
+                    if(this.mesh.intersectsMesh(obs) && this.mesh != obs && obs != this.mother && obs.dead == false){
                         if(this.collsion_death == true){
                             this.death();
                         }
