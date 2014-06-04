@@ -1003,7 +1003,7 @@ function Enemy_Update(){
         for(var i = 0;i < Enemies.length;i++){
             Enemies[i].update();
         }
-    },10);
+    },50);
 }
 
 //check if shot
