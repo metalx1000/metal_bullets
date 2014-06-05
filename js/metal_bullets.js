@@ -258,6 +258,8 @@ function Gun_Fire(type){
 function Update_Ammo(){
             var bullets = document.getElementById("bullets");
             bullets.innerHTML = "Bullets: " + Player.bullets;
+            var shells = document.getElementById("shells");
+            shells.innerHTML = "Shells: " + Player.shells;
 }
 
 //check if shot
@@ -1361,7 +1363,12 @@ function check_camSensor(){
                         Player.gun = 2;
                         Player.bullets += 100;
                         Update_Ammo();
+                    }else if(obj.wtype == "Gun3"){
+                        Player.gun = 3;
+                        Player.shells += 25;
+                        Update_Ammo();
                     }
+
                 }else if(obj.type == "MSG" && obj.active == true){
                     obj.active = false;
                     New_MSG(ProxyMSG[obj.id]);
@@ -1473,6 +1480,7 @@ function Load_HUD(){
     <div id="hud" class="hud">\
         <div id="health" class="hud"></div>\
         <div id="bullets" class="hud"></div>\
+        <div id="shells" class="hud"></div>\
         <div id="bugs" class="hud"></div>\
     </div>\
     \
