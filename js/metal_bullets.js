@@ -223,17 +223,35 @@ function Gun_Shoot(){
                 clearInterval(machinegun);
             }
         },100);
+    }else if (Player.gun == 3 && Player.shells > 0 && Player.ShotGun_Active == 0){
+        Player.ShotGun_Active = 1;
+        Gun_Fire("shell");
+        setTimeout(function(){
+            Player.ShotGun_Active = 0;
+        },1800);
     }
 
 }
 
-function Gun_Fire(){
+function Gun_Fire(type){
+    if(type == "shell"){
+        Player.shells -= 1;
+        Update_Ammo();
+
+        var gun_sound = new Sound( [ "../../sounds/weapons/shotgun1.wav" ] );
+        gun_sound.play();
+
+        for(var i = 5;i > 0;i--){
+            Shot(type);
+        }
+    }else{
             Player.bullets -= 1;
             Update_Ammo();
 
             var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ] );
             gun_sound.play();
             Shot();
+    }
 
 }
 
@@ -241,6 +259,54 @@ function Update_Ammo(){
             var bullets = document.getElementById("bullets");
             bullets.innerHTML = "Bullets: " + Player.bullets;
 }
+
+//check if shot
+function Shot(type){
+   
+    if(type == "shell"){
+        var x = Math.round(engine.getRenderWidth() * 0.5) - 10;
+        var y = Math.round(engine.getRenderHeight() * 0.5) - 10;
+
+        x += Math.floor(Math.random() * 20);            
+        y += Math.floor(Math.random() * 20);            
+    }else{
+        var x = Math.round(engine.getRenderWidth() * 0.5);
+        var y = Math.round(engine.getRenderHeight() * 0.5);
+    }
+
+    var active = Scene.pick(x,y);
+    //Bullet_Effect(x,y, active.pickedMesh); //not working at this point
+                                             //need to figure out z position
+    if(active.pickedMesh != null && active.pickedMesh.shootable == true){
+            var enemy = active.pickedMesh.enemy;
+            enemy.damage(10);
+    }
+}
+
+//bullet sprite effect
+//Not functioning yet
+var Bullet_Effect = function(x,y,obj){
+    var impact = BABYLON.Mesh.CreatePlane("impact", .2, Scene);
+    impact.material = new BABYLON.StandardMaterial("impactMat", Scene);
+    impact.material.diffuseTexture = new BABYLON.Texture("../../sprites/bullet_hit.png", Scene);
+    impact.material.diffuseTexture.hasAlpha = true;
+    console.log(impact.position);
+    impact.position = obj.position;
+    impact.lookAt(Camera.position);
+        impact.locallyTranslate(new BABYLON.Vector3(0, 0, -10));    
+    
+/*    while(impact.intersectsMesh(obj)){
+        impact.locallyTranslate(new BABYLON.Vector3(0, -0.2, 0));    
+        console.log("impact");
+    }
+*/
+    console.log(impact.position);
+    //impact.position = new BABYLON.Vector3(0, 0, -0.1);
+    console.log(impact.position);
+    //impact.position.x = x;
+    //impact.position.y = y;
+}
+
 /////////////////////////////////Window Controls///////////////
 //Prevents Menu From popping up on right click
 window.addEventListener('contextmenu', function (event) {
@@ -1006,43 +1072,6 @@ function Enemy_Update(){
     },50);
 }
 
-//check if shot
-function Shot(){
-    var x = Math.round(engine.getRenderWidth() * 0.5);
-    var y = Math.round(engine.getRenderHeight() * 0.5);
-   
-    var active = Scene.pick(x,y);
-    //Bullet_Effect(x,y, active.pickedMesh); //not working at this point
-                                             //need to figure out z position
-    if(active.pickedMesh != null && active.pickedMesh.shootable == true){
-            var enemy = active.pickedMesh.enemy;
-            enemy.damage(10);
-    }
-}
-
-//bullet sprite effect
-//Not functioning yet
-var Bullet_Effect = function(x,y,obj){
-    var impact = BABYLON.Mesh.CreatePlane("impact", .2, Scene);
-    impact.material = new BABYLON.StandardMaterial("impactMat", Scene);
-    impact.material.diffuseTexture = new BABYLON.Texture("../../sprites/bullet_hit.png", Scene);
-    impact.material.diffuseTexture.hasAlpha = true;
-    console.log(impact.position);
-    impact.position = obj.position;
-    impact.lookAt(Camera.position);
-        impact.locallyTranslate(new BABYLON.Vector3(0, 0, -10));    
-    
-/*    while(impact.intersectsMesh(obj)){
-        impact.locallyTranslate(new BABYLON.Vector3(0, -0.2, 0));    
-        console.log("impact");
-    }
-*/
-    console.log(impact.position);
-    //impact.position = new BABYLON.Vector3(0, 0, -0.1);
-    console.log(impact.position);
-    //impact.position.x = x;
-    //impact.position.y = y;
-}
 //Crosshair
 function Crosshairs(get){
     if(get == "load"){
@@ -1187,6 +1216,7 @@ var Load_Player = function(health){
     this.gun = 1;
     this.bullets = 100;
     this.shells = 0;
+    this.ShotGun_Active = 0;
 
     if(health == null){
         this.health = 100;
