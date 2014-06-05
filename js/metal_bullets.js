@@ -44,7 +44,7 @@ function Load_Scene(MAP, MUSIC){
                 Camera.checkCollisions = true;
                 Camera.applyGravity = true;
                 Camera.ellipsoid = new BABYLON.Vector3(4, 2, 1);
-                Camera.speed = 1;
+                Camera.speed = 2;
 
 
                 create_camSensor();
@@ -906,7 +906,7 @@ function Heat_Missile(_this,mother){
     _this.death_delay=0;
     _this.lookcam_d = 0;  
     _this.lookcam = _this.lookcam_d;   
-    _this.speed = 3;
+    _this.speed = 2;
     _this.suicide = true; //Kill themsselves to kill player
     _this.life_time = 5000;
 
@@ -925,7 +925,7 @@ function Missile(_this,mother){
     _this.death_type="explosion";
     _this.death_size=10;
     _this.death_delay=0;
-    _this.speed = 5;
+    _this.speed = 3;
     _this.suicide = true; //Kill themsselves to kill playeri
     _this.mesh.lookAt(Camera.position);
     _this.life_time = 5000;
