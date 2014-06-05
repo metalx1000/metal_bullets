@@ -1353,8 +1353,8 @@ function check_camSensor(){
                     obj.mesh.dispose();
                     Player.bullets += 100;
                     Update_Ammo();
-                }else if(obj.type == "Weapon" && obj.active == true){
-                    obj.active = false;
+                }else if(obj.type == "Weapon" && obj.mesh.active == true){
+                    obj.mesh.active = false;
                     obj.mesh.parent = Camera;
                     obj.mesh.position.x = 1;
                     obj.mesh.position.y = -1;
@@ -1363,10 +1363,12 @@ function check_camSensor(){
                     if(obj.wtype == "Gun2"){
                         Player.gun = 2;
                         if(Player.weapon_mesh != null){
-                            console.log("test");
-                            console.log(Player.weapon_mesh.name);
                             Player.weapon_mesh.parent = null;
-                            Player.weapon_mesh.position = Camera.position.add(new BABYLON.Vector3(-1, 0, 0))
+                            Player.weapon_mesh.position = Camera.position.add(new BABYLON.Vector3(-1, -1, 0));
+                            var drop = Player.weapon_mesh;
+                            setTimeout(function(){
+                                drop.active = true;
+                            },1000);
                         }
                         Player.weapon_mesh = obj.mesh;
                         Player.bullets += 100;
@@ -1374,9 +1376,12 @@ function check_camSensor(){
                     }else if(obj.wtype == "Gun3"){
                         Player.gun = 3;
                         if(Player.weapon_mesh != null){
-                            console.log("test");
                             Player.weapon_mesh.parent = null;
-                            Player.weapon_mesh.position = Camera.position.add(new BABYLON.Vector3(-1, 0, 0))
+                            Player.weapon_mesh.position = Camera.position.add(new BABYLON.Vector3(-1, -1, 0));
+                            var drop = Player.weapon_mesh;
+                            setTimeout(function(){
+                                drop.active = true;
+                            },1000);
                         }
                         Player.weapon_mesh = obj.mesh;
                         Player.shells += 25;
@@ -1430,10 +1435,10 @@ var Load_Item = function(item){
         this.id = this.name[2];
         this.dis = 20;
     }else if(this.type == "Bullets"){
-        this.active = true;
+        this.mesh.active = true;
         this.dis = 5;
     }else if(this.type == "Weapon"){
-        this.active = true;
+        this.mesh.active = true;
         this.wtype = this.name[2];
         this.dis = 5;
     }
