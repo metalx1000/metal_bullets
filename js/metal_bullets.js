@@ -1219,6 +1219,7 @@ var Load_Player = function(health){
     this.bullets = 100;
     this.shells = 0;
     this.ShotGun_Active = 0;
+    this.weapon_mesh = null;
 
     if(health == null){
         this.health = 100;
@@ -1361,10 +1362,23 @@ function check_camSensor(){
                     //obj.mesh.dispose();
                     if(obj.wtype == "Gun2"){
                         Player.gun = 2;
+                        if(Player.weapon_mesh != null){
+                            console.log("test");
+                            console.log(Player.weapon_mesh.name);
+                            Player.weapon_mesh.parent = null;
+                            Player.weapon_mesh.position = Camera.position.add(new BABYLON.Vector3(-1, 0, 0))
+                        }
+                        Player.weapon_mesh = obj.mesh;
                         Player.bullets += 100;
                         Update_Ammo();
                     }else if(obj.wtype == "Gun3"){
                         Player.gun = 3;
+                        if(Player.weapon_mesh != null){
+                            console.log("test");
+                            Player.weapon_mesh.parent = null;
+                            Player.weapon_mesh.position = Camera.position.add(new BABYLON.Vector3(-1, 0, 0))
+                        }
+                        Player.weapon_mesh = obj.mesh;
                         Player.shells += 25;
                         Update_Ammo();
                     }
