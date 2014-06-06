@@ -49,6 +49,11 @@
     position: fixed;
     bottom: 0;
 }
+#fps{
+    position: fixed;
+    bottom: 0;
+}
+
 
 
 #crosshairs{

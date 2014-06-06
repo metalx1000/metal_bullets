@@ -1071,6 +1071,9 @@ function Enemy_Update(){
         for(var i = 0;i < Enemies.length;i++){
             Enemies[i].update();
         }
+        //this updates the HUD fps element
+        //and will most likely be moved else where at some pount
+        HUD_FPS();
     },50);
 }
 
@@ -1501,6 +1504,7 @@ function Load_HUD(){
         <div id="bullets" class="hud"></div>\
         <div id="shells" class="hud"></div>\
         <div id="bugs" class="hud"></div>\
+        <div id="fps" class="hud"></div>\
     </div>\
     \
     <div id="crosshairs"><img src="../../sprites/crosshairs/crosshair_1.png"></div>\
@@ -1535,6 +1539,18 @@ function call_sprite(img){
     player.playAnimation(0, 43, true, 100);
 }
 
+//////frame persecond for hud//////
+var HUD_FPS_active = true;
+function HUD_FPS(){
+    var html = document.getElementById("fps");
+    if(HUD_FPS_active == true){
+        var fps = BABYLON.Tools.GetFps().toFixed() + " fps";
+        html.innerHTML = fps;
+    }else{
+        html.innerHTML = "";
+    }
+        
+}
 
 ///////cheats/////
 var god_mode = false;
