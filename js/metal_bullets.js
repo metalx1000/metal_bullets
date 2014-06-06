@@ -1242,13 +1242,13 @@ var Load_Player = function(health){
     }
 
     this.damage = function(hit){   
-        if(god_mode == false){
+        if(god_mode == false && this.dead == false){
             this.health -= hit;
             if(this.health <0){
                 this.health = 0;
             }
             Damage_Layer();
-        }else{
+        }else if(god_mode == true){
             this.health = 100;
         }
         this.update();
@@ -1267,6 +1267,7 @@ var Load_Player = function(health){
 
     this.death = function(){
         Camera.detachControl(canvas);
+        Dead_Layer();
         if(this.dead == false){
             this.dead = true;
             New_MSG("Player Died!!!");
@@ -1570,6 +1571,7 @@ var GOD = function(){
 
 } 
 
+////////layers///////////////////
 ////////display read layer when player is hit//////
 var layer_timeout;
 function Damage_Layer(){
@@ -1579,4 +1581,11 @@ function Damage_Layer(){
     layer_timeout = setTimeout(function(){
         layer.style.visibility="hidden";
     },500);
+}
+
+function Dead_Layer(){
+    layer = document.getElementById("screen_layer");
+    layer.style.visibility="visible";
+    layer.src = "../../sprites/screen_layers/red_dead.png";
+
 }
