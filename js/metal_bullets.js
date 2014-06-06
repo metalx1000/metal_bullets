@@ -713,7 +713,7 @@ var Load_Enemy = function(obj){
         if(this.death_type=="explosion"){
             Explode = new Explosion(obj, this.death_size, this.death_delay)
         }
-        //this.mesh.dispose();//This line stops click of items not working, but barrel death does not look as good
+        
     }
     
 
@@ -1280,6 +1280,13 @@ var Load_Player = function(health){
             New_MSG("Player Died!!!");
             New_MSG("Press Space to restart level");
         }
+
+        ////Player Drops Weapon on death
+        if(this.weapon_mesh != null){
+            this.weapon_mesh.parent = null;
+            this.weapon_mesh.position = Camera.position.add(new BABYLON.Vector3(-2, -2, 0));
+        }
+
     }
 
     var _this = this;
