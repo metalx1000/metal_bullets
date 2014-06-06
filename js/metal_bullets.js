@@ -189,7 +189,7 @@ window.addEventListener("mousedown", function(event) {
         Gun_Shoot();
     }else if(event.which == 3){
         if(Player.dead == false){
-            player_jump();
+            Player.jump();
         }else{
             location.reload();//reload level if player is dead
         }
@@ -1241,6 +1241,13 @@ var Load_Player = function(health){
         }
     }
 
+    this.jump = function(height){
+        if(height == null){height = 3};
+            if(Camera.cameraDirection.y < 0.25){
+                Camera.cameraDirection.y = height;
+            }
+    }
+
     this.damage = function(hit){   
         if(god_mode == false && this.dead == false){
             this.health -= hit;
@@ -1282,16 +1289,6 @@ var Load_Player = function(health){
         }
     },1000);
 }
-//jump
-function player_jump(){
-            //you would think this would be set to 0
-            //but this seems to work better
-            //or there is a delay between jumps
-            if(Camera.cameraDirection.y < 0.25){
-                Camera.cameraDirection.y = 2;
-            }
-
-}
 
 function Teleport(obj){
     console.log("Teleporting Player.");
@@ -1318,7 +1315,6 @@ function Teleport_Blur(){
     var postProcess = new BABYLON.BlurPostProcess("Horizontal blur", new BABYLON.Vector2(1.0, 0), blurw, .25, Camera, null, engine, true);
 
     var blur = setInterval(function(){
-        console.log(blurw);
         blurw -= 0.2;
         postProcess.blurWidth = blurw;
         if(blurw < 0){
