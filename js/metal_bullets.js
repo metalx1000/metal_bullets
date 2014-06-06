@@ -1247,10 +1247,12 @@ var Load_Player = function(health){
             if(this.health <0){
                 this.health = 0;
             }
+            Damage_Layer();
         }else{
             this.health = 100;
         }
         this.update();
+        
     }
     
     this.med = function(med){
@@ -1567,3 +1569,14 @@ var GOD = function(){
     }
 
 } 
+
+////////display read layer when player is hit//////
+var layer_timeout;
+function Damage_Layer(){
+    clearTimeout(layer_timeout);
+    layer = document.getElementById("screen_layer");
+    layer.style.visibility="visible";
+    layer_timeout = setTimeout(function(){
+        layer.style.visibility="hidden";
+    },500);
+}
