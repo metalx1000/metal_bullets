@@ -1560,7 +1560,7 @@ function HUD_FPS(){
 
 ///////cheats/////
 var god_mode = false;
-var GOD = function(){
+function GOD(){
 
     if(god_mode == false){
         god_mode = true;
@@ -1574,6 +1574,12 @@ var GOD = function(){
 
 } 
 
+//Respawn Player after death
+function Respawn(){
+    Player.health = 100;
+    Player.dead = false;
+    Scene.activeCamera.attachControl(canvas);
+} 
 ////////layers///////////////////
 ////////display read layer when player is hit//////
 var layer_timeout;
