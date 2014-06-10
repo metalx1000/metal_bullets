@@ -1140,6 +1140,7 @@ function check_distance(obj, obj1){
 
 //Doors
 var Load_Door = function(obj){
+    Scene.stopAnimation(obj);
     this.sound = new Sound( [ '../../sounds/doors/door.wav' ], obj, 1, 200 );
     Sounds.push(this.sound);
     this.mesh = obj;
@@ -1161,32 +1162,39 @@ var Load_Door = function(obj){
 
     this.Open = function(obj){
 
-        if(this.DoorType == null){
-            //obj.DoorType = this.Type;
-            Console.log("This Door doesn't have a DoorType");
-        }
-
-        if(lock != "1"){
-            lock = "1";
-            obj.orgPosY = obj.position.y;
-        
-            //console.log("Door Open.");
-            //door_sound.position.copy( obj.scaling.y );
+        if(this.DoorType != "Down"){
+            _this = this;
             this.sound.play();
-            var _this = this;
-            var open = setInterval(function(){
-                obj.locallyTranslate(new BABYLON.Vector3(0, -0.2, 0));
-                if(obj.position.y < obj.Floor){
-                    clearInterval(open);
-                    setTimeout(function(){
-                        _this.Close();
-                    },5000);
-                }
-            },10);
+            Scene.beginAnimation(obj,1,30,false,1.0);
+            setTimeout(function(){
+                _this.sound.play();
+                Scene.beginAnimation(obj,30,60,false,1.0);
+            },5000);
+            
+        
+        }else if(this.DoorType == "Down"){
+
+            if(lock != "1"){
+                lock = "1";
+                obj.orgPosY = obj.position.y;
+        
+                //console.log("Door Open.");
+                //door_sound.position.copy( obj.scaling.y );
+                this.sound.play();
+                var _this = this;
+                var open = setInterval(function(){
+                    obj.locallyTranslate(new BABYLON.Vector3(0, -0.2, 0));
+                    if(obj.position.y < obj.Floor){
+                        clearInterval(open);
+                        setTimeout(function(){
+                            _this.Close();
+                        },5000);
+                    }
+                },10);
+            }
         }
-    }
-
-
+    } 
+    
 
     this.Close = function(){
         this.sound.play();
