@@ -135,10 +135,10 @@ function set_keys(){
         }else if (event.keyCode === 77) {
             //"Menu on 'M'"
             Menu_Open();
-        }else if (event.keyCode === 61) {
+        }else if (event.keyCode === 61 || event.keyCode === 187) {
             //music volume up on '+'
             Music.vol_up();
-        }else if (event.keyCode === 173) {
+        }else if (event.keyCode === 173 || event.keyCode === 189) {
             //music volume down on '-'
             Music.vol_down();
         }else if (event.keyCode === 80) {
