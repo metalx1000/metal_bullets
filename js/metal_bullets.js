@@ -1162,13 +1162,15 @@ var Load_Door = function(obj){
 
     this.Open = function(obj){
 
-        if(this.DoorType != "Down"){
+        if(this.DoorType != "Down" && lock != "1"){
+            lock = "1";
             _this = this;
             this.sound.play();
             Scene.beginAnimation(obj,1,30,false,1.0);
             setTimeout(function(){
                 _this.sound.play();
                 Scene.beginAnimation(obj,30,60,false,1.0);
+                lock = "0";
             },5000);
             
         
