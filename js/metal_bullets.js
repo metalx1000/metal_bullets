@@ -35,6 +35,7 @@ function Load_Scene(MAP, MUSIC){
                 Scene.gravity = new BABYLON.Vector3(0, -1, 0);
                 Scene.collisionsEnabled = true;
 
+                Load_Missile_Model();
                 //Load_Fog();
                 //Load_Sky();
                 Object_Setup();
@@ -262,6 +263,15 @@ function Update_Ammo(){
             shells.innerHTML = "Shells: " + Player.shells;
 }
 
+var MissileDUD;
+function Load_Missile_Model(obj){
+        BABYLON.SceneLoader.ImportMesh("Missile", "../../models/", "Missile.babylon", Scene, function (newMeshes, particleSystems) {
+            MissileDUD = newMeshes[0];
+            MissileDUD.scaling.x = 0.25;
+            MissileDUD.scaling.y = 0.25;
+            MissileDUD.scaling.z = 0.25;
+        });
+}
 //check if shot
 function Shot(type){
    
@@ -742,15 +752,16 @@ var Load_Enemy = function(obj){
             var mis = new Load_Enemy(missile);
             Heat_Missile(mis,this);
         }else if(this.weapon == "Missile"){
-            //var missile = BABYLON.Mesh.CreateSphere("Sphere", 5.0, 0.5, Scene);   
-            var MissileDUD = Scene.getMeshByName("Missile.Dud")
+            //var missile = BABYLON.Mesh.CreateSphere("Sphere", 5.0, 0.5, Scene);
+            //var MissileDUD = Scene.getMeshByName("MissileDUD");
+            var MissileDUD = Scene.getMeshByName("Missile");
             MissileDUD.lookAt(Camera.position);
             MissileDUD.position = this.mesh.position;
             var missile = MissileDUD.clone("MissileID" + Missile_ID);
             missile = Scene.getMeshByName("MissileID" + Missile_ID);
             Missile_ID += 1;
             //missile.position = this.mesh.position.add(new BABYLON.Vector3(2, 2, 2));
-//            console.log(this);
+// console.log(this);
             var mis = new Load_Enemy(missile);
             Missile(mis,this);
         }
