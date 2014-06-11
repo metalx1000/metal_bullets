@@ -418,7 +418,8 @@ var Load_Music = function ( sources, volume ) {
 
     ////////////////Retrieve Saved music Volume
     if(localStorage.getItem("Music_Vol") != null){
-        this.vol = localStorage.getItem("Music_Vol");
+        this.vol = parseFloat(localStorage.getItem("Music_Vol"));
+        
         this.set_vol(this.vol);
     }
 
