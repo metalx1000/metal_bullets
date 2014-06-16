@@ -32,7 +32,7 @@ function Load_Scene(MAP, MUSIC){
 
                 Scene.enablePhysics();
 //                Scene.setGravity(new BABYLON.Vector3(0, -0.1, 10));
-                Scene.gravity = new BABYLON.Vector3(0, -1, 0);
+                Scene.gravity = new BABYLON.Vector3(0, -0.3, 0);
                 Scene.collisionsEnabled = true;
 
                 Load_Missile_Model();
@@ -1264,7 +1264,7 @@ var Load_Player = function(health){
     }
 
     this.jump = function(height){
-        if(height == null){height = 3};
+        if(height == null){height = 1};
             if(Camera.cameraDirection.y < 0.25){
                 Camera.cameraDirection.y = height;
             }
