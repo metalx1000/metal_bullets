@@ -267,6 +267,7 @@ var MissileDUD;
 function Load_Missile_Model(obj){
         BABYLON.SceneLoader.ImportMesh("Missile", "../../models/", "Missile.babylon", Scene, function (newMeshes, particleSystems) {
             MissileDUD = newMeshes[0];
+            MissileDUD.visibility = false;
             MissileDUD.scaling.x = 0.25;
             MissileDUD.scaling.y = 0.25;
             MissileDUD.scaling.z = 0.25;
@@ -761,6 +762,7 @@ var Load_Enemy = function(obj){
                 MissileDUD.lookAt(Camera.position);
                 MissileDUD.position = this.mesh.position;
                 var missile = MissileDUD.clone("MissileID" + Missile_ID);
+                missile.visibility = true;
                 missile = Scene.getMeshByName("MissileID" + Missile_ID);
                 Missile_ID += 1;
                 //missile.position = this.mesh.position.add(new BABYLON.Vector3(2, 2, 2));
