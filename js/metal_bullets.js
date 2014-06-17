@@ -1614,6 +1614,11 @@ function GOD(){
 
 } 
 
+function killall(){
+    for(var i = 0;i < Enemies.length;i++){
+        Enemies[i].death();
+    }
+}
 //Respawn Player after death
 function Respawn(){
     Player.health = 100;
