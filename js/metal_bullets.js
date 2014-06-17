@@ -718,11 +718,13 @@ var Load_Enemy = function(obj){
 
 
     this.death = function(){
-        this.dead = true;
-        this.mesh.dead = true;
-        //console.log(this.mesh.name + " is dead!!!");
-        if(this.death_type=="explosion"){
-            Explode = new Explosion(obj, this.death_size, this.death_delay)
+        if(this.dead != true){
+            this.dead = true;
+            this.mesh.dead = true;
+            //console.log(this.mesh.name + " is dead!!!");
+            if(this.death_type=="explosion"){
+                Explode = new Explosion(obj, this.death_size, this.death_delay)
+            }
         }
         
     }
@@ -745,25 +747,27 @@ var Load_Enemy = function(obj){
     }
 
     this.attack = function(){
-        if(this.weapon == "HEAT"){
-            var missile = BABYLON.Mesh.CreateSphere("Sphere", 5.0, 0.5, Scene);
-            missile.position = this.mesh.position;
-            //missile.position = this.mesh.position.add(new BABYLON.Vector3(0, 0, 0));
-            var mis = new Load_Enemy(missile);
-            Heat_Missile(mis,this);
-        }else if(this.weapon == "Missile"){
-            //var missile = BABYLON.Mesh.CreateSphere("Sphere", 5.0, 0.5, Scene);
-            //var MissileDUD = Scene.getMeshByName("MissileDUD");
-            var MissileDUD = Scene.getMeshByName("Missile");
-            MissileDUD.lookAt(Camera.position);
-            MissileDUD.position = this.mesh.position;
-            var missile = MissileDUD.clone("MissileID" + Missile_ID);
-            missile = Scene.getMeshByName("MissileID" + Missile_ID);
-            Missile_ID += 1;
-            //missile.position = this.mesh.position.add(new BABYLON.Vector3(2, 2, 2));
-// console.log(this);
-            var mis = new Load_Enemy(missile);
-            Missile(mis,this);
+        if(this.dead != true){
+            if(this.weapon == "HEAT"){
+                var missile = BABYLON.Mesh.CreateSphere("Sphere", 5.0, 0.5, Scene);
+                missile.position = this.mesh.position;
+                //missile.position = this.mesh.position.add(new BABYLON.Vector3(0, 0, 0));
+                var mis = new Load_Enemy(missile);
+                Heat_Missile(mis,this);
+            }else if(this.weapon == "Missile"){
+                //var missile = BABYLON.Mesh.CreateSphere("Sphere", 5.0, 0.5, Scene);
+                //var MissileDUD = Scene.getMeshByName("MissileDUD");
+                var MissileDUD = Scene.getMeshByName("Missile");
+                MissileDUD.lookAt(Camera.position);
+                MissileDUD.position = this.mesh.position;
+                var missile = MissileDUD.clone("MissileID" + Missile_ID);
+                missile = Scene.getMeshByName("MissileID" + Missile_ID);
+                Missile_ID += 1;
+                //missile.position = this.mesh.position.add(new BABYLON.Vector3(2, 2, 2));
+    // console.log(this);
+                var mis = new Load_Enemy(missile);
+                Missile(mis,this);
+            }
         }
     }
 
