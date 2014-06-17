@@ -994,6 +994,7 @@ var sound_limit = 0;
 var Explosion = function(obj, size, delay){
     this.mesh = obj;
     this.sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], obj, 1, 200 );
+
     Sounds.push(this.sound);
 //    this.sound = new Sound( [ "../../sounds/weapons/explode_1.wav" ], 275, 1 );
     var explosion = new BABYLON.SpriteManager("Explosion", "../../sprites/explosions/Exp_type_B.png", 2, 32, Scene);
@@ -1252,6 +1253,14 @@ var Load_Player = function(health){
     this.ShotGun_Active = 0;
     this.weapon_mesh = null;
 
+    //sounds
+    this.death_sound = new Sound( [ "../../sounds/player/death_1.wav" ] );
+    this.jump_sound = new Sound( [ "../../sounds/player/jump.wav" ] );
+    
+    this.hurt_sounds = [];
+    this.hurt_sounds.push(new Sound( [ "../../sounds/player/hurt_1.wav" ] ));
+    this.hurt_sounds.push(new Sound( [ "../../sounds/player/hurt_2.wav" ] ));
+
     if(health == null){
         this.health = 100;
     }else{
@@ -1270,6 +1279,7 @@ var Load_Player = function(health){
     }
 
     this.jump = function(height){
+        this.jump_sound.play();
         if(height == null){height = 1};
             if(Camera.cameraDirection.y < 0.25){
                 Camera.cameraDirection.y = height;
@@ -1278,6 +1288,7 @@ var Load_Player = function(health){
 
     this.damage = function(hit){   
         if(god_mode == false && this.dead == false){
+            this.hurt_sounds[0].play(); 
             this.health -= hit;
             if(this.health <0){
                 this.health = 0;
@@ -1304,6 +1315,7 @@ var Load_Player = function(health){
         Camera.detachControl(canvas);
         Dead_Layer();
         if(this.dead == false){
+            this.death_sound.play();
             this.dead = true;
             New_MSG("Player Died!!!");
             New_MSG("Press Space to restart level");
