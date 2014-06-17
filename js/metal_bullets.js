@@ -617,6 +617,7 @@ function Object_Setup(){
     Sounds = [];
     Items = [];
     Obstacles = [];
+    Environments = [];
 
     var obj;
     for(var i = 0;i<Scene.meshes.length;i++){ 
@@ -649,6 +650,8 @@ function Object_Setup(){
             obj.pos = obj.array[1];
         }else if(obj.type == "Item"){
             Items.push(new Load_Item(obj));
+        }else if(obj.type == "Env"){
+            Environments.push(obj);
         }
     }
     
@@ -1256,6 +1259,7 @@ var Load_Player = function(health){
     //sounds
     this.death_sound = new Sound( [ "../../sounds/player/death_1.wav" ] );
     this.jump_sound = new Sound( [ "../../sounds/player/jump.wav" ] );
+    this.water_sound = new Sound( [ "../../sounds/water_splash.wav" ] );
     
     this.hurt_sounds = [];
     this.hurt_sounds.push(new Sound( [ "../../sounds/player/hurt_1.wav" ] ));
@@ -1387,9 +1391,18 @@ function check_camSensor(){
             }
         }
 
+        for(var i=0;i<Environments.length;i++){
+            obj = Environments[i];
+            if(camSensor.intersectsMesh(obj)){
+                console.log("water");
+                Player.water_splash_sound.play();
+            }
+            
+        }
+
         for(var i=0;i<Items.length;i++){
             obj = Items[i];
-            dis = check_distance(obj.mesh, Camera)
+            dis = check_distance(obj.mesh, Camera);
             if(dis < obj.dis){
                 Touch_Sensor = 1;
                 setTimeout(function(){ Touch_Sensor = 0; },10); //wait for touch_sensor to reactivate
