@@ -1259,7 +1259,9 @@ var Load_Player = function(health){
     //sounds
     this.death_sound = new Sound( [ "../../sounds/player/death_1.wav" ] );
     this.jump_sound = new Sound( [ "../../sounds/player/jump.wav" ] );
-    this.water_sound = new Sound( [ "../../sounds/water_splash.wav" ] );
+
+    this.water = false;
+    this.water_splash_sound = new Sound( [ "../../sounds/water_splash.wav" ] );
     
     this.hurt_sounds = [];
     this.hurt_sounds.push(new Sound( [ "../../sounds/player/hurt_1.wav" ] ));
@@ -1394,8 +1396,12 @@ function check_camSensor(){
         for(var i=0;i<Environments.length;i++){
             obj = Environments[i];
             if(camSensor.intersectsMesh(obj)){
-                console.log("water");
-                Player.water_splash_sound.play();
+                if(Player.water == false){
+                    Player.water = true;
+                    Player.water_splash_sound.play();
+                }
+            }else{
+                Player.water = false;
             }
             
         }
@@ -1471,7 +1477,7 @@ function create_camSensor(){
     camSensor.material = new BABYLON.StandardMaterial("camMat", Scene);
     camSensor.isVisible = false;
     camSensor.material.wireframe = true;
-    camSensor.scaling = new BABYLON.Vector3(1, 2, 1);
+    camSensor.scaling = new BABYLON.Vector3(1, 4, 1);
     camSensor.position = Camera.position;
 //    camSensor.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 5, friction: 0.5, restitution: 0 });
     //camSensor.parent = Camera;
