@@ -1411,8 +1411,10 @@ function check_camSensor(){
                 if(type == "Water" && Player.water == false){
                     Player.water = true;
                     Player.water_splash_sound.play();
+                    break;
                 }else if(type == "Lava" && Player.lava == false){
                     Player.lava = true;
+                    break;
                 }
             }else {
                 Player.water = false;
