@@ -1096,6 +1096,12 @@ function Enemy_Update(){
         //this updates the HUD fps element
         //and will most likely be moved else where at some pount
         HUD_FPS();
+
+        //if player is in lava
+        if(Player.lava == true){
+            Player.damage(1);
+        }
+
     },50);
 }
 
@@ -1263,6 +1269,8 @@ var Load_Player = function(health){
     this.water = false;
     this.water_splash_sound = new Sound( [ "../../sounds/water_splash.wav" ] );
     
+    this.lava = false;
+
     this.hurt_sounds = [];
     this.hurt_sounds.push(new Sound( [ "../../sounds/player/hurt_1.wav" ] ));
     this.hurt_sounds.push(new Sound( [ "../../sounds/player/hurt_2.wav" ] ));
@@ -1282,6 +1290,7 @@ var Load_Player = function(health){
         if(this.health < 1){
             this.death();
         }
+        
     }
 
     this.jump = function(height){
@@ -1394,14 +1403,20 @@ function check_camSensor(){
         }
 
         for(var i=0;i<Environments.length;i++){
-            obj = Environments[i];
+            var obj = Environments[i];
+            var name = obj.name.split(".");
+            var type = name[1];
+
             if(camSensor.intersectsMesh(obj)){
-                if(Player.water == false){
+                if(type == "Water" && Player.water == false){
                     Player.water = true;
                     Player.water_splash_sound.play();
+                }else if(type == "Lava" && Player.lava == false){
+                    Player.lava = true;
                 }
-            }else{
+            }else {
                 Player.water = false;
+                Player.lava = false;
             }
             
         }
