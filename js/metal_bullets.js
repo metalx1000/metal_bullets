@@ -1303,7 +1303,9 @@ var Load_Player = function(health){
 
     this.damage = function(hit){   
         if(god_mode == false && this.dead == false){
-            this.hurt_sounds[0].play(); 
+            var h = Math.floor(Math.random() * this.hurt_sounds.length);
+            console.log(h);
+            this.hurt_sounds[h].play(); 
             this.health -= hit;
             if(this.health <0){
                 this.health = 0;
