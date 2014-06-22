@@ -249,8 +249,12 @@ function Gun_Fire(type){
             Player.bullets -= 1;
             Update_Ammo();
 
-            var gun_sound = new Sound( [ "../../sounds/weapons/gun1.wav" ] );
-            gun_sound.play();
+            Player.bullet_sounds[Player.bullet_x].play();
+            Player.bullet_x += 1;
+            if(Player.bullet_x > Player.bullet_max){
+                Player.bullet_x = 0;
+            }
+
             Shot();
     }
 
@@ -1279,6 +1283,16 @@ var Load_Player = function(health){
     this.hurt_sounds = [];
     this.hurt_sounds.push(new Sound( [ "../../sounds/player/hurt_1.wav" ] ));
     this.hurt_sounds.push(new Sound( [ "../../sounds/player/hurt_2.wav" ] ));
+
+    this.bullet_sounds = [];
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    
+    this.bullet_x = 0;
+    this.bullet_max = this.bullet_sounds.length;
 
     if(health == null){
         this.health = 100;
