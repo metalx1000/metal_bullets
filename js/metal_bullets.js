@@ -1294,6 +1294,8 @@ var Load_Player = function(health){
     this.bullet_x = 0;
     this.bullet_max = this.bullet_sounds.length;
 
+    this.health_sound = new Sound( [ "../../sounds/item_pickup.wav" ] );
+
     if(health == null){
         this.health = 100;
     }else{
@@ -1452,6 +1454,7 @@ function check_camSensor(){
                 Touch_Sensor = 1;
                 setTimeout(function(){ Touch_Sensor = 0; },10); //wait for touch_sensor to reactivate
                 if(obj.type == "HealthPack" && obj.active == true && Player.health < 100){
+                    Player.health_sound.play();
                     obj.active = false;
                     obj.mesh.dispose();
                     Player.med(obj.health);
