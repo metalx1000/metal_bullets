@@ -66,7 +66,7 @@ function Load_Scene(MAP, MUSIC){
 
                 Activate_HUD();
                 Crosshairs("load");//check local storage to see if crosshairs should be on
-                Enemy_Update();
+                Start_Main_Timer();
 
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
@@ -1088,8 +1088,8 @@ var Explosion = function(obj, size, delay){
 
 }
 
-function Enemy_Update(){
-    var update = setInterval(function(){
+function Start_Main_Timer(){
+    var Main_Timer = setInterval(function(){
         for(var i = 0;i < Enemies.length;i++){
             Enemies[i].update();
         }
@@ -1284,7 +1284,8 @@ var Load_Player = function(health){
     
     this.update = function(){
 //        console.log("Health " + this.health);
-        
+       
+ 
         var hud_health = document.getElementById("health");
         hud_health.innerHTML = "Health: " + this.health;
         if(this.health < 1){
