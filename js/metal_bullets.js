@@ -251,9 +251,11 @@ function Gun_Fire(type){
 
             Player.bullet_sounds[Player.bullet_x].play();
             Player.bullet_x += 1;
-            if(Player.bullet_x > Player.bullet_max){
+            if(Player.bullet_x >= Player.bullet_max){
                 Player.bullet_x = 0;
+                console.log(Player.bullet_x);
             }
+            console.log(Player.bullet_x + " of " + Player.bullet_max);
 
             Shot();
     }
@@ -1290,6 +1292,12 @@ var Load_Player = function(health){
     this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
     this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
     this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
     
     this.bullet_x = 0;
     this.bullet_max = this.bullet_sounds.length;
@@ -1458,6 +1466,7 @@ function check_camSensor(){
                     obj.active = false;
                     obj.mesh.dispose();
                     Player.med(obj.health);
+                    New_MSG("Picked Up Health Pack");
                 }else if(obj.type == "Bullets" && obj.active == true && Player.bullets < 300){
                     obj.active = false;
                     obj.mesh.dispose();
