@@ -1090,6 +1090,11 @@ var Explosion = function(obj, size, delay){
 
 function Start_Main_Timer(){
     var Main_Timer = setInterval(function(){
+
+        if(Camera.cameraDirection.y < 0.25){
+            Camera.cameraDirection.y = -0.1;//Gravity
+        }
+ 
         for(var i = 0;i < Enemies.length;i++){
             Enemies[i].update();
         }
