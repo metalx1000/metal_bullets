@@ -43,9 +43,9 @@ function Load_Scene(MAP, MUSIC){
 
                 Camera.minZ = 1;
                 Camera.checkCollisions = true;
-                Camera.applyGravity = true;
+//                Camera.applyGravity = true;
                 Camera.ellipsoid = new BABYLON.Vector3(4, 2, 1);
-                Camera.speed = 2;
+                Camera.speed = 3;
 
 
                 create_camSensor();
@@ -1098,7 +1098,7 @@ function Start_Main_Timer(){
     var Main_Timer = setInterval(function(){
 
         if(Camera.cameraDirection.y < 0.25){
-            Camera.cameraDirection.y = -0.1;//Gravity
+            Camera.cameraDirection.y = -0.4;//Gravity
         }
  
         for(var i = 0;i < Enemies.length;i++){
