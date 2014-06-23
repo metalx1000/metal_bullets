@@ -225,7 +225,6 @@ function Gun_Shoot(){
 function Gun_Fire(type){
     if(type == "shell"){
         Player.shells -= 1;
-        Update_Ammo();
 
         var gun_sound = new Sound( [ "../../sounds/weapons/shotgun1.wav" ] );
         gun_sound.play();
@@ -235,7 +234,6 @@ function Gun_Fire(type){
         }
     }else{
             Player.bullets -= 1;
-            Update_Ammo();
 
             Player.bullet_sounds[Player.bullet_x].play();
             Player.bullet_x += 1;
@@ -248,12 +246,6 @@ function Gun_Fire(type){
 
 }
 
-function Update_Ammo(){
-            var bullets = document.getElementById("bullets");
-            bullets.innerHTML = "Bullets: " + Player.bullets;
-            var shells = document.getElementById("shells");
-            shells.innerHTML = "Shells: " + Player.shells;
-}
 
 var MissileDUD;
 function Load_Missile_Model(obj){
@@ -1312,14 +1304,19 @@ var Load_Player = function(health){
 
     
     this.update = function(){
-//        console.log("Health " + this.health);
-       
- 
+        //update health hud 
         var hud_health = document.getElementById("health");
         hud_health.innerHTML = "Health: " + this.health;
         if(this.health < 1){
             this.death();
         }
+
+            //update ammo hud
+            var bullets = document.getElementById("bullets");
+            bullets.innerHTML = "Bullets: " + Player.bullets;
+            var shells = document.getElementById("shells");
+            shells.innerHTML = "Shells: " + Player.shells;
+
         
     }
 
@@ -1471,7 +1468,6 @@ function check_camSensor(){
                     obj.active = false;
                     obj.mesh.dispose();
                     Player.bullets += 100;
-                    Update_Ammo();
                 }else if(obj.type == "Weapon" && obj.mesh.active == true){
                     obj.mesh.active = false;
                     obj.mesh.parent = Camera;
@@ -1491,7 +1487,6 @@ function check_camSensor(){
                         }
                         Player.weapon_mesh = obj.mesh;
                         Player.bullets += 100;
-                        Update_Ammo();
                     }else if(obj.wtype == "Gun3"){
                         Player.gun = 3;
                         if(Player.weapon_mesh != null){
@@ -1504,7 +1499,6 @@ function check_camSensor(){
                         }
                         Player.weapon_mesh = obj.mesh;
                         Player.shells += 25;
-                        Update_Ammo();
                     }
 
                 }else if(obj.type == "MSG" && obj.active == true){
@@ -1644,7 +1638,6 @@ function Activate_HUD(){
                     document.title ="Metal Bullets";
                     document.getElementById("hud").style.visibility="visible";
                     document.getElementById("load_screen").style.visibility="hidden";
-                    Update_Ammo();
 }
 
 
