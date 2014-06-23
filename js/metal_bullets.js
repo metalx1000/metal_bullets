@@ -241,9 +241,7 @@ function Gun_Fire(type){
             Player.bullet_x += 1;
             if(Player.bullet_x >= Player.bullet_max){
                 Player.bullet_x = 0;
-                console.log(Player.bullet_x);
             }
-            console.log(Player.bullet_x + " of " + Player.bullet_max);
 
             Shot();
     }
