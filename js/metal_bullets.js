@@ -8,13 +8,12 @@
 //var height = window.innerHeight;
 
 ////////////////////////////Load Scene/////////////////////////////
-var Scene, Camera, canvas, engine, Player;
+var Scene, canvas, engine, Player;
 
 //Load HUD hidden
 Load_HUD();
 
 function Load_Scene(MAP, MUSIC){
-    Player = new Load_Player();
     if (BABYLON.Engine.isSupported()) {
         canvas = document.getElementById("renderCanvas");
         engine = new BABYLON.Engine(canvas, true);
@@ -35,18 +34,13 @@ function Load_Scene(MAP, MUSIC){
                 Scene.gravity = new BABYLON.Vector3(0, -0.3, 0);
                 Scene.collisionsEnabled = true;
 
+                Player = new Load_Player();
+
                 Load_Missile_Model();
                 //Load_Fog();
                 //Load_Sky();
                 Object_Setup();
                 Object_Setup();//Load Object Setup twice or interacting objects might be missed
-
-                Camera.minZ = 1;
-                Camera.checkCollisions = true;
-//                Camera.applyGravity = true;
-                Camera.ellipsoid = new BABYLON.Vector3(4, 2, 1);
-                Camera.speed = 3;
-
 
                 create_camSensor();
  
@@ -118,12 +112,6 @@ function activate_controls(){
 
 //KeyBoard Controls
 function set_keys(){
-    //Camera Controls
-    Camera.keysRight.push(68);//Set Key 'D'
-    Camera.keysLeft.push(65);//Set Key 'A'
-    Camera.keysUp.push(87);//Set Key 'W'
-    Camera.keysDown.push(83);//Set Key 'S'
-
     window.addEventListener("keydown", function (event) {
         //console.log(event); //uncomment to test key value
         if (event.keyCode === 32) {
@@ -1266,6 +1254,20 @@ function Full_Screen(){
 
 /////////Player Configs/////////
 var Load_Player = function(health){
+    //Camera Controls
+    Camera.keysRight.push(68);//Set Key 'D'
+    Camera.keysLeft.push(65);//Set Key 'A'
+    Camera.keysUp.push(87);//Set Key 'W'
+    Camera.keysDown.push(83);//Set Key 'S'
+
+
+    Camera.minZ = 1;
+    Camera.checkCollisions = true;
+//                Camera.applyGravity = true;//Using Custom now
+    Camera.ellipsoid = new BABYLON.Vector3(1, 2, 1);
+    Camera.speed = 3;
+
+
     this.dead = false;
     this.gun = 1;
     this.bullets = 100;
@@ -1528,7 +1530,7 @@ function create_camSensor(){
     camSensor.material = new BABYLON.StandardMaterial("camMat", Scene);
     camSensor.isVisible = false;
     camSensor.material.wireframe = true;
-    camSensor.scaling = new BABYLON.Vector3(1, 4, 1);
+    camSensor.scaling = new BABYLON.Vector3(3, 4, 3);
     camSensor.position = Camera.position;
 //    camSensor.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 5, friction: 0.5, restitution: 0 });
     //camSensor.parent = Camera;
