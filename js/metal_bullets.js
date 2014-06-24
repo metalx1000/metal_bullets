@@ -217,7 +217,7 @@ function Gun_Shoot(){
         Gun_Fire("shell");
         setTimeout(function(){
             Player.ShotGun_Active = 0;
-        },1800);
+        },1500);
     }
 
 }
@@ -229,7 +229,7 @@ function Gun_Fire(type){
         var gun_sound = new Sound( [ "../../sounds/weapons/shotgun1.wav" ] );
         gun_sound.play();
 
-        for(var i = 5;i > 0;i--){
+        for(var i = 10;i > 0;i--){
             Shot(type);
         }
     }else{
@@ -264,8 +264,8 @@ function Shot(type){
         var x = Math.round(engine.getRenderWidth() * 0.5) - 10;
         var y = Math.round(engine.getRenderHeight() * 0.5) - 10;
 
-        x += Math.floor(Math.random() * 20);            
-        y += Math.floor(Math.random() * 20);            
+        x += Math.floor(Math.random() * 25);            
+        y += Math.floor(Math.random() * 25);            
     }else{
         var x = Math.round(engine.getRenderWidth() * 0.5);
         var y = Math.round(engine.getRenderHeight() * 0.5);
@@ -877,7 +877,7 @@ function Turret(_this){
     _this.lookcam = _this.lookcam_d;
     _this.speed = 0;
     _this.weapon = "Missile"    
-    _this.attack_delay_d = Math.floor(Math.random() * 100) + 50;
+    _this.attack_delay_d = Math.floor(Math.random() * 200) + 50;
     _this.attack_delay = _this.attack_delay_d;
 }
 
@@ -887,7 +887,7 @@ function Flying(_this){
     _this.follow = true;
     _this.lookcam_d = 100;
     _this.lookcam = _this.lookcam_d;
-    _this.attack_delay_d = Math.floor(Math.random() * 100) + 50;
+    _this.attack_delay_d = Math.floor(Math.random() * 300) + 50;
     _this.attack_delay = _this.attack_delay_d;
     _this.weapon = "HEAT";
     _this.death_type="explosion";
