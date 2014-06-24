@@ -259,25 +259,48 @@ function Load_Missile_Model(obj){
 }
 //check if shot
 function Shot(type){
-   
+    //find center of screen
+    var x = Math.round(engine.getRenderWidth() * 0.5);
+    var y = Math.round(engine.getRenderHeight() * 0.5);
+
+ 
     if(type == "shell"){
-        var x = Math.round(engine.getRenderWidth() * 0.5) - 10;
-        var y = Math.round(engine.getRenderHeight() * 0.5) - 10;
-
-        x += Math.floor(Math.random() * 25);            
-        y += Math.floor(Math.random() * 25);            
-    }else{
-        var x = Math.round(engine.getRenderWidth() * 0.5);
-        var y = Math.round(engine.getRenderHeight() * 0.5);
-    }
-
-    var active = Scene.pick(x,y);
-    //Bullet_Effect(x,y, active.pickedMesh); //not working at this point
+        //random placement of shotgun spray
+        x += Math.floor(Math.random() * 10) - 5;
+        y += Math.floor(Math.random() * 10) - 5;
+        console.log(x + ":" + y);
+        var active = Scene.pick(x,y);
+        //Bullet_Effect(x,y, active.pickedMesh); //not working at this point
                                              //need to figure out z position
-    if(active.pickedMesh != null && active.pickedMesh.shootable == true){
-            var enemy = active.pickedMesh.enemy;
-            enemy.damage(10);
+        if(active.pickedMesh != null && active.pickedMesh.shootable == true){
+                var enemy = active.pickedMesh.enemy;
+                enemy.damage(10);
+        }
+
+
+        //random placement of shotgun spray
+        x += Math.floor(Math.random() * 100) - 50;            
+        y += Math.floor(Math.random() * 100) - 50;            
+        console.log(x + ":" + y);
+        var active = Scene.pick(x,y);
+        //Bullet_Effect(x,y, active.pickedMesh); //not working at this point
+                                             //need to figure out z position
+        if(active.pickedMesh != null && active.pickedMesh.shootable == true){
+                var enemy = active.pickedMesh.enemy;
+                enemy.damage(10);
+        }
+
+
+    }else{
+        var active = Scene.pick(x,y);
+        //Bullet_Effect(x,y, active.pickedMesh); //not working at this point
+                                                 //need to figure out z position
+        if(active.pickedMesh != null && active.pickedMesh.shootable == true){
+                var enemy = active.pickedMesh.enemy;
+                enemy.damage(10);
+        }
     }
+
 }
 
 //bullet sprite effect
