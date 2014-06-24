@@ -1299,6 +1299,9 @@ var Load_Player = function(health){
 
     this.health_sound = new Sound( [ "../../sounds/item_pickup.wav" ] );
 
+    //is the player currently jumping
+    this.jumping = false;
+
     if(health == null){
         this.health = 100;
     }else{
@@ -1324,10 +1327,16 @@ var Load_Player = function(health){
     }
 
     this.jump = function(height){
-        this.jump_sound.play();
         if(height == null){height = 1};
-            if(Camera.cameraDirection.y < 0.25){
+            if(this.jumping == false){
+                this.jumping = true;
+                this.jump_sound.play();
                 Camera.cameraDirection.y = height;
+                _this = this;
+                setTimeout(function(){
+                    console.log("jump complete");
+                    _this.jumping = false;
+                },700);
             }
     }
 
