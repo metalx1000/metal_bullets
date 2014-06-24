@@ -50,7 +50,7 @@ function Load_Scene(MAP, MUSIC){
                 create_music_menu();
 
                 var music = [];
-                music.push("../../music/Level_1.ogg");
+                music.push("../../music/storm_1.ogg");
                 if (MUSIC != null){
                     music.push(MUSIC);
                 }
@@ -1294,6 +1294,9 @@ var Load_Player = function(health){
     this.bullet_x = 0;
     this.bullet_max = this.bullet_sounds.length;
 
+
+    this.gun3_cock_sound = new Sound( [ "../../sounds/weapons/shotgun_cock.wav" ] );
+
     this.health_sound = new Sound( [ "../../sounds/item_pickup.wav" ] );
 
     if(health == null){
@@ -1331,7 +1334,6 @@ var Load_Player = function(health){
     this.damage = function(hit){   
         if(god_mode == false && this.dead == false){
             var h = Math.floor(Math.random() * this.hurt_sounds.length);
-            console.log(h);
             this.hurt_sounds[h].play(); 
             this.health -= hit;
             if(this.health <0){
@@ -1489,6 +1491,7 @@ function check_camSensor(){
                         Player.bullets += 100;
                     }else if(obj.wtype == "Gun3"){
                         Player.gun = 3;
+                        Player.gun3_cock_sound.play();
                         if(Player.weapon_mesh != null){
                             Player.weapon_mesh.parent = null;
                             Player.weapon_mesh.position = Camera.position.add(new BABYLON.Vector3(-1, -1, 0));
