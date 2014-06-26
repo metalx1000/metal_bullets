@@ -1305,8 +1305,27 @@ var Load_Player = function(health){
     this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
     this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
     this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1a.wav" ] ));//ricochet
     this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
     this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1b.wav" ] ));//ricochet
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
+    this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1c.wav" ] ));//ricochet
     this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
     this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
     this.bullet_sounds.push(new Sound( [ "../../sounds/weapons/gun1.wav" ] ));
