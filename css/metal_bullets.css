@@ -32,8 +32,12 @@
     left: 0px;
     top: 0px;
     font-size: 20px;
-    color: green;
-    background-color:rgb(255,0,0);
+    color: #00FF15;
+    background-color: #253B3E;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    opacity: 0.9;
 }
 
 #hud{
