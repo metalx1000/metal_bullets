@@ -46,9 +46,6 @@ function Load_Scene(MAP, MUSIC){
  
                 activate_controls();
 
-                //music menu
-                create_music_menu();
-
                 var music = [];
                 music.push("../../music/storm_1.ogg");
                 if (MUSIC != null){
@@ -115,7 +112,7 @@ function set_keys(){
     window.addEventListener("keydown", function (event) {
         //console.log(event); //uncomment to test key value
         if (event.keyCode === 32) {
-            if(Player.dead == false){
+            if(Player.dead == false && pause == false){
                 //"Space as activate key"
                 Activate();
             }else{
@@ -160,7 +157,7 @@ function set_mouse(){
                 if(!Camera){
                     console.log("Waiting for Camera to load...");
                 }else{
-                    if(Player.dead == false){
+                    if(Player.dead == false && pause == false){
                         Camera.rotation.y += movementX * 0.002;
                         Camera.rotation.x += movementY * 0.002;
                     }
@@ -170,16 +167,18 @@ function set_mouse(){
 
 var gun_active = false;
 window.addEventListener("mousedown", function(event) {
+    if(MenuOpen == false){
     Full_Screen();
-    Pointer_Lock(true);
+        Pointer_Lock(true);
+    }
     event.preventDefault();//This prevents the highlighting of elements when shooting
     //console.log(event.which);//uncomment to test buttons
-    if(event.which == 1 && Player.dead == false){
+    if(event.which == 1 && Player.dead == false && pause == false){
         Gun_Shoot();
     }else if(event.which == 3){
-        if(Player.dead == false){
+        if(Player.dead == false && pause == false){
             Player.jump();
-        }else{
+        }else if (Player.dead == true){
             location.reload();//reload level if player is dead
         }
 
@@ -473,11 +472,13 @@ function create_music_history(){
 var MenuOpen = false;
 function Menu_Open(){
     if(MenuOpen == false){
+        Pause(true);
         MenuOpen = true;
         var music_menu = document.getElementById('music_menu');
         music_menu.hidden = false;
         Pointer_Lock(false);
     }else{
+        Pause(false);
         MenuOpen = false;
         var music_menu = document.getElementById('music_menu');
         music_menu.hidden = true;
@@ -486,6 +487,18 @@ function Menu_Open(){
     }
 }
 
+var pause = false;
+function Pause(set){
+    if(set == true){
+        pause = true;
+        Camera.detachControl(canvas);
+        clearInterval(Main_Timer);
+    }else{
+        pause = false;
+        Start_Main_Timer();
+        Scene.activeCamera.attachControl(canvas);
+    }
+}
 
 function create_music_menu(){
                 //music menu
@@ -1095,8 +1108,9 @@ var Explosion = function(obj, size, delay){
 
 }
 
+var Main_Timer;
 function Start_Main_Timer(){
-    var Main_Timer = setInterval(function(){
+    Main_Timer = setInterval(function(){
 
         if(Camera.cameraDirection.y < 0.25){
             Camera.cameraDirection.y = -0.4;//Gravity
