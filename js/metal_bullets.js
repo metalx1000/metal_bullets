@@ -45,6 +45,7 @@ function Load_Scene(MAP, MUSIC){
                 create_camSensor();
  
                 activate_controls();
+                win_controls();
 
                 var music = [];
                 music.push("../../music/storm_1.ogg");
@@ -148,6 +149,7 @@ function set_keys(){
 
 //Mouse Controls
 
+var gun_active = false;
 function set_mouse(){
     window.addEventListener("mousemove", function(event) {
                 var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
@@ -163,33 +165,32 @@ function set_mouse(){
                     }
                 }
     });
+    window.addEventListener("mousedown", function(event) {
+        if(MenuOpen == false){
+        Full_Screen();
+            Pointer_Lock(true);
+        }
+        event.preventDefault();//This prevents the highlighting of elements when shooting
+        //console.log(event.which);//uncomment to test buttons
+        if(event.which == 1 && Player.dead == false && pause == false){
+            Gun_Shoot();
+        }else if(event.which == 3){
+            if(Player.dead == false && pause == false){
+                Player.jump();
+            }else if (Player.dead == true){
+                location.reload();//reload level if player is dead
+            }
+
+        }
+    }, false);
+
+    window.addEventListener("mouseup", function(event) {
+        if(event.which == 1){
+            gun_active = false;
+        }
+    },false);
 }
 
-var gun_active = false;
-window.addEventListener("mousedown", function(event) {
-    if(MenuOpen == false){
-    Full_Screen();
-        Pointer_Lock(true);
-    }
-    event.preventDefault();//This prevents the highlighting of elements when shooting
-    //console.log(event.which);//uncomment to test buttons
-    if(event.which == 1 && Player.dead == false && pause == false){
-        Gun_Shoot();
-    }else if(event.which == 3){
-        if(Player.dead == false && pause == false){
-            Player.jump();
-        }else if (Player.dead == true){
-            location.reload();//reload level if player is dead
-        }
-
-    }
-}, false);
-
-window.addEventListener("mouseup", function(event) {
-    if(event.which == 1){
-        gun_active = false;
-    }
-},false);
 
 /////////Weapons///////////
 function Gun_Shoot(){
@@ -327,19 +328,20 @@ var Bullet_Effect = function(x,y,obj){
 }
 
 /////////////////////////////////Window Controls///////////////
-//Prevents Menu From popping up on right click
-window.addEventListener('contextmenu', function (event) {
-  event.preventDefault();
-});
+function win_controls(){
+    //Prevents Menu From popping up on right click
+    window.addEventListener('contextmenu', function (event) {
+      event.preventDefault();
+    });
 
-//resize Render Window on window resize
-window.addEventListener("resize", function () {
-  engine.resize();
-  width = engine.getRenderWidth();
-  height = engine.getRenderHeight();
+    //resize Render Window on window resize
+    window.addEventListener("resize", function () {
+      engine.resize();
+      width = engine.getRenderWidth();
+      height = engine.getRenderHeight();
 
-});
-
+    });
+}
 /////////////////Audio/////////////////////////////
 
 //music
