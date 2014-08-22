@@ -58,7 +58,6 @@ function Load_Scene(MAP, MUSIC){
 
                 Activate_HUD();
                 Crosshairs("load");//check local storage to see if crosshairs should be on
-                Start_Main_Timer();
 
                 // Once the scene is loaded, just register a render loop to render it
                 engine.runRenderLoop(function() {
@@ -66,6 +65,7 @@ function Load_Scene(MAP, MUSIC){
                     check_camSensor();
                     Player.update();
                     Sounds_Update();
+                    Start_Main_Timer();
                 });
             });
         }, function (progress) {
@@ -494,10 +494,10 @@ function Pause(set){
     if(set == true){
         pause = true;
         Camera.detachControl(canvas);
-        clearInterval(Main_Timer);
+        Main_Timer = false;
     }else{
         pause = false;
-        Start_Main_Timer();
+        Main_Timer = true;
         Scene.activeCamera.attachControl(canvas);
     }
 }
@@ -1110,9 +1110,9 @@ var Explosion = function(obj, size, delay){
 
 }
 
-var Main_Timer;
+var Main_Timer = true;
 function Start_Main_Timer(){
-    Main_Timer = setInterval(function(){
+    if(Main_Timer ==  true){
 
         if(Camera.cameraDirection.y < 0.25){
             Camera.cameraDirection.y = -0.4;//Gravity
@@ -1130,7 +1130,7 @@ function Start_Main_Timer(){
             Player.damage(1);
         }
 
-    },50);
+    };
 }
 
 //Crosshair
