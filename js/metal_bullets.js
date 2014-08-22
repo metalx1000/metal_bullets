@@ -1111,8 +1111,24 @@ var Explosion = function(obj, size, delay){
 }
 
 var Main_Timer = true;
+
+var startDate = new Date();
+var startTime = startDate.getTime();
+
+var date_now = new Date (); 
+var time_now = date_now.getTime (); 
+var time_diff = time_now - startTime; 
+var time_delay = 50;
+var seconds_elapsed = Math.floor ( time_diff / 1000 ); 
+
 function Start_Main_Timer(){
-    if(Main_Timer ==  true){
+    date_now = new Date (); 
+    time_now = date_now.getTime (); 
+    time_diff = time_now - startTime; 
+    seconds_elapsed = Math.floor ( time_diff / 1000 ); 
+
+    if(Main_Timer ==  true && time_diff > time_delay){
+    console.log(time_diff);
 
         if(Camera.cameraDirection.y < 0.25){
             Camera.cameraDirection.y = -0.4;//Gravity
@@ -1130,7 +1146,11 @@ function Start_Main_Timer(){
             Player.damage(1);
         }
 
+        startDate = new Date();
+        startTime = startDate.getTime();
     };
+
+
 }
 
 //Crosshair
