@@ -1128,7 +1128,6 @@ function Start_Main_Timer(){
     seconds_elapsed = Math.floor ( time_diff / 1000 ); 
 
     if(Main_Timer ==  true && time_diff > time_delay){
-    console.log(time_diff);
 
         if(Camera.cameraDirection.y < 0.25){
             Camera.cameraDirection.y = -0.4;//Gravity
